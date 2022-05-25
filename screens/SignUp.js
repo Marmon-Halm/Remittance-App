@@ -48,13 +48,11 @@ export default function SignUp(params) {
 
 
       <View style={{ paddingTop: 40, marginBottom: 18 }}>
-        <View>
           <View style={styles.view3}>
             <Ionicons name="arrow-back-outline" size={32} color='darkblue' onPress={() => {
               navigation.navigate("Login")
             }} />
           </View>
-        </View>
       </View>
 
 
@@ -111,15 +109,17 @@ export default function SignUp(params) {
                 textContentType={"name"}
                 placeholder={'Full Name'}
                 autoComplete={'true'}
+                minLength={1}
                 placeholderTextColor={'black'}
                 keyboardAppearance={"light"}
-                enablesReturnKeyAutomatically='true'
               />
 
               <TextInput style={styles.textInput}
                 textContentType="telephoneNumber"
                 keyboardType="phone-pad"
                 autoComplete={'true'}
+                minLength={1}
+                maxLength={10}
                 keyboardAppearance="light"
                 placeholder={'Phone Number'}
                 placeholderTextColor={'black'}
@@ -129,16 +129,17 @@ export default function SignUp(params) {
                 textContentType={"emailAddress"}
                 keyboardType={"email-address"}
                 keyboardAppearance={"light"}
+                minLength={1}
                 autoComplete={'true'}
                 placeholderTextColor={'black'}
                 placeholder={'Email Address'}
-                inputAccessoryViewID="true"
               />
 
               <TextInput style={styles.textInput}
                 textContentType="password"
                 secureTextEntry={true}
                 autoComplete={'true'}
+                minLength={8}
                 placeholderTextColor={'black'}
                 keyboardAppearance="light"
                 placeholder={'Password (min: 8 characters)'} />

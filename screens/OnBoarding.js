@@ -13,6 +13,7 @@ import {
 import color from './color';
 import AppLoading from 'expo-app-loading';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, } from '@expo-google-fonts/manrope';
+import {  Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, } from '@expo-google-fonts/montserrat';
 
 
 
@@ -138,9 +139,13 @@ function OnBoarding({ navigation }) {
 
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
+        Montserrat_400Regular,
         Manrope_500Medium,
+        Montserrat_500Medium,
         Manrope_600SemiBold,
+        Montserrat_600SemiBold,
         Manrope_700Bold,
+        Montserrat_700Bold,
     });
 
 

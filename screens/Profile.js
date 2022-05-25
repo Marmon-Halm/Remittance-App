@@ -12,8 +12,8 @@ import { Ionicons } from "@expo/vector-icons";
 import AppLoading from 'expo-app-loading';
 
 export const GithubIcon = () => (
-    <Icon name='github' width={48} height={48}/>
-  );
+    <Icon name='github' width={48} height={48} />
+);
 
 
 export default function Profile(params) {
@@ -40,63 +40,90 @@ export default function Profile(params) {
                     </Text>
                 </View>
 
-                <View style={styles.optionsContainer}>
+                <View style={styles.categoryContainer}>
                     <View>
                         <Ionicons
                             name="home-outline"
+                            size={32}
+                            color="gray"
+                            onPress={() => {
+                                navigation.navigate("Home");
+                            }}
+                        />
+                    </View>
+                    <Text style={styles.categoryText}>
+                        My Receipients
+                    </Text>
+                    <View>
+                        <Ionicons
+                            name="arrow-forward-outline"
                             size={28}
                             color="gray"
                             onPress={() => {
                                 navigation.navigate("Home");
                             }}
                         />
-                        <Text>
-                            Settings
-                        </Text>
                     </View>
                 </View>
-                <View style={styles.optionsContainer}>
+                <View style={styles.categoryContainer}>
                     <View>
                         <Ionicons
                             name="home-outline"
+                            size={32}
+                            color="gray"
+                            onPress={() => {
+                                navigation.navigate("Home");
+                            }}
+                        />
+                    </View>
+                    <Text style={styles.categoryText}>
+                        Help And Support
+                    </Text>
+                    <View>
+                        <Ionicons
+                            name="arrow-forward-outline"
                             size={28}
                             color="gray"
                             onPress={() => {
                                 navigation.navigate("Home");
                             }}
                         />
-                        <Text>
-                            Settings
-                        </Text>
                     </View>
                 </View>
-                <View style={styles.optionsContainer}>
+                <View style={styles.categoryContainer}>
                     <View>
                         <Ionicons
                             name="cog-outline"
+                            size={32}
+                            color="gray"
+                            onPress={() => {
+                                navigation.navigate("Home");
+                            }}
+                        />
+                    </View>
+                    <View>
+                        <Text style={styles.categoryText}>
+                            Settings
+                        </Text>
+                    </View>
+                    <View>
+                        <Ionicons
+                            name="arrow-forward-outline"
                             size={28}
                             color="gray"
                             onPress={() => {
                                 navigation.navigate("Home");
                             }}
                         />
-                        <Text>
-                            Settings
-                        </Text>
                     </View>
                 </View>
-                <View style={styles.optionsContainer}>
+                <View style={styles.categoryContainer}>
                     <View>
-                        <Text>
-                            Settings
+                        <Text style={styles.categoryText}>
+                            Log Out
                         </Text>
                     </View>
                 </View>
-
-
-
-
-
             </View>
 
             <View style={styles.iconView}>
@@ -168,12 +195,21 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'gray',
     },
-    optionsContainer: {
+    categoryContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         height: 60,
         width: '100%',
-        backgroundColor: `#F0F0F0`,
+        padding: 12,
+        backgroundColor: `#E8E8E8`,
         borderRadius: 15,
+        alignItems: 'center',
         marginBottom: 10,
     },
+    categoryText: {
+        fontFamily: 'Manrope_600SemiBold',
+        fontSize: 23,
+        marginRight: 73,
+    },
+
 });

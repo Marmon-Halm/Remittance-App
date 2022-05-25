@@ -56,12 +56,12 @@ export default function ResetP(params) {
 
             <View style={{height: '85%'}}>
                 <View style={{ marginBottom: 30, }}>
-                    <Text style={styles.textforgottenP}>Forgotten Password</Text>
+                    <Text style={styles.textforgottenP}>Forgotten <Text style={{ color: '#016e96'}}>Password</Text> </Text>
                 </View>
 
 
                 <View style={{ marginBottom: 50 }}>
-                    <Text style={styles.textTypeEmail}>Enter your email address, request a new password and we'll email you a new one. </Text>
+                    <Text style={styles.textTypeEmail}>Enter your email address and new password to reset your account password </Text>
                 </View>
 
                 <View
@@ -73,11 +73,33 @@ export default function ResetP(params) {
                         textContentType={"emailAddress"}
                         keyboardType={"email-address"}
                         keyboardAppearance={"light"}
-                        autoFocus={'true'}
+                        autoFocus={true}
+                        minLength={4}
                         autoComplete={'true'}
                         placeholderTextColor={'black'}
                         placeholder={'Email Address'}
-                        inputAccessoryViewID={"true"}
+                        inputAccessoryViewID={true}
+                    />
+
+                    <TextInput style={styles.textInput}
+                        textContentType={"password"}
+                        keyboardType={"default"}
+                        secureTextEntry={true}
+                        keyboardAppearance={"light"}
+                        placeholderTextColor={'black'}
+                        placeholder={'New Password'}
+                        inputAccessoryViewID={true}
+                    />
+
+                    <TextInput style={styles.textInput}
+                        textContentType={"emailAddress"}
+                        keyboardType={"email-address"}
+                        keyboardAppearance={"light"}
+                        secureTextEntry={true}
+                        minLength={8}
+                        placeholderTextColor={'black'}
+                        placeholder={'Confirm New Password'}
+                        inputAccessoryViewID={true}
                     />
 
                 </View>
@@ -118,7 +140,7 @@ const styles = StyleSheet.create({
     },
     textTypeEmail: {
         fontSize: 20,
-        width: '90%',
+        width: '100%',
         fontFamily: 'Manrope_500Medium',
         color: `gray`,
     },

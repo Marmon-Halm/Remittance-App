@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold } from '@expo-google-fonts/manrope';
+import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from 'expo-app-loading';
 
@@ -9,7 +9,9 @@ export default function Home(params) {
   const navigation = params.navigation;
   let [fontsLoaded] = useFonts({
     Manrope_400Regular,
-    Manrope_500Medium
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold
   });
 
 
@@ -20,17 +22,34 @@ export default function Home(params) {
   return (
     <View style={styles.container}>
 
-      <View style={{ flex: 1, alignItems: 'center', height: '100%', margin: 20, justifyContent: 'center' }}>
+<View style={{ padding: 22 }}>
+                <View style={{ marginTop: 90 }}>
+                    <Text style={{ marginBottom: 40, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>
+                        Transactions
+                    </Text>
+                </View>
 
-
-
-        <Text style={{ fontFamily: 'Manrope_400Regular', fontSize: 30, marginBottom: 20 }}> WELCOME USER </Text>
-
-        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('Transaction') }}>
-          <Text style={styles.buttonText}>CLICK TO SEND MONEY</Text>
-        </TouchableOpacity>
-
-      </View>
+                <View style={styles.optionsContainer}>
+                    <View>
+                      
+                    </View>
+                </View>
+                <View style={styles.optionsContainer}>
+                    <View>
+                       
+                    </View>
+                </View>
+                <View style={styles.optionsContainer}>
+                    <View>
+                       
+                    </View>
+                </View>
+                <View style={styles.optionsContainer}>
+                    <View>
+                       
+                    </View>
+                </View>
+            </View>
 
       <View style={styles.iconView}>
 
@@ -106,6 +125,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Manrope_500Medium',
   },
+  optionsContainer: {
+    flexDirection: 'row',
+    height: 70,
+    width: '100%',
+    backgroundColor: `#E8E8E8`,
+    borderRadius: 15,
+    marginBottom: 15,
+},
   iconView: {
     flexDirection: "row",
     paddingTop: 10,
