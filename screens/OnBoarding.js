@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     btnGT: {
         flex: 1,
         backgroundColor: `#016e96`,
-        padding: 18,
+        padding: 16,
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: "center"
