@@ -176,13 +176,13 @@ function OnBoarding({ navigation }) {
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 35,
+        fontSize: 30,
         marginTop: -50,
         textAlign: "center",
         fontFamily: 'Manrope_600SemiBold',
     },
     subtitle: {
-        fontSize: 18,
+        fontSize: 15,
         marginTop: 20,
         maxWidth: "80%",
         textAlign: "center",
