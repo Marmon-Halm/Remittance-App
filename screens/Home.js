@@ -87,6 +87,18 @@ export default function Home(params) {
             size={28}
             color="gray"
             onPress={() => {
+              navigation.navigate("Transaction");
+            }}
+          />
+          <Text style={styles.iconViewText}>Transaction</Text>
+        </View>
+
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Ionicons
+            name="person-outline"
+            size={28}
+            color="gray"
+            onPress={() => {
               navigation.navigate("Profile");
             }}
           />
@@ -145,7 +157,7 @@ const styles = StyleSheet.create({
   },
   iconViewText: {
     fontFamily: 'Manrope_700Bold',
-    fontSize: 16,
+    fontSize: 12,
     color: 'gray',
   },
 });
