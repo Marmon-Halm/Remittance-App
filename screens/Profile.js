@@ -9,6 +9,7 @@ import {
     Manrope_700Bold
 } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
+import { Octicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
 export const GithubIcon = () => (
@@ -157,6 +158,16 @@ export default function Profile(params) {
                 </View>
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Octicons 
+                    name="history" 
+                    size={28} 
+                    color="gray"
+                    onPress={() => {navigation.navigate("Transaction");}}
+                            />
+                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "gray" }}>Transaction</Text>
+                </View>
+
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Ionicons
                         name="person-outline"
                         size={28}
@@ -165,7 +176,7 @@ export default function Profile(params) {
                             navigation.navigate("Profile");
                         }}
                     />
-                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 16, color: "#016e96" }}>Profile</Text>
+                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "#016e96" }}>Profile</Text>
                 </View>
             </View>
 
@@ -192,7 +203,7 @@ const styles = StyleSheet.create({
     },
     iconViewText: {
         fontFamily: 'Manrope_700Bold',
-        fontSize: 16,
+        fontSize: 12,
         color: 'gray',
     },
     categoryContainer: {

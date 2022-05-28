@@ -44,7 +44,7 @@ export default function Transaction(params) {
                 <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 30, marginBottom: 20 }}> TRANSACTION PAGE </Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Home") }}>
-                    <Text style={styles.buttonText}>TRANSACTION HERE</Text>
+                    <Text style={styles.buttonText}>PROCEED TO HOME</Text>
                 </TouchableOpacity>
             </View>
 

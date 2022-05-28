@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
+import { Octicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
 export default function Home(params) {
@@ -23,6 +24,9 @@ export default function Home(params) {
     <View style={styles.container}>
 
 <View style={{ padding: 22 }}>
+                <View style={{marginTop:30}}>
+                  <Text>Welcome</Text>
+                </View>
                 <View style={{ marginTop: 90 }}>
                     <Text style={{ marginBottom: 40, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>
                         Transactions
@@ -82,14 +86,7 @@ export default function Home(params) {
         </View>
 
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Ionicons
-            name="person-outline"
-            size={28}
-            color="gray"
-            onPress={() => {
-              navigation.navigate("Transaction");
-            }}
-          />
+        <Octicons name="history" size={28} color="gray" onPress={() => {navigation.navigate("Transaction");}} />
           <Text style={styles.iconViewText}>Transaction</Text>
         </View>
 
