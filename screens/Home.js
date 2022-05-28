@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from '@expo/vector-icons';
+import {Image} from 'react-native' ; 
 import AppLoading from 'expo-app-loading';
 
 export default function Home(params) {
@@ -23,37 +24,27 @@ export default function Home(params) {
   return (
     <View style={styles.container}>
 
-<View style={{ padding: 22 }}>
-                <View style={{marginTop:30}}>
-                  <Text>Welcome</Text>
+<View style={{alignItems: 'center', paddingTop: 39}}>
+<Image source={require('../assets/remer_logo.png')} />
+</View>
+<View style={{ padding: 25 }}>
+                <View style={{marginTop:50}}>
+                  <Text style={{ marginBottom: 10, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>Welcome, </Text>
                 </View>
-                <View style={{ marginTop: 90 }}>
-                    <Text style={{ marginBottom: 40, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>
-                        Transactions
-                    </Text>
-                </View>
-
+                <View>
                 <View style={styles.optionsContainer}>
                     <View>
-                      
+                      <Text  style={{ marginLeft: 40, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>Username</Text>
                     </View>
                 </View>
-                <View style={styles.optionsContainer}>
-                    <View>
-                       
-                    </View>
                 </View>
-                <View style={styles.optionsContainer}>
-                    <View>
-                       
-                    </View>
+              
+</View>
+            <View style={{marginTop: 80}}>
+                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Home") }}>
+                    <Text style={styles.buttonText}>Send Money</Text>
+                </TouchableOpacity>
                 </View>
-                <View style={styles.optionsContainer}>
-                    <View>
-                       
-                    </View>
-                </View>
-            </View>
 
       <View style={styles.iconView}>
 
@@ -122,16 +113,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   button: {
+    marginLeft: 20,
     flexDirection: 'row',
     backgroundColor: `#02c38e`,
-    padding: 15,
+    padding: 14,
     borderRadius: 8,
     justifyContent: 'center',
-    width: 300,
+    width: 320,
   },
   buttonText: {
     color: `#fff`,
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'Manrope_500Medium',
   },
   optionsContainer: {

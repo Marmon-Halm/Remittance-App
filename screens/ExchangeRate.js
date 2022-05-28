@@ -8,6 +8,7 @@ import {
     Manrope_600SemiBold
 } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
+import { Octicons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
 
@@ -63,10 +64,15 @@ export default function ExchangeRate(params) {
                             navigation.navigate("ExchangeRate");
                         }}
                     />
-                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 16, color: "#016e96" }}>
+                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "#016e96" }}>
                         Exchange Rate
                     </Text>
                 </View>
+
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Octicons name="history" size={28} color="gray" onPress={() => {navigation.navigate("Transaction");}} />
+          <Text style={styles.iconViewText}>Transaction</Text>
+        </View>
 
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Ionicons
@@ -123,7 +129,7 @@ const styles = StyleSheet.create({
       },
     iconViewText: {
         fontFamily: 'Manrope_700Bold',
-        fontSize: 16,
+        fontSize: 12,
         color: 'gray',
       },
 });
