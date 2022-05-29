@@ -63,20 +63,6 @@ export default function Home(params) {
         </View>
 
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Ionicons
-            name="cash-outline"
-            size={28}
-            color="gray"
-            onPress={() => {
-              navigation.navigate("ExchangeRate");
-            }}
-          />
-          <Text style={styles.iconViewText}>
-            Exchange Rate
-          </Text>
-        </View>
-
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Octicons name="history" size={28} color="gray" onPress={() => {navigation.navigate("Transaction");}} />
           <Text style={styles.iconViewText}>Transaction</Text>
         </View>
