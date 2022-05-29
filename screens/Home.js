@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import {Image} from 'react-native' ; 
 import AppLoading from 'expo-app-loading';
 
@@ -24,23 +24,22 @@ export default function Home(params) {
   return (
     <View style={styles.container}>
 
-<View style={{alignItems: 'center', paddingTop: 39}}>
-<Image source={require('../assets/remer_logo.png')} />
-</View>
-<View style={{ padding: 25 }}>
+
+<View style={{ padding: 25, marginTop: 60 }}>
                 <View style={{marginTop:50}}>
-                  <Text style={{ marginBottom: 10, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>Welcome, </Text>
+                  <Text style={{ marginBottom: 10, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838`, fontWeight: "bold" }}>Transfer. </Text>
                 </View>
                 <View>
-                <View style={styles.optionsContainer}>
-                    <View>
-                      <Text  style={{ marginLeft: 40, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>Username</Text>
-                    </View>
+                <View style={styles.optionsContainer}></View>
+                <View style={styles.optionsContainer}></View>
                 </View>
-                </View>
+               
               
 </View>
-            <View style={{marginTop: 80}}>
+            <View style={{marginTop: 20}}>
+                
+                </View>
+                <View style={{alignItems: 'center', paddingBottom: 400,backgroundColor: "#006E90", borderTopRightRadius: 255}}>
                 <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Home") }}>
                     <Text style={styles.buttonText}>Send Money</Text>
                 </TouchableOpacity>
@@ -48,7 +47,9 @@ export default function Home(params) {
 
       <View style={styles.iconView}>
 
+
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          
           <Ionicons
             name="home-outline"
             size={28}
@@ -62,8 +63,9 @@ export default function Home(params) {
           </Text>
         </View>
 
+
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Octicons name="history" size={28} color="gray" onPress={() => {navigation.navigate("Transaction");}} />
+        <AntDesign name="bars" size={28} color="black" />
           <Text style={styles.iconViewText}>Transaction</Text>
         </View>
 
@@ -71,7 +73,7 @@ export default function Home(params) {
           <Ionicons
             name="person-outline"
             size={28}
-            color="gray"
+            color="black"
             onPress={() => {
               navigation.navigate("Profile");
             }}
@@ -82,6 +84,7 @@ export default function Home(params) {
 
 
       <StatusBar style="auto" />
+
     </View>
   );
 }
@@ -99,13 +102,19 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   button: {
-    marginLeft: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    marginTop: 240,
     flexDirection: 'row',
-    backgroundColor: `#02c38e`,
-    padding: 14,
+    backgroundColor: `#32C5FF`,
+    paddingLeft: 50,
+    paddingRight: 50,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderRadius: 8,
     justifyContent: 'center',
-    width: 320,
+    elevation: 18,
+    
   },
   buttonText: {
     color: `#fff`,
@@ -121,14 +130,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
 },
   iconView: {
+    
     flexDirection: "row",
     paddingTop: 10,
-    paddingBottom: 35,
-    backgroundColor: "#F8F8F8",
+    paddingBottom: 14,
+    backgroundColor: "#fff",
     justifyContent: "space-evenly",
     position: 'absolute',
     bottom: 0,
-    width: '100%',
+    borderTopEndRadius: 17,
+    borderTopLeftRadius: 17,
   },
   iconViewText: {
     fontFamily: 'Manrope_700Bold',
