@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold, } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
@@ -12,6 +12,9 @@ import Modal from "react-native-modal";
 
 export default function Home(params) {
   const navigation = params.navigation;
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+
+  const handleModal = () => setIsModalVisible(() => !isModalVisible);
   let [fontsLoaded] = useFonts({
     
     Manrope_400Regular,
@@ -55,9 +58,15 @@ export default function Home(params) {
                 
                 </View>
                 <View style={{alignItems: 'center', paddingBottom: 400,backgroundColor: "#006E90", borderTopRightRadius: 255}}>
-                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("modal") }}>
+                <TouchableOpacity style={styles.button} onPress={handleModal}>
                     <Text style={styles.buttonText} >Send Money</Text>
                 </TouchableOpacity>
+                <Modal isVisible={isModalVisible}>
+        <View style={{ flex: 1 }}>
+          <Text>Hello!</Text>
+          <Button  title="Hide modal" onPress={handleModal} />
+        </View>
+      </Modal>
                 </View>
 
       <View style={styles.iconView}>
@@ -80,7 +89,7 @@ export default function Home(params) {
 
 
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <AntDesign name="bars" size={28} color="black" />
+        <AntDesign name="bars" size={28} color="black" onPress={() => { navigation.navigate("Transaction");}} />
           <Text style={styles.iconViewText}>Transaction</Text>
         </View>
 
