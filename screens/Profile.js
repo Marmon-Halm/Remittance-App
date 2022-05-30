@@ -54,30 +54,12 @@ export default function Profile(params) {
                         />
                     </View>
                     <Text style={styles.categoryText}>
-                        My Receipients
+                        Must display user info
                     </Text>
-                    <View>
-                        <Ionicons
-                            name="arrow-forward-outline"
-                            size={28}
-                            color="gray"
-                            onPress={() => {
-                                navigation.navigate("Home");
-                            }}
-                        />
-                    </View>
+                    
                 </View>
                 <View style={styles.categoryContainer}>
-                    <View>
-                        <Ionicons
-                            name="home-outline"
-                            size={32}
-                            color="gray"
-                            onPress={() => {
-                                navigation.navigate("Home");
-                            }}
-                        />
-                    </View>
+                    
                     <Text style={styles.categoryText}>
                         Help And Support
                     </Text>
@@ -85,7 +67,7 @@ export default function Profile(params) {
                         <Ionicons
                             name="arrow-forward-outline"
                             size={28}
-                            color="gray"
+                            color="black"
                             onPress={() => {
                                 navigation.navigate("Home");
                             }}
@@ -93,16 +75,7 @@ export default function Profile(params) {
                     </View>
                 </View>
                 <View style={styles.categoryContainer}>
-                    <View>
-                        <Ionicons
-                            name="cog-outline"
-                            size={32}
-                            color="gray"
-                            onPress={() => {
-                                navigation.navigate("Home");
-                            }}
-                        />
-                    </View>
+                    
                     <View>
                         <Text style={styles.categoryText}>
                             Settings
@@ -112,7 +85,7 @@ export default function Profile(params) {
                         <Ionicons
                             name="arrow-forward-outline"
                             size={28}
-                            color="gray"
+                            color="black"
                             onPress={() => {
                                 navigation.navigate("Home");
                             }}
@@ -120,10 +93,35 @@ export default function Profile(params) {
                     </View>
                 </View>
                 <View style={styles.categoryContainer}>
+                    
+                    <Text style={styles.categoryText}>
+                        My Receipients
+                    </Text>
                     <View>
-                        <Text style={styles.categoryText}>
-                            Log Out
-                        </Text>
+                        <Ionicons
+                            name="arrow-forward-outline"
+                            size={28}
+                            color="black"
+                            onPress={() => {
+                                navigation.navigate("Home");
+                            }}
+                        />
+                    </View>
+                </View>
+                <View style={styles.categoryContainer}>
+                    
+                    <Text style={styles.categoryText}>
+                        Logout
+                    </Text>
+                    <View>
+                        <Ionicons
+                            name="arrow-forward-outline"
+                            size={28}
+                            color="black"
+                            onPress={() => {
+                                navigation.navigate("Login");
+                            }}
+                        />
                     </View>
                 </View>
             </View>
@@ -174,7 +172,7 @@ export default function Profile(params) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F8F8F8",
+        backgroundColor: "white",
     },
     iconView: {
         flexDirection: "row",
@@ -186,6 +184,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopEndRadius: 17,
     borderTopLeftRadius: 17,
+    elevation: 6,
+    shadowColor: "black",
+    shadowOpacity: 0.27,
+    shadowRadius: 100,
+
     },
     iconViewText: {
         fontFamily: 'Manrope_700Bold',
@@ -193,12 +196,13 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     categoryContainer: {
+        marginLeft: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 60,
         width: '100%',
         padding: 12,
-        backgroundColor: `#E8E8E8`,
+        backgroundColor: `white`,
         borderRadius: 15,
         alignItems: 'center',
         marginBottom: 10,

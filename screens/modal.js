@@ -55,7 +55,7 @@ export default function Home(params) {
                 
                 </View>
                 <View style={{alignItems: 'center', paddingBottom: 400,backgroundColor: "#006E90", borderTopRightRadius: 255}}>
-                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("modal") }}>
+                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Home") }}>
                     <Text style={styles.buttonText} >Send Money</Text>
                 </TouchableOpacity>
                 </View>
