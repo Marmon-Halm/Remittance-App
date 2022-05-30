@@ -64,7 +64,7 @@ export default function Home(params) {
                 <Modal isVisible={isModalVisible}>
         <View style={{ flex: 1 }}>
           <Text>Hello!</Text>
-          <Button  title="Hide modal" onPress={handleModal} />
+          <Button title="Done" onPress={handleModal} />
         </View>
       </Modal>
                 </View>
