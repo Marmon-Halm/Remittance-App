@@ -35,12 +35,14 @@ export default function Home(params) {
                 <View>
                 <View style={styles.optionsContainer}>
                   <Image style={styles.flag} source={require('../assets/GB.png')}/>
-                  <Text style={styles.unnecessary}> 1 GBP  ⇄   9.77 GHS     0.91%</Text>
+                  <Text style={styles.unnecessary}> GBP    ⇄  GHS        0.91{"\n"}
+                     1 GBP     9.77GHS    0.91</Text>
                   
                 </View>
                 <View style={styles.optionsContainer}>
                 <Image style={styles.flag} source={require('../assets/usa.png')}/>
-                  <Text style={styles.unnecessary}>1 USD  ⇄   9.77GHS     0.91%</Text>
+                <Text style={styles.unnecessary}> USD    ⇄  GHS        0.91{"\n"}
+                     1 USD     9.77GHS    0.91</Text>
                 </View>
                 </View>
                
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 20
   },
   unnecessary: {
-    color: "#006E90",
+    color: "black",
     fontSize: 18,
     marginTop: 15,
     marginLeft: 20
