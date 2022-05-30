@@ -1,11 +1,12 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
-import {Image} from 'react-native' ; 
 import AppLoading from 'expo-app-loading';
+
+
 
 export default function Home(params) {
   const navigation = params.navigation;
@@ -30,8 +31,12 @@ export default function Home(params) {
                   <Text style={{ marginBottom: 10, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838`, fontWeight: "bold" }}>Transfer. </Text>
                 </View>
                 <View>
-                <View style={styles.optionsContainer}></View>
-                <View style={styles.optionsContainer}></View>
+                <View style={styles.optionsContainer}>
+                  <Image style={styles.flag} source={require('../assets/GB.png')}/>
+                </View>
+                <View style={styles.optionsContainer}>
+                <Image style={styles.flag} source={require('../assets/usa.png')}/>
+                </View>
                 </View>
                
               
@@ -125,9 +130,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     width: '100%',
-    backgroundColor: `#E8E8E8`,
+    backgroundColor: `white`,
     borderRadius: 15,
     marginBottom: 15,
+    elevation: 20,
 },
   iconView: {
     
@@ -144,6 +150,14 @@ const styles = StyleSheet.create({
   iconViewText: {
     fontFamily: 'Manrope_700Bold',
     fontSize: 12,
-    color: 'gray',
+    color: 'black',
+  },
+  flag: {
+    
+    width: 38,
+    height: 38,
+    marginTop: 15,
+    marginLeft: 25,
+    borderTopEndRadius: 20
   },
 });

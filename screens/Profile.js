@@ -10,6 +10,7 @@ import {
 } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
 export const GithubIcon = () => (
@@ -129,55 +130,39 @@ export default function Profile(params) {
 
             <View style={styles.iconView}>
 
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Ionicons
-                        name="home-outline"
-                        size={28}
-                        color="gray"
-                        onPress={() => {
-                            navigation.navigate("Home");
-                        }}
-                    />
-                    <Text style={styles.iconViewText} >
-                        Home
-                    </Text>
-                </View>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          
+          <Ionicons
+            name="home-outline"
+            size={28}
+            color="black"
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
+          />
+          <Text style={styles.iconViewText}>
+            Home
+          </Text>
+            </View>
 
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Ionicons
-                        name="cash-outline"
-                        size={28}
-                        color="gray"
-                        onPress={() => {
-                            navigation.navigate("ExchangeRate");
-                        }}
-                    />
-                    <Text style={styles.iconViewText}>
-                        Exchange Rate
-                    </Text>
-                </View>
+                
 
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Octicons 
-                    name="history" 
-                    size={28} 
-                    color="gray"
-                    onPress={() => {navigation.navigate("Transaction");}}
-                            />
-                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "gray" }}>Transaction</Text>
-                </View>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <AntDesign name="bars" size={28} color="black" />
+          <Text style={styles.iconViewText}>Transaction</Text>
+        </View>
 
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Ionicons
-                        name="person-outline"
-                        size={28}
-                        color="#016e96"
-                        onPress={() => {
-                            navigation.navigate("Profile");
-                        }}
-                    />
-                    <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "#016e96" }}>Profile</Text>
-                </View>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Ionicons
+            name="person-outline"
+            size={28}
+            color="#016e96"
+            onPress={() => {
+              navigation.navigate("Profile");
+            }}
+          />
+          <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 16, color: "#016e96"}}>Profile</Text>
+        </View>
             </View>
 
 
@@ -193,18 +178,19 @@ const styles = StyleSheet.create({
     },
     iconView: {
         flexDirection: "row",
-        paddingTop: 10,
-        paddingBottom: 35,
-        backgroundColor: "#F8F8F8",
-        justifyContent: "space-evenly",
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
+    paddingTop: 10,
+    paddingBottom: 14,
+    backgroundColor: "#fff",
+    justifyContent: "space-evenly",
+    position: 'absolute',
+    bottom: 0,
+    borderTopEndRadius: 17,
+    borderTopLeftRadius: 17,
     },
     iconViewText: {
         fontFamily: 'Manrope_700Bold',
         fontSize: 12,
-        color: 'gray',
+        color: 'black',
     },
     categoryContainer: {
         flexDirection: 'row',
