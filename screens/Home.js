@@ -1,16 +1,18 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
+import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold, } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
 
 
+
 export default function Home(params) {
   const navigation = params.navigation;
   let [fontsLoaded] = useFonts({
+    
     Manrope_400Regular,
     Manrope_500Medium,
     Manrope_600SemiBold,
@@ -28,14 +30,17 @@ export default function Home(params) {
 
 <View style={{ padding: 25, marginTop: 60 }}>
                 <View style={{marginTop:50}}>
-                  <Text style={{ marginBottom: 10, fontSize: 34, fontFamily: 'Manrope_600SemiBold', color: `#383838`, fontWeight: "bold" }}>Transfer. </Text>
+                  <Text style={{ marginBottom: 10, fontSize: 34, fontFamily: 'Manrope_700Bold', color: `#383838`, fontWeight:'900'  }}>Transfer. </Text>
                 </View>
                 <View>
                 <View style={styles.optionsContainer}>
                   <Image style={styles.flag} source={require('../assets/GB.png')}/>
+                  <Text style={styles.unnecessary}> 1 GBP  ⇄   9.77 GHS     0.91%</Text>
+                  
                 </View>
                 <View style={styles.optionsContainer}>
                 <Image style={styles.flag} source={require('../assets/usa.png')}/>
+                  <Text style={styles.unnecessary}>1 USD  ⇄   9.77GHS     0.91%</Text>
                 </View>
                 </View>
                
@@ -63,7 +68,7 @@ export default function Home(params) {
               navigation.navigate("Home");
             }}
           />
-          <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 16, color: "#016e96"}}>
+          <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "#016e96"}}>
             Home
           </Text>
         </View>
@@ -159,5 +164,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 25,
     borderTopEndRadius: 20
+  },
+  unnecessary: {
+    color: "#006E90",
+    fontSize: 18,
+    marginTop: 15,
+    marginLeft: 20
   },
 });

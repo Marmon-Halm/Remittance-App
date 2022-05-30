@@ -161,7 +161,7 @@ export default function Profile(params) {
               navigation.navigate("Profile");
             }}
           />
-          <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 16, color: "#016e96"}}>Profile</Text>
+          <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "#016e96"}}>Profile</Text>
         </View>
             </View>
 
