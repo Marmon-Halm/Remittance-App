@@ -6,6 +6,7 @@ import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manro
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
+import RNPickerSelect from 'react-native-picker-select';
 import Modal from "react-native-modal";
 
 
@@ -69,10 +70,10 @@ export default function Home(params) {
 
             <View style={[styles.optionsContainer, styles.shadowProp]}>
               <View style={{ width: 45, heigth: 42 }}>
-                <Image style={styles.flag} source={require('../assets/ghana.png')} />
+                <Image style={styles.flag} source={require('../assets/france.png')} />
               </View>
-              <Text style={styles.unnecessary}> GBP    ⇄  GHS        0.91{"\n"}
-                1 GBP     9.77GHS    0.91</Text>
+              <Text style={styles.unnecessary}> EUR    ⇄  GHS        0.91{"\n"}
+                1 EUR     8.37GHS    0.91</Text>
 
             </View>
 
@@ -95,10 +96,13 @@ export default function Home(params) {
             <Text style={styles.buttonText} >Send money</Text>
           </TouchableOpacity>
 
-          <Modal isVisible={isModalVisible}>
+          <Modal isVisible={isModalVisible} animationIn={'slideInUp'} coverScreen={true}  >
             <View style={{ flex: 1 }}>
-              <Text>Hello!</Text>
               <Button title="Done" onPress={handleModal} />
+              <View style={{backgroundColor:'white', marginTop:25,  }}>
+              <Text style={styles.textCountry}>Country</Text>
+              
+              </View>
             </View>
           </Modal>
 
@@ -223,10 +227,16 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 10
   },
+  textCountry: {
+    fontSize: 19,
+    fontFamily: 'Manrope_700Bold',
+    color: `#016e96`,
+  },
   unnecessary: {
     color: "black",
     fontSize: 18,
     marginTop: 15,
     marginLeft: 20
   },
+  
 });
