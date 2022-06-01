@@ -80,8 +80,8 @@ export default function Home(params) {
               <View style={{ width: 45, heigth: 42 }}>
                 <Image style={styles.flag} source={require('../assets/nigeria.png')} />
               </View>
-              <Text style={styles.unnecessary}> USD    ⇄  GHS        0.91{"\n"}
-                1 USD     7.80GHS    0.91</Text>
+              <Text style={styles.unnecessary}> USD    ⇄  GHS        0.51{"\n"}
+                1 NGA     0.019GHS    0.51</Text>
             </View>
           </View>
 
