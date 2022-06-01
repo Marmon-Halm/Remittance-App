@@ -107,7 +107,7 @@ export default function Login(params) {
       </TouchableOpacity> */}
 
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 20, marginBottom: 5, fontFamily: 'Manrope_500Medium' }}> Don't have an account?, <Text style={{ color: `#016e96` }} onPress={() => { navigation.navigate("SignUp") }}>Sign Up</Text></Text>
+        <Text style={{ fontSize: 15, marginBottom: 5, fontFamily: 'Manrope_500Medium' }}> Don't have an account?, <Text style={{ color: `#016e96` }} onPress={() => { navigation.navigate("SignUp") }}>Sign Up</Text></Text>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         <Text style={{ fontSize: 20, color: '#016e96', fontFamily: 'Manrope_500Medium' }} onPress={() => { navigation.navigate("ResetP") }}>Forgot your password?</Text>
