@@ -118,7 +118,7 @@ export default function Home(params) {
               </View>
               <View style={{backgroundColor:'white', marginTop:25, borderTopLeftRadius:30, borderTopRightRadius: 30,borderBottomLeftRadius: 30, borderBottomRightRadius: 30  }}>
               <Text style={styles.textCountry}>Amount</Text>
-              <Text style={{marginTop:50, marginLeft: 18}}>Select the coutry you want to send money to</Text>
+              <Text style={{marginTop:50, marginLeft: 18}}>How much do you want to send?</Text>
               <View >
               <TextInput style={styles.textInput}
                 textContentType={"name"}
