@@ -1,13 +1,14 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ImageBackground,  } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold, Manrope_800ExtraBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import RNPickerSelect from 'react-native-picker-select';
 import Modal from "react-native-modal";
+import { TextInput } from 'react-native-gesture-handler';
 
 
 
@@ -95,17 +96,43 @@ export default function Home(params) {
           <TouchableOpacity style={styles.button} onPress={handleModal}>
             <Text style={styles.buttonText} >Send money</Text>
           </TouchableOpacity>
-
-          <Modal isVisible={isModalVisible} animationIn={'slideInUp'} coverScreen={true}  >
+          <View >
+          <Modal isVisible={isModalVisible} animationIn={'slideInUp'}
+           animationOut={'slideOutDown'} coverScreen={true} animationOutTiming={500} backdropOpacity={0.70}  >
             <View style={{ flex: 1 }}>
               <Button title="Done" onPress={handleModal} />
-              <View style={{backgroundColor:'white', marginTop:25,  }}>
+              <View style={{backgroundColor:'white', marginTop:25, borderTopLeftRadius:30, borderTopRightRadius: 30,borderBottomLeftRadius: 30, borderBottomRightRadius: 30  }}>
               <Text style={styles.textCountry}>Country</Text>
-              
+              <Text style={{marginTop:50, marginLeft: 18}}>Select the coutry you want to send money to</Text>
+              <View >
+              <RNPickerSelect
+            onValueChange={(value) => console.log(value)}
+            items={[
+                { label: 'France', value: 'France' },
+                { label: 'Nigeria', value: 'Nigeria' },
+                { label: 'Unite States of America', value: 'Unite States of America' },
+                {label: 'United Kingdom', value: 'United Kingdom'}
+            ]}
+            />
+            </View>
+              </View>
+              <View style={{backgroundColor:'white', marginTop:25, borderTopLeftRadius:30, borderTopRightRadius: 30,borderBottomLeftRadius: 30, borderBottomRightRadius: 30  }}>
+              <Text style={styles.textCountry}>Amount</Text>
+              <Text style={{marginTop:50, marginLeft: 18}}>Select the coutry you want to send money to</Text>
+              <View >
+              <TextInput style={styles.textInput}
+                textContentType={"name"}
+                placeholder={'Full Name'}
+                autoComplete={'true'}
+                minLength={1}
+                placeholderTextColor={'black'}
+                keyboardAppearance={"light"}
+              />
+            </View>
               </View>
             </View>
           </Modal>
-
+          </View>
         </View>
 
 
@@ -227,8 +254,22 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderRadius: 10
   },
+  textInput: {
+    backgroundColor: 'transparent',
+    paddingTop: 12,
+    paddingBottom: 9,
+    fontFamily: 'Manrope_500Medium',
+    borderBottomWidth: 1.5,
+    borderBottomColor: 'black',
+    fontSize:18,
+    width: '90%',
+    marginBottom: 27,
+    marginLeft: 15,
+  },
   textCountry: {
-    fontSize: 19,
+    fontSize: 24,
+    marginTop: 20,
+    marginLeft: 20,
     fontFamily: 'Manrope_700Bold',
     color: `#016e96`,
   },
