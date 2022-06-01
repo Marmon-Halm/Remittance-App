@@ -143,7 +143,7 @@ export default function Profile(params) {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.categoryContainer}  onPress={() => { navigation.navigate("Home")}}>
+                    <TouchableOpacity style={styles.categoryContainer}  onPress={() => { navigation.navigate("Login")}}>
                         <View style={{ width: '12%' }}>
                             <Ionicons
                                 name="log-out-outline"
