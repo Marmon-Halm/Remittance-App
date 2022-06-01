@@ -33,7 +33,12 @@ export default function OTPVerification(params) {
     const [pin3, setPin3] = useState("");
     const [pin4, setPin4] = useState("");
 
+    const [lastPin, setLastPinEnabled] = useState(true);
+    const [verifyEnabled, setVerifyEnabled] = useState(false);
 
+   const enableVerifyButton = () => {
+       setVerifyEnabled(true);
+   }
 
 
     if (!fontsLoaded) {
@@ -46,7 +51,7 @@ export default function OTPVerification(params) {
             <View style={{ paddingTop: 40, marginBottom: 38, width: '100%' }}>
 
                 <View style={styles.view3}>
-                    <Ionicons name="arrow-back-outline" size={30} color='darkblue' onPress={() => {
+                    <Ionicons name="arrow-back-outline" size={30} color='#4F4E53' onPress={() => {
                         navigation.navigate("SignUp")
                     }} />
                     <Text style={styles.textVerification}>
@@ -129,10 +134,9 @@ export default function OTPVerification(params) {
                                             ref={pin4Ref}
                                             maxLength={1}
                                             blurOnSubmit={false}
-                                            onChange={(pin4) => {
-                                                setPin4(pin4)
-                                            }}
+                                            onChange={enableVerifyButton}
                                             keyboardType={"number-pad"}
+                                            disabled={!lastPin}
                                             keyboardAppearance="light"
                                         >
                                         </TextInput>
@@ -146,7 +150,7 @@ export default function OTPVerification(params) {
                             Didn't receive a code? <Text style={{color: 'black', textDecorationLine: 'underline'}}> Request again </Text>
                         </Text>
 
-                        <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('UserPin')}}>
+                        <TouchableOpacity style={styles.button} disabled={!verifyEnabled} onPress={() => { navigation.navigate('UserPin')}}>
                             <Text style={styles.buttonText}> Verify and Create Account </Text>
                         </TouchableOpacity>
                     </ScrollView>
@@ -156,7 +160,7 @@ export default function OTPVerification(params) {
             </View>
 
 
-            <StatusBar style="auto" />
+            <StatusBar style="dark" />
         </View>
     );
 }

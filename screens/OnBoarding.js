@@ -85,7 +85,7 @@ function OnBoarding({ navigation }) {
 
                 {
                     currentSlideIndex == slides.length - 1 ? (<View style={{ height: 55, }}>
-                        <TouchableOpacity style={[styles.btnGT]} onPress={() => { navigation.navigate('Home') }}>
+                        <TouchableOpacity style={[styles.btnGT]} onPress={() => { navigation.navigate('Login') }}>
                             <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 20, color: color.white }}>Get Started</Text>
                         </TouchableOpacity>
                     </View>) : (
@@ -156,7 +156,7 @@ function OnBoarding({ navigation }) {
    
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
-              <StatusBar style="auto" />
+              <StatusBar style="dark" />
             <FlatList data={slides} contentContainerStyle={{ height: height * 0.8 }}
                 ref={ref}
                 onMomentumScrollEnd={updateCurrentSlideIndex}

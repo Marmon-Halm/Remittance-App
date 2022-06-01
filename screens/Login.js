@@ -113,7 +113,7 @@ export default function Login(params) {
         <Text style={{ fontSize: 20, color: '#016e96', fontFamily: 'Manrope_500Medium' }} onPress={() => { navigation.navigate("ResetP") }}>Forgot your password?</Text>
       </View>
 
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
 
     </KeyboardAvoidingView>
     

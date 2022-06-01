@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import Checkbox from 'expo-checkbox';
 import { TextInput } from 'react-native-gesture-handler';
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
@@ -16,13 +16,25 @@ import RNPickerSelect from 'react-native-picker-select';
 export default function SignUp(params) {
   const [checked, toggleChecked] = useState(false);
 
-  const [isEnabled, setIsEnabled] = useState(false);
+
+  const [textInputEnabled, setTextInputEnabled] = useState(true);
+  const [checkboxEnabled, setCheckboxEnabled] = useState(false);
+  const [signUpEnabled, setSignUpEnabled] = useState(false);
+
+  const enableCheckBox = () => {
+    setTextInputEnabled(true);
+    setCheckboxEnabled(true);
+  }
+
+  const checkButtonAndEnableSignUp = () => {
+    setSignUpEnabled(true);
+    toggleChecked(true);
+  }
+
+
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 200 : 0
 
-  const doYourTask = () => {
-    setIsEnabled(true);
-  }
 
   const navigation = params.navigation;
 
@@ -48,11 +60,11 @@ export default function SignUp(params) {
 
 
       <View style={{ paddingTop: 40, marginBottom: 18 }}>
-          <View style={styles.view3}>
-            <Ionicons name="arrow-back-outline" size={32} color='darkblue' onPress={() => {
-              navigation.navigate("Login")
-            }} />
-          </View>
+        <View style={styles.view3}>
+          <Ionicons name="arrow-back-outline" size={32} color='#4F4E53' onPress={() => {
+            navigation.navigate("Login")
+          }} />
+        </View>
       </View>
 
 
@@ -140,7 +152,9 @@ export default function SignUp(params) {
                 secureTextEntry={true}
                 autoComplete={'true'}
                 minLength={8}
+                disabled={!textInputEnabled} 
                 placeholderTextColor={'black'}
+                onChange={enableCheckBox}
                 keyboardAppearance="light"
                 placeholder={'Password (min: 8 characters)'} />
             </View>
@@ -150,27 +164,31 @@ export default function SignUp(params) {
 
 
 
-        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 85, width: '100%', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 90, width: '100%', alignItems: 'center' }}>
           <View style={styles.checkboxContainer}>
-            <CheckBox
-              checked={checked}
-              onPress={() => toggleChecked(!checked)}
+            <Checkbox
+              value={checked}
+              onValueChange={checkButtonAndEnableSignUp}
+              disabled={!checkboxEnabled} 
+              onPress={checkButtonAndEnableSignUp}
+              color={checked ? '#016e96' : undefined}
             />
           </View>
-          <Text style={{ fontSize: 17, width: '85%', fontFamily: 'Manrope_400Regular' }}>
+          <Text style={{ fontSize: 17, width: '90%', fontFamily: 'Manrope_400Regular', paddingLeft: 5 }}>
             Accept Remer's <Text style={{ color: '#016e96' }}>Terms and Conditions</Text> and <Text style={{ color: '#016e96' }}>Privacy Policy. </Text>
           </Text>
         </View>
 
         <View style={{ position: 'absolute', bottom: 15, width: '100%' }}>
-          <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('OTPVerification') }}>
+          <TouchableOpacity style={styles.button} disabled={!signUpEnabled} onPress={() => { navigation.navigate('OTPVerification') }}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
+      
 
       </View>
 
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </View>
   );
 }
@@ -253,7 +271,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope_700Bold',
   },
   checkboxContainer: {
-    width: '15%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '10%',
   },
 });
 

@@ -45,7 +45,7 @@ export default function ResetP(params) {
             <View style={{ paddingTop: 40, marginBottom: 18 }}>
                 <View>
                     <View style={styles.view3}>
-                        <Ionicons name="arrow-back-outline" size={32} color='darkblue' onPress={() => {
+                        <Ionicons name="arrow-back-outline" size={32} color='#4F4E53' onPress={() => {
                             navigation.navigate("Login")
                         }} />
                     </View>
@@ -78,7 +78,6 @@ export default function ResetP(params) {
                         autoComplete={'true'}
                         placeholderTextColor={'black'}
                         placeholder={'Email Address'}
-                        inputAccessoryViewID={true}
                     />
 
                     <TextInput style={styles.textInput}
@@ -88,7 +87,6 @@ export default function ResetP(params) {
                         keyboardAppearance={"light"}
                         placeholderTextColor={'black'}
                         placeholder={'New Password'}
-                        inputAccessoryViewID={true}
                     />
 
                     <TextInput style={styles.textInput}
@@ -99,7 +97,6 @@ export default function ResetP(params) {
                         minLength={8}
                         placeholderTextColor={'black'}
                         placeholder={'Confirm New Password'}
-                        inputAccessoryViewID={true}
                     />
 
                 </View>
@@ -114,7 +111,7 @@ export default function ResetP(params) {
 
 
 
-            <StatusBar style="auto" />
+            <StatusBar style="dark" />
         </View>
     );
 }

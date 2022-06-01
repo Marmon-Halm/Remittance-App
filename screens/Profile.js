@@ -1,12 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import {
     useFonts,
     Manrope_400Regular,
     Manrope_500Medium,
     Manrope_600SemiBold,
-    Manrope_700Bold
+    Manrope_700Bold,
+    Manrope_800ExtraBold
 } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from '@expo/vector-icons';
@@ -24,7 +25,8 @@ export default function Profile(params) {
         Manrope_400Regular,
         Manrope_500Medium,
         Manrope_600SemiBold,
-        Manrope_700Bold
+        Manrope_700Bold,
+        Manrope_800ExtraBold
     });
 
 
@@ -33,176 +35,215 @@ export default function Profile(params) {
     }
 
     return (
-        <View style={styles.container}>
 
-            <View style={{ padding: 22 }}>
-                <View style={{ marginTop: 90 }}>
-                    <Text style={{ marginBottom: 40, fontSize: 38, fontFamily: 'Manrope_600SemiBold', color: `#383838` }}>
-                        Profile
-                    </Text>
-                </View>
+        <ImageBackground source={require("../assets/background.png")} resizeMode="cover" style={styles.image}>
 
-                <View style={styles.categoryContainer}>
-                    <View>
-                        <Ionicons
-                            name="home-outline"
-                            size={32}
-                            color="gray"
-                            onPress={() => {
-                                navigation.navigate("Home");
-                            }}
-                        />
-                    </View>
-                    <Text style={styles.categoryText}>
-                        Must display user info
-                    </Text>
-                    
-                </View>
-                <View style={styles.categoryContainer}>
-                    
-                    <Text style={styles.categoryText}>
-                        Help And Support
-                    </Text>
-                    <View>
-                        <Ionicons
-                            name="arrow-forward-outline"
-                            size={28}
-                            color="black"
-                            onPress={() => {
-                                navigation.navigate("Home");
-                            }}
-                        />
-                    </View>
-                </View>
-                <View style={styles.categoryContainer}>
-                    
-                    <View>
-                        <Text style={styles.categoryText}>
-                            Settings
+            <View style={styles.container}>
+
+                <View style={{ padding: 22 }}>
+                    <View style={{ marginTop: 90 }}>
+                        <Text style={{ marginBottom: 20, fontSize: 29, fontFamily: 'Manrope_700Bold', color: `#383838` }}>
+                            Profile
                         </Text>
                     </View>
-                    <View>
+
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Home")}}>
+                        <View style={{ width: '11%' }}>
+                            <Ionicons
+                                name="create-outline"
+                                size={30}
+                                color="#383838"
+                            />
+                        </View>
+
+                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                            <Text style={styles.categoryText}>
+                                Edit profile
+                            </Text>
+                        </View>
+
+                        <View style={{ width: '19%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Ionicons
+                                name="arrow-forward-outline"
+                                size={28}
+                                color="#383838"
+                            />
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.categoryContainer}  onPress={() => { navigation.navigate("Home")}}>
+                        <View style={{ width: '12%' }}>
+                            <Ionicons
+                                name="help-circle-outline"
+                                size={30}
+                                color="#383838"
+                            />
+                        </View>
+
+                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                            <Text style={styles.categoryText}>
+                                Help & Support
+                            </Text>
+                        </View>
+
+                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Ionicons
+                                name="arrow-forward-outline"
+                                size={28}
+                                color="#383838"                               
+                            />
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Home")}}>
+                        <View style={{ width: '12%' }}>
+                            <Ionicons
+                                name="receipt-outline"
+                                size={28}
+                                color="#383838"
+                            />
+                        </View>
+
+                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                            <Text style={styles.categoryText}>
+                              My Reciepients
+                           </Text>
+                        </View>
+
+                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Ionicons
+                                name="arrow-forward-outline"
+                                size={28}
+                                color="#383838"
+                            />
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Home")}}>
+                        <View style={{ width: '12%' }}>
+                            <Ionicons
+                                name="settings-outline"
+                                size={30}
+                                color="#383838"
+                            />
+                        </View>
+
+                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                            <Text style={styles.categoryText}>
+                                Settings
+                            </Text>
+                        </View>
+
+                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Ionicons
+                                name="arrow-forward-outline"
+                                size={28}
+                                color="#383838"
+                            />
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.categoryContainer}  onPress={() => { navigation.navigate("Home")}}>
+                        <View style={{ width: '12%' }}>
+                            <Ionicons
+                                name="log-out-outline"
+                                size={30}
+                                color="#383838"
+                            />
+                        </View>
+
+                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                            <Text style={styles.categoryText}>
+                                Log out
+                            </Text>
+                        </View>
+                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Ionicons
+                                name="arrow-forward-outline"
+                                size={28}
+                                color="#383838"
+                            />
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
+
+                <View style={styles.iconView}>
+
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
                         <Ionicons
-                            name="arrow-forward-outline"
+                            name="home-outline"
                             size={28}
                             color="black"
                             onPress={() => {
                                 navigation.navigate("Home");
                             }}
                         />
+                        <Text style={styles.iconViewText}>
+                            Home
+                        </Text>
                     </View>
-                </View>
-                <View style={styles.categoryContainer}>
-                    
-                    <Text style={styles.categoryText}>
-                        My Receipients
-                    </Text>
-                    <View>
+
+
+
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <AntDesign name="bars" size={28} color="black" onPress={() => { navigation.navigate("Transaction") }} />
+                        <Text style={styles.iconViewText}>Transaction</Text>
+                    </View>
+
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Ionicons
-                            name="arrow-forward-outline"
+                            name="person-outline"
                             size={28}
-                            color="black"
+                            color="#016e96"
                             onPress={() => {
-                                navigation.navigate("Home");
+                                navigation.navigate("Profile");
                             }}
                         />
+                        <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 14, color: "#016e96" }}>Profile</Text>
                     </View>
                 </View>
-                <View style={styles.categoryContainer}>
-                    
-                    <Text style={styles.categoryText}>
-                        Logout
-                    </Text>
-                    <View>
-                        <Ionicons
-                            name="arrow-forward-outline"
-                            size={28}
-                            color="black"
-                            onPress={() => {
-                                navigation.navigate("Login");
-                            }}
-                        />
-                    </View>
-                </View>
+
+
+                <StatusBar style="dark" />
             </View>
+        </ImageBackground>
 
-            <View style={styles.iconView}>
-
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          
-          <Ionicons
-            name="home-outline"
-            size={28}
-            color="black"
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
-          <Text style={styles.iconViewText}>
-            Home
-          </Text>
-            </View>
-
-                
-
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <AntDesign name="bars" size={28} color="black" />
-          <Text style={styles.iconViewText}>Transaction</Text>
-        </View>
-
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Ionicons
-            name="person-outline"
-            size={28}
-            color="#016e96"
-            onPress={() => {
-              navigation.navigate("Profile");
-            }}
-          />
-          <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 12, color: "#016e96"}}>Profile</Text>
-        </View>
-            </View>
-
-
-            <StatusBar style="auto" />
-        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
+        height: '100%',
+    },
+    image: {
+        flex: 1,
+        justifyContent: "center"
     },
     iconView: {
         flexDirection: "row",
-    paddingTop: 10,
-    paddingBottom: 14,
-    backgroundColor: "#fff",
-    justifyContent: "space-evenly",
-    position: 'absolute',
-    bottom: 0,
-    borderTopEndRadius: 17,
-    borderTopLeftRadius: 17,
-    elevation: 6,
-    shadowColor: "black",
-    shadowOpacity: 0.27,
-    shadowRadius: 100,
-
+        paddingTop: 10,
+        paddingBottom: 24,
+        backgroundColor: "#fff",
+        justifyContent: "space-evenly",
+        position: 'absolute',
+        bottom: 0,
+        borderTopEndRadius: 17,
+        borderTopLeftRadius: 17,
     },
     iconViewText: {
         fontFamily: 'Manrope_700Bold',
-        fontSize: 12,
+        fontSize: 14,
         color: 'black',
     },
     categoryContainer: {
-        marginLeft: 10,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         height: 60,
         width: '100%',
         padding: 12,
-        backgroundColor: `white`,
+        backgroundColor: `#e8e8e8`,
         borderRadius: 15,
         alignItems: 'center',
         marginBottom: 10,
@@ -210,7 +251,7 @@ const styles = StyleSheet.create({
     categoryText: {
         fontFamily: 'Manrope_600SemiBold',
         fontSize: 23,
-        marginRight: 73,
+        color: '#383838',
     },
 
 });

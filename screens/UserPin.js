@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {
@@ -7,6 +8,7 @@ import {
     Manrope_500Medium,
     Manrope_600SemiBold
 } from '@expo-google-fonts/manrope';
+import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from 'expo-app-loading';
 
@@ -18,6 +20,26 @@ export default function UserPin(params) {
         Manrope_500Medium,
         Manrope_600SemiBold
     });
+
+
+
+    const [advice, setAdvice] = useState("");
+
+    const getRandomId = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return (Math.floor(Math.random() *
+            (max - min + 1)) + min).toString();
+    };
+
+    const getAdvice = () => {
+        axios
+            .get("http://api.adviceslip.com/advice/" +
+                getRandomId(1, 200))
+            .then((response) => {
+                setAdvice(response.data.slip.advice);
+            });
+    };
 
 
     if (!fontsLoaded) {
@@ -40,15 +62,19 @@ export default function UserPin(params) {
                 </View>
 
 
-                <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 30, marginBottom: 20 }}> USER PIN PAGE </Text>
+                <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 30, marginBottom: 20 }}>{advice}</Text>
 
-                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Home") }}>
-                    <Text style={styles.buttonText}>PROCEED TO HOME</Text>
+                <TouchableOpacity style={[styles.button, {marginBottom: 10}]} onPress={getAdvice} title={"Get Advice"}>
+                    <Text style={styles.buttonText}>Get Advice</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("Home")}} title={"Get Advice"}>
+                    <Text style={styles.buttonText}> Move to Home Page</Text>
                 </TouchableOpacity>
             </View>
 
 
-            <StatusBar style="auto" />
+            <StatusBar style="dark" />
         </View>
     );
 }

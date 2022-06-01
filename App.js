@@ -12,7 +12,6 @@ import UserPin from './screens/UserPin';
 import OTPVerification from './screens/OTPVerification';
 import Profile from './screens/Profile';
 import Transaction from './screens/Transaction';
-import modal from './screens/modal';
 import ExchangeRate from './screens/ExchangeRate';
 
 export default function App() {
@@ -29,7 +28,6 @@ export default function App() {
           <Stack.Screen name="OnBoarding" component={OnBoarding} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="modal" component={modal} />
           <Stack.Screen name="ResetP" component={ResetP} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="UserPin" component={UserPin} />

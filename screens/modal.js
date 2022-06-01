@@ -98,7 +98,7 @@ export default function Home(params) {
       </View>
 
 
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
 
     </View>
   );

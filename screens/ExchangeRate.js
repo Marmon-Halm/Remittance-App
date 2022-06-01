@@ -88,7 +88,7 @@ export default function ExchangeRate(params) {
             </View>
 
 
-            <StatusBar style="auto" />
+            <StatusBar style="dark" />
         </View>
     );
 }

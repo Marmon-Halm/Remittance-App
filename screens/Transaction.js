@@ -1,13 +1,16 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ImageBackground } from 'react-native';
 import {
     useFonts,
     Manrope_400Regular,
     Manrope_500Medium,
-    Manrope_600SemiBold
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold
 } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 
 
@@ -16,7 +19,9 @@ export default function Transaction(params) {
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
         Manrope_500Medium,
-        Manrope_600SemiBold
+        Manrope_600SemiBold, 
+        Manrope_700Bold,
+        Manrope_800ExtraBold
     });
 
 
@@ -25,44 +30,77 @@ export default function Transaction(params) {
     }
 
     return (
+        <ImageBackground source={require("../assets/background.png")} resizeMode="cover" style={styles.image}>
+
         <View style={styles.container}>
-             <View style={{ paddingTop: 30, marginBottom: 18,  width: '100%', }}>
-                    <View>
-                        <View style={styles.view3}>
-
-                            <Ionicons name="arrow-back-outline" size={32} color='#000' onPress={() => {
-                                navigation.navigate("Home")
-                            }} />
-                        </View>
-                    </View>
-                </View>
-
-            <View style={{ flex:1, alignItems: 'center', justifyContent: 'center' }}>
-               
-
-
-                <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 30, marginBottom: 20 }}> TRANSACTION PAGE </Text>
-
-                <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate("Home") }}>
-                    <Text style={styles.buttonText}>PROCEED TO HOME</Text>
-                </TouchableOpacity>
+  
+  
+  
+          <View style={{ padding: 25, marginTop: 40 }}>
+  
+            <Text style={{ marginTop: 50, marginBottom: 10, fontSize: 29, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>Transactions</Text>
+  
+         
+  
+          </View>
+  
+  
+  
+  
+          <View style={styles.iconView}>
+  
+  
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  
+              <Ionicons
+                name="home-outline"
+                size={28}
+                color="black"
+                onPress={() => {
+                  navigation.navigate("Home");
+                }}
+              />
+              <Text style={styles.iconViewText}>
+                Home
+              </Text>
             </View>
-
-
-            <StatusBar style="auto" />
+  
+  
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <AntDesign name="bars" size={28} color="#016e96" onPress={() => { navigation.navigate("Transaction") }} />
+              <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 14, color: "#016e96" }}>Transactions</Text>
+            </View>
+  
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Ionicons
+                name="person-outline"
+                size={28}
+                color="black"
+                onPress={() => {
+                  navigation.navigate("Profile");
+                }}
+              />
+              <Text style={styles.iconViewText}>Profile</Text>
+            </View>
+          </View>
+  
+  
+          <StatusBar style="dark" />
+  
         </View>
+      </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 18,
-        paddingRight: 18,
-        paddingLeft: 18,
-        paddingBottom: 0,
-        backgroundColor: "#F8F8F8",
-    },
+        height: '100%',
+      },
+    image: {
+        flex: 1,
+        justifyContent: "center"
+      },
     view3: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -81,4 +119,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'Manrope_500Medium',
     },
+    iconView: {
+        flexDirection: "row",
+        paddingTop: 10,
+        paddingBottom: 24,
+        backgroundColor: "#fff",
+        justifyContent: "space-evenly",
+        position: 'absolute',
+        bottom: 0,
+        borderTopEndRadius: 17,
+        borderTopLeftRadius: 17,
+      },
+      iconViewText: {
+        fontFamily: 'Manrope_700Bold',
+        fontSize: 14,
+        color: 'black',
+      },
 });
