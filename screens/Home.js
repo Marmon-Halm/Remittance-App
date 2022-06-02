@@ -74,7 +74,7 @@ export default function Home(params) {
                 <Image style={styles.flag} source={require('../assets/france.png')} />
               </View>
               <Text style={styles.unnecessary}> EUR    ⇄  GHS        0.91{"\n"}
-                1 EUR     8.37GHS    0.91</Text>
+                   1 EUR     8.37GHS    0.91</Text>
 
             </View>
 
@@ -97,41 +97,59 @@ export default function Home(params) {
             <Text style={styles.buttonText} >Send money</Text>
           </TouchableOpacity>
           <View >
-          <Modal isVisible={isModalVisible} animationIn={'slideInUp'}
-           animationOut={'slideOutDown'} coverScreen={true} animationOutTiming={500} backdropOpacity={0.70}  >
-            <View style={{ flex: 1 }}>
-              <Button title="Done" onPress={handleModal} />
-              <View style={{backgroundColor:'white', marginTop:25, borderTopLeftRadius:30, borderTopRightRadius: 30,borderBottomLeftRadius: 30, borderBottomRightRadius: 30  }}>
-              <Text style={styles.textCountry}>Country</Text>
-              <Text style={{marginTop:50, marginLeft: 18}}>Select the coutry you want to send money to</Text>
-              <View >
-              <RNPickerSelect
-            onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'France', value: 'France' },
-                { label: 'Nigeria', value: 'Nigeria' },
-                { label: 'Unite States of America', value: 'Unite States of America' },
-                {label: 'United Kingdom', value: 'United Kingdom'}
-            ]}
-            />
+          <Modal isVisible={isModalVisible} style={styles.modal}>
+          <View >
+            <TouchableOpacity onPress={handleModal} style={{marginLeft: 15, marginTop: 15}}>
+          <Ionicons
+                    name="arrow-back-outline"
+                    size={35}
+                    color="#016e96" />
+          </TouchableOpacity>
             </View>
+            <View style={{marginTop:30}}>
+            <Text style={{ marginLeft: 15, fontSize: 35, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>Where would you like to send money?</Text>
+            </View>
+            <View style={[styles.optionsContainer1, styles.shadowProp]}>
+              <TouchableOpacity>
+              <View style={{ width: 45, heigth: 42 }}>
+                <Image style={styles.flag} source={require('../assets/france.png')} />
               </View>
-              <View style={{backgroundColor:'white', marginTop:25, borderTopLeftRadius:30, borderTopRightRadius: 30,borderBottomLeftRadius: 30, borderBottomRightRadius: 30  }}>
-              <Text style={styles.textCountry}>Amount</Text>
-              <Text style={{marginTop:50, marginLeft: 18}}>How much do you want to send?</Text>
-              <View >
-              <TextInput style={styles.textInput}
-                textContentType={"name"}
-                placeholder={'Full Name'}
-                autoComplete={'true'}
-                minLength={1}
-                placeholderTextColor={'black'}
-                keyboardAppearance={"light"}
-              />
+              <Text style={styles.unnecessary2}> France</Text>
+              </TouchableOpacity>
             </View>
+            <View style={[styles.optionsContainer2, styles.shadowProp]}>
+            <TouchableOpacity>
+              <View style={{ width: 45, heigth: 42 }}>
+                <Image style={styles.flag} source={require('../assets/nigeria.png')} />
               </View>
+              <Text style={styles.unnecessary2}> Nigeria</Text>
+              </TouchableOpacity>
             </View>
-          </Modal>
+            <View style={[styles.optionsContainer3, styles.shadowProp]}>
+              <TouchableOpacity>
+              <View style={{ width: 45, heigth: 42 }}>
+                <Image style={styles.flag} source={require('../assets/ghana.png')} />
+              </View>
+              <Text style={styles.unnecessary2}> Ghana</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.optionsContainer4, styles.shadowProp]}>
+              <TouchableOpacity>
+              <View style={{ width: 45, heigth: 42 }}>
+                <Image style={styles.flag} source={require('../assets/GB.png')} />
+              </View>
+              <Text style={styles.unnecessary2}> United Kingdom</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.optionsContainer4, styles.shadowProp]}>
+            <TouchableOpacity>  
+              <View style={{ width: 45, heigth: 42 }}>
+                <Image style={styles.flag} source={require('../assets/usa.png')} />
+              </View>
+              <Text style={styles.unnecessary2}> United States of America</Text>
+            </TouchableOpacity>  
+            </View>
+            </Modal>
           </View>
         </View>
 
@@ -223,6 +241,44 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     elevation: 20,
   },
+  optionsContainer1: {
+    flexDirection: 'row',
+    height: 70,
+    width: '100%',
+    paddingLeft: 18,
+    backgroundColor: `white`,
+    marginBottom: 25,
+    marginTop: 35,
+    marginLeft: 56,
+  },
+  optionsContainer2: {
+    flexDirection: 'row',
+    height: 70,
+    width: '100%',
+    paddingLeft: 18,
+    backgroundColor: `white`,
+    marginBottom: 30,
+    marginLeft: 56,
+  },
+  optionsContainer3: {
+    flexDirection: 'row',
+    height: 70,
+    width: '100%',
+    paddingLeft: 18,
+    backgroundColor: `white`,
+    marginBottom: 30,
+    marginLeft: 56,
+    
+  },optionsContainer4: {
+    flexDirection: 'row',
+    height: 70,
+    width: '100%',
+    paddingLeft: 18,
+    backgroundColor: `white`,
+    marginBottom: 30,
+    marginLeft: 56,
+    
+  },
   shadowProp: {
     shadowColor: '#171717',
     shadowOffset: { width: -2, height: 4 },
@@ -275,9 +331,23 @@ const styles = StyleSheet.create({
   },
   unnecessary: {
     color: "black",
-    fontSize: 18,
-    marginTop: 15,
-    marginLeft: 20
+    fontSize: 17,
+    marginTop:8,
+    marginLeft: 10,
+    
+  },
+  unnecessary2: {
+    color: "black",
+    fontSize: 25,
+    marginTop:5,
+    
+  },
+  modal: {
+    backgroundColor: 'white',
+    margin: 0, // This is the important style you need to set
+    alignItems: undefined,
+    justifyContent: undefined,
+    flexDirection: 'column',
   },
   
 });
