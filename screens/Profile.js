@@ -89,7 +89,7 @@ export default function Profile(params) {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Home") }}>
+                    <TouchableOpacity style={styles.categoryContainer} >
                         <View style={{ width: '12%' }}>
                             <Ionicons
                                 name="help-circle-outline"
@@ -104,13 +104,13 @@ export default function Profile(params) {
                             </Text>
                         </View>
 
-                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                       { <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
                             <Ionicons
                                 name="arrow-forward-outline"
                                 size={28}
                                 color="#383838"
                             />
-                        </View>
+                        </View>}
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.categoryContainer} onPress={handleModal2}>
@@ -193,9 +193,6 @@ export default function Profile(params) {
                                 <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
                                     <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}>Edit Profile</Text>
                                 </View>
-                                
-
-
                             </View>
 
 
@@ -354,9 +351,7 @@ export default function Profile(params) {
                                 <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
                                     <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}>Settings</Text>
                                 </View>
-                                <View style={{ width: '20%' }}>
-                                    <Ionicons name="close-outline" size={40} color='#F8F8F8' onPress={handleModal3} />
-                                </View>
+                               
 
 
                             </View>

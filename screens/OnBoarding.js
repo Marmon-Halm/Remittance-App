@@ -85,7 +85,7 @@ function OnBoarding({ navigation }) {
 
                 {
                     currentSlideIndex == slides.length - 1 ? (<View style={{ height: 55, }}>
-                        <TouchableOpacity style={[styles.btnGT]} onPress={() => { navigation.navigate('Home') }}>
+                        <TouchableOpacity style={[styles.btnGT]} onPress={() => { navigation.navigate('Login') }}>
                             <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 20, color: color.white }}>Get Started</Text>
                         </TouchableOpacity>
                     </View>) : (

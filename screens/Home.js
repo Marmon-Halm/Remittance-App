@@ -17,10 +17,13 @@ export default function Home(params) {
 
 
   const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [isModalVisibleGH, setIsModalVisibleGH] = React.useState(false);
   
 
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
+  const handleModalGH = () => setIsModalVisibleGH(() => true)
 
+  
 
   let [fontsLoaded] = useFonts({
 
@@ -99,7 +102,7 @@ export default function Home(params) {
 
 
           <View>
-            <Modal isVisible={isModalVisible} style={styles.modal}>
+            <Modal isVisible={isModalVisible} style={styles.modal} >
               <View>
                 <Ionicons
                   name="close-outline"
@@ -114,7 +117,7 @@ export default function Home(params) {
               </View>
 
 
-              <TouchableOpacity style={styles.countriesContainer} >
+              <TouchableOpacity style={styles.countriesContainer} onPress={() => { navigation.navigate("Send") }} >
                 <View style={{ width: '20%' }}>
                   <View style={{ width: 45, heigth: 42 }}>
                     <Image style={styles.flag} source={require('../assets/ghana.png')} />
@@ -126,7 +129,7 @@ export default function Home(params) {
              
 
 
-              <TouchableOpacity style={styles.countriesContainer}>
+              <TouchableOpacity style={styles.countriesContainer} onPress={() => { navigation.navigate("Send") }}>
                 <View style={{ width: '20%' }}>
                   <View style={{ width: 45, heigth: 42 }}>
                     <Image style={styles.flag} source={require('../assets/nigeria.png')} />
@@ -136,7 +139,7 @@ export default function Home(params) {
                 <Text style={styles.unnecessary2}>Nigeria</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.countriesContainer}>
+              <TouchableOpacity style={styles.countriesContainer} onPress={() => { navigation.navigate("Send") }} >
                 <View style={{ width: '20%' }}>
                   <View style={{ width: 45, heigth: 42 }}>
                     <Image style={styles.flag} source={require('../assets/france.png')} />
@@ -147,7 +150,7 @@ export default function Home(params) {
               </TouchableOpacity>
 
 
-              <TouchableOpacity style={styles.countriesContainer}>
+              <TouchableOpacity style={styles.countriesContainer} onPress={() => { navigation.navigate("Send") }} >
                 <View style={{ width: '20%' }}>
                   <View style={{ width: 45, heigth: 42 }}>
                     <Image style={styles.flag} source={require('../assets/GB.png')} />
@@ -157,7 +160,7 @@ export default function Home(params) {
                 <Text style={styles.unnecessary2}>United Kingdom</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.countriesContainer}>
+              <TouchableOpacity style={styles.countriesContainer} onPress={() => { navigation.navigate("Send") }} >
                 <View style={{ width: '20%' }}>
                   <View style={{ width: 45, heigth: 42 }}>
                     <Image style={styles.flag} source={require('../assets/usa.png')} />

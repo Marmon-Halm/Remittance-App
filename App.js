@@ -12,7 +12,7 @@ import UserPin from './screens/UserPin';
 import OTPVerification from './screens/OTPVerification';
 import Profile from './screens/Profile';
 import Transaction from './screens/Transaction';
-import Settings from './screens/Settings';
+import Send from './screens/Send';
 import ExchangeRate from './screens/ExchangeRate';
 
 export default function App() {
@@ -35,7 +35,7 @@ export default function App() {
           <Stack.Screen name="OTPVerification" component={OTPVerification} />
           <Stack.Screen name="Transaction" component={Transaction} />
           <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Settings" component={Settings}/>
+          <Stack.Screen name="Send" component={Send}/>
           <Stack.Screen name="ExchangeRate" component={ExchangeRate} />
         </Stack.Navigator>
       </NavigationContainer>
