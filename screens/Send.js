@@ -54,7 +54,7 @@ export default function Profile(params) {
                   
             </View>
         <View >
-            <Text  style={{ marginTop: 10, marginBottom: 10, marginLeft: 15, fontSize: 25, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>How much do you want to send?</Text>
+            <Text  style={{ marginTop: 10, marginBottom: 10, marginLeft: 15, fontSize: 22, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>How much do you want to send?</Text>
         </View>
         <View>
                 <Text style={styles.textInputLabel}>Amount</Text>
@@ -66,7 +66,7 @@ export default function Profile(params) {
                 placeholderTextColor={'gray'}
                 keyboardAppearance={"light"}
                 />
-        <Text  style={{ marginTop: 20, marginBottom: 10, marginLeft: 15, fontSize: 25, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>Who do you want to send to?</Text>
+        <Text  style={{ marginTop: 20, marginBottom: 10, marginLeft: 15, fontSize: 22, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>Who do you want to send to?</Text>
         <Text style={styles.textInputLabel}>Recepient's name</Text>
                 <TextInput style={styles.profileContainer1}
                 keyboardType='default'
