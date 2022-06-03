@@ -61,7 +61,7 @@ export default function Profile(params) {
                 <TextInput style={styles.profileContainer}
                 keyboardType='numeric'
                 maxLength={999999} //setting limit of input.
-                placeholder={'Type in the number'}
+                placeholder={'0.00'}
                 autoComplete={'off'}
                 placeholderTextColor={'gray'}
                 keyboardAppearance={"light"}
