@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import Checkbox from 'expo-checkbox';
+import 'react-native-gesture-handler';
 import { TextInput } from 'react-native-gesture-handler';
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
@@ -14,6 +15,9 @@ import RNPickerSelect from 'react-native-picker-select';
 
 
 export default function SignUp(params) {
+
+  const [password, setPassword] = useState('');
+
   const [checked, toggleChecked] = useState(false);
 
 
@@ -33,7 +37,7 @@ export default function SignUp(params) {
 
 
 
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 200 : 0
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
 
 
   const navigation = params.navigation;
@@ -61,17 +65,22 @@ export default function SignUp(params) {
 
       <View style={{ paddingTop: 40, marginBottom: 18 }}>
         <View style={styles.view3}>
-          <Ionicons name="arrow-back-outline" size={32} color='#4F4E53' onPress={() => {
+          <Ionicons name="arrow-back-outline" size={30} color='#4F4E53' onPress={() => {
             navigation.navigate("Login")
           }} />
+          <Text style={styles.textVerification}>
+            Sign Up
+          </Text>
+
+          <Text style={{ color: '#F8F8F8' }}>
+            sasas
+          </Text>
+
         </View>
       </View>
 
 
       <View style={{ height: '87%' }}>
-        <View style={{ marginBottom: 30, }}>
-          <Text style={styles.textSignup}>Sign up. <Text style={styles.textItsfree}> It's free</Text></Text>
-        </View>
 
 
         <ScrollView>
@@ -97,12 +106,8 @@ export default function SignUp(params) {
                 placeholderTextColor={'black'}
                 onValueChange={(value) => console.log(value)}
                 items={[
-                  { label: 'United Kingdom', value: 'United Kingdom' },
-                  { label: 'United States', value: 'United States' },
                   { label: 'Ghana', value: 'Ghana' },
                   { label: 'Nigeria', value: 'Nigeria' },
-                  { label: 'Togo', value: 'Togo' },
-                  { label: 'Niger', value: 'Niger' },
                 ]}
               />
             </View>
@@ -119,8 +124,19 @@ export default function SignUp(params) {
 
               <TextInput style={styles.textInput}
                 textContentType={"name"}
-                placeholder={'Full Name'}
+                placeholder={'First Name'}
                 autoComplete={'true'}
+                minLength={1}
+                label="FirstName"
+                placeholderTextColor={'black'}
+                keyboardAppearance={"light"}
+              />
+
+              <TextInput style={styles.textInput}
+                textContentType={"name"}
+                placeholder={'Last Name'}
+                autoComplete={'true'}
+                label="LastName"
                 minLength={1}
                 placeholderTextColor={'black'}
                 keyboardAppearance={"light"}
@@ -131,6 +147,7 @@ export default function SignUp(params) {
                 keyboardType="phone-pad"
                 autoComplete={'true'}
                 minLength={1}
+                label="PhoneNumber"
                 maxLength={10}
                 keyboardAppearance="light"
                 placeholder={'Phone Number'}
@@ -142,6 +159,7 @@ export default function SignUp(params) {
                 keyboardType={"email-address"}
                 keyboardAppearance={"light"}
                 minLength={1}
+                label="EmailAddress"
                 autoComplete={'true'}
                 placeholderTextColor={'black'}
                 placeholder={'Email Address'}
@@ -151,17 +169,17 @@ export default function SignUp(params) {
                 textContentType="password"
                 secureTextEntry={true}
                 autoComplete={'true'}
+                label="Password"
                 minLength={8}
-                disabled={!textInputEnabled} 
-                placeholderTextColor={'black'}
+                disabled={!textInputEnabled}
                 onChange={enableCheckBox}
-                keyboardAppearance="light"
-                placeholder={'Password (min: 8 characters)'} />
+                placeholder={"Password"}
+                placeholderTextColor={'black'}
+                keyboardAppearance="light" />
             </View>
 
           </KeyboardAvoidingView>
         </ScrollView>
-
 
 
         <View style={{ flexDirection: 'row', position: 'absolute', bottom: 90, width: '100%', alignItems: 'center' }}>
@@ -169,7 +187,7 @@ export default function SignUp(params) {
             <Checkbox
               value={checked}
               onValueChange={checkButtonAndEnableSignUp}
-              disabled={!checkboxEnabled} 
+              disabled={!checkboxEnabled}
               onPress={checkButtonAndEnableSignUp}
               color={checked ? '#016e96' : undefined}
             />
@@ -179,14 +197,20 @@ export default function SignUp(params) {
           </Text>
         </View>
 
-        <View style={{ position: 'absolute', bottom: 15, width: '100%' }}>
+        <View style={{ position: 'absolute', bottom: 5, width: '100%' }}>
           <TouchableOpacity style={styles.button} disabled={!signUpEnabled} onPress={() => { navigation.navigate('OTPVerification') }}>
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
         </View>
-      
+
 
       </View>
+
+
+
+
+
+
 
       <StatusBar style="dark" />
     </View>
@@ -200,21 +224,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F8F8F8',
-    paddingTop: 22,
-    paddingRight: 22,
-    paddingLeft: 22,
-    paddingBottom: 0,
-
+    padding: 22,
+    height: '100%',
+    width: "100%",
   },
   view3: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     width: '100%',
+    marginBottom: 10,
+    alignItems: 'center'
   },
-  textSignup: {
-    fontSize: 35,
+  textVerification: {
+    fontSize: 23,
     fontFamily: 'Manrope_600SemiBold',
-    color: `black`,
   },
   textlogin: {
     fontSize: 19,
@@ -289,6 +312,6 @@ const pickerSelectStyles = StyleSheet.create({
     fontSize: 20,
     color: `#000`,
     width: '100%',
-    marginBottom: 50,
+    marginBottom: 40,
   },
 });

@@ -17,10 +17,8 @@ export default function Home(params) {
 
 
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  
 
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
-
 
   let [fontsLoaded] = useFonts({
 
@@ -48,7 +46,7 @@ export default function Home(params) {
 
         <View style={{ padding: 25, marginTop: 40 }}>
 
-          <Text style={{ marginTop: 50, marginBottom: 10, fontSize: 29, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>Transfer.</Text>
+          <Text style={{ marginTop: 50, marginBottom: 10, fontSize: 29, fontFamily: 'Manrope_800ExtraBold', color: `#383838` }}>Settings</Text>
 
           <View>
             <View style={[styles.currenciesContainer, styles.shadowProp]}>
@@ -114,7 +112,7 @@ export default function Home(params) {
               </View>
 
 
-              <TouchableOpacity style={styles.countriesContainer} >
+              <TouchableOpacity style={styles.countriesContainer}>
                 <View style={{ width: '20%' }}>
                   <View style={{ width: 45, heigth: 42 }}>
                     <Image style={styles.flag} source={require('../assets/ghana.png')} />
@@ -123,7 +121,6 @@ export default function Home(params) {
 
                 <Text style={styles.unnecessary2}>Ghana</Text>
               </TouchableOpacity>
-             
 
 
               <TouchableOpacity style={styles.countriesContainer}>

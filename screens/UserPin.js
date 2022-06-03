@@ -68,6 +68,10 @@ export default function UserPin(params) {
                     <Text style={styles.buttonText}>Get Advice</Text>
                 </TouchableOpacity>
 
+                <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("serverExample")}} title={"Get Advice"}>
+                    <Text style={styles.buttonText}> Move to Server Example</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate("Home")}} title={"Get Advice"}>
                     <Text style={styles.buttonText}> Move to Home Page</Text>
                 </TouchableOpacity>

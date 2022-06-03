@@ -33,7 +33,7 @@ export default function OTPVerification(params) {
     const [pin3, setPin3] = useState("");
     const [pin4, setPin4] = useState("");
 
-    const [lastPin, setLastPinEnabled] = useState(true);
+    const [lastPin, setLastPin] = useState(true);
     const [verifyEnabled, setVerifyEnabled] = useState(false);
 
    const enableVerifyButton = () => {
@@ -150,7 +150,7 @@ export default function OTPVerification(params) {
                             Didn't receive a code? <Text style={{color: 'black', textDecorationLine: 'underline'}}> Request again </Text>
                         </Text>
 
-                        <TouchableOpacity style={styles.button} disabled={!verifyEnabled} onPress={() => { navigation.navigate('UserPin')}}>
+                        <TouchableOpacity style={styles.button} disabled={!verifyEnabled} onPress={() => { navigation.navigate('Home')}}>
                             <Text style={styles.buttonText}> Verify and Create Account </Text>
                         </TouchableOpacity>
                     </ScrollView>
