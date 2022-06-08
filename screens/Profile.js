@@ -238,7 +238,7 @@ export default function Profile(params) {
                                 <Text style={styles.textInputLabel}>Email Address</Text>
                                 <TextInput style={styles.profileContainer}
                                     textContentType={"emailAddress"}
-                                    keyboardType="email"
+                                    keyboardType="email-address"
                                     placeholder={'User Email Address'}
                                     autoComplete={'true'}
                                     minLength={1}
