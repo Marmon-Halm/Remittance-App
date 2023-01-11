@@ -34,7 +34,7 @@
     "expo-status-bar": "~1.2.0",
     "expo-web-browser": "~10.1.0",
     "firebase": "^9.7.0",
-    "firebase-admin": "^10.1.0",
+    "firebase-admin": "^11.4.1",
     "install": "^0.13.0",
     "react": "17.0.1",
     "react-devtools": "^4.24.6",
