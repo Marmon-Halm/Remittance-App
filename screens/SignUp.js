@@ -1,9 +1,11 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView, Image } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import 'react-native-gesture-handler';
+import color from './color';
+import ghana from '../assets/ghana.png'
 import { TextInput } from 'react-native-gesture-handler';
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
@@ -24,6 +26,9 @@ export default function SignUp(params) {
   const [textInputEnabled, setTextInputEnabled] = useState(true);
   const [checkboxEnabled, setCheckboxEnabled] = useState(false);
   const [signUpEnabled, setSignUpEnabled] = useState(false);
+  const [active, SetActive] = useState();
+
+  
 
   const enableCheckBox = () => {
     setTextInputEnabled(true);
@@ -63,18 +68,14 @@ export default function SignUp(params) {
     <View style={styles.container}>
 
 
-      <View style={{ paddingTop: 40, marginBottom: 18 }}>
+      <View style={{ paddingTop: 40, marginBottom: 10 }}>
         <View style={styles.view3}>
-          <Ionicons name="arrow-back-outline" size={30} color='#4F4E53' onPress={() => {
+          <Ionicons name="arrow-back-outline" size={30} color='#000' onPress={() => {
             navigation.navigate("Login")
           }} />
-          <Text style={styles.textVerification}>
-            Sign Up
-          </Text>
+          
 
-          <Text style={{ color: '#F8F8F8' }}>
-            sasas
-          </Text>
+          
 
         </View>
       </View>
@@ -83,38 +84,52 @@ export default function SignUp(params) {
       <View style={{ height: '87%' }}>
 
 
-        <ScrollView>
+      <ScrollView>
           <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
             <View>
+              <Text style={styles.textItsfree}>Sign Up. It's free!</Text>
               <Text style={styles.textCountry}>Country</Text>
             </View>
-            <View >
-              <RNPickerSelect
 
-                style={{
-                  ...pickerSelectStyles,
-                  placeholder: {
-                    color: 'black'
-                  },
-                }}
-                placeholder={{
-                  label: "Country",
-                  value: null,
-                  color: 'black',
 
-                }}
-                placeholderTextColor={'black'}
-                onValueChange={(value) => console.log(value)}
-                items={[
-                  { label: 'Ghana', value: 'Ghana' },
-                  { label: 'Nigeria', value: 'Nigeria' },
-                ]}
-              />
+
+            <View style={{flexDirection: 'row', width: '100%', height: '12%', marginBottom: 40, borderBottomWidth: 2, borderBottomColor: '#5F5D5D' }}>
+
+                <View style={{ width: '15%', height: 40, margin: 5, }}>
+                   <Image source={ghana} style={{ width: '80%', height: '100%'}}/>
+                </View>
+
+                <View style={{width: '80%'}} >      
+                    <RNPickerSelect
+
+                      style={{
+                        ...pickerSelectStyles,
+                        placeholder: {
+                          label: 'Ghana',
+                          color: 'black'
+                        },
+                      }}
+                      placeholder={{
+                        label: "Country",
+                        value: null,
+                        color: 'black',
+
+                      }}
+                      placeholderTextColor={'black'}
+                      onValueChange={(value) => console.log(value)}
+                      items={[
+                        { label: 'Ghana', value: 'Ghana' },
+                        { label: 'Nigeria', value: 'Nigeria' },
+                      ]}
+                     
+                    />
             </View>
+            </View>
+            
 
 
             <View>
-              <Text style={styles.textlogin}>Your details </Text>
+              <Text style={styles.textlogin}>Your login details </Text>
             </View>
 
             <View
@@ -124,7 +139,7 @@ export default function SignUp(params) {
 
               <TextInput style={styles.textInput}
                 textContentType={"name"}
-                placeholder={'First Name'}
+                placeholder={'Username'}
                 autoComplete={'true'}
                 minLength={1}
                 label="FirstName"
@@ -132,15 +147,7 @@ export default function SignUp(params) {
                 keyboardAppearance={"light"}
               />
 
-              <TextInput style={styles.textInput}
-                textContentType={"name"}
-                placeholder={'Last Name'}
-                autoComplete={'true'}
-                label="LastName"
-                minLength={1}
-                placeholderTextColor={'black'}
-                keyboardAppearance={"light"}
-              />
+              
 
               <TextInput style={styles.textInput}
                 textContentType="telephoneNumber"
@@ -154,18 +161,9 @@ export default function SignUp(params) {
                 placeholderTextColor={'black'}
               />
 
-              <TextInput style={styles.textInput}
-                textContentType={"emailAddress"}
-                keyboardType={"email-address"}
-                keyboardAppearance={"light"}
-                minLength={1}
-                label="EmailAddress"
-                autoComplete={'true'}
-                placeholderTextColor={'black'}
-                placeholder={'Email Address'}
-              />
+              
 
-              <TextInput style={styles.textInput}
+              <TextInput style={styles.textInput1}
                 textContentType="password"
                 secureTextEntry={true}
                 autoComplete={'true'}
@@ -176,6 +174,9 @@ export default function SignUp(params) {
                 placeholder={"Password"}
                 placeholderTextColor={'black'}
                 keyboardAppearance="light" />
+                <Text style={styles.passwordRequire}>
+                  Your password should be at least 8 characters, and include 1 upper case letter and 1 number
+                </Text>
             </View>
 
           </KeyboardAvoidingView>
@@ -189,17 +190,21 @@ export default function SignUp(params) {
               onValueChange={checkButtonAndEnableSignUp}
               disabled={!checkboxEnabled}
               onPress={checkButtonAndEnableSignUp}
-              color={checked ? '#016e96' : undefined}
+              color={checked ? '#2D9B94' : undefined}
             />
           </View>
-          <Text style={{ fontSize: 17, width: '90%', fontFamily: 'Manrope_400Regular', paddingLeft: 5 }}>
-            Accept Remer's <Text style={{ color: '#016e96' }}>Terms and Conditions</Text> and <Text style={{ color: '#016e96' }}>Privacy Policy. </Text>
+          <Text style={{ fontSize: 15, width: '90%', fontFamily: 'Manrope_400Regular', paddingLeft: 5 }}>
+            By submitting this form, you accept NAME's <Text style={{ color: '#2D9B94' }}>Terms and Conditions</Text> and <Text style={{ color: '#2D9B94' }}>Privacy Policy. </Text>
           </Text>
         </View>
 
         <View style={{ position: 'absolute', bottom: 5, width: '100%' }}>
-          <TouchableOpacity style={styles.button} disabled={!signUpEnabled} onPress={() => { navigation.navigate('OTPVerification') }}>
-            <Text style={styles.buttonText}>Sign Up</Text>
+          <TouchableOpacity 
+          style={styles.button} 
+          disabled={!signUpEnabled}
+          onPress={() => { navigation.navigate('OTPVerification') }}
+          >
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
         </View>
 
@@ -207,7 +212,7 @@ export default function SignUp(params) {
       </View>
 
 
-
+          
 
 
 
@@ -228,11 +233,12 @@ const styles = StyleSheet.create({
     height: '100%',
     width: "100%",
   },
+  
   view3: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 0,
     alignItems: 'center'
   },
   textVerification: {
@@ -240,20 +246,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope_600SemiBold',
   },
   textlogin: {
-    fontSize: 19,
+    fontSize: 25,
     fontFamily: 'Manrope_700Bold',
-    color: `#016e96`,
+    color: `#2D9B94`,
+    marginBottom: 10,
   },
   textCountry: {
-    fontSize: 19,
+    fontSize: 25,
     fontFamily: 'Manrope_700Bold',
-    color: `#016e96`,
+    color: `#2D9B94`,
+    marginBottom: 10,
   },
   textItsfree: {
-    fontSize: 35,
-    fontFamily: 'Manrope_600SemiBold',
-    fontWeight: "700",
-    color: '#016e96',
+    fontSize: 30,
+    fontFamily: 'Manrope_700Bold',
+    color: '#000',
     marginBottom: 20,
   },
   text2: {
@@ -268,25 +275,43 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   button: {
-    flexDirection: 'row',
-    backgroundColor: '#016e96',
+    height: 62,
+    alignItems: 'center',
+    backgroundColor: '#000',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 10,
     justifyContent: 'center',
     width: '100%',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   textInput: {
     backgroundColor: 'transparent',
     paddingTop: 12,
     paddingBottom: 9,
-    fontFamily: 'Manrope_500Medium',
-    borderBottomWidth: 1.5,
-    borderBottomColor: 'gray',
+    fontFamily: 'Manrope_600SemiBold',
+    borderBottomWidth: 1,
+    borderBottomColor: '#838282',
     fontSize: 20,
     color: `#000`,
     width: '100%',
-    marginBottom: 27,
+    marginBottom: 20,
+  },
+  textInput1: {
+    backgroundColor: 'transparent',
+    paddingTop: 12,
+    paddingBottom: 9,
+    fontFamily: 'Manrope_600SemiBold',
+    borderBottomWidth: 1,
+    borderBottomColor: '#838282',
+    fontSize: 20,
+    color: `#000`,
+    width: '100%',
+    marginBottom: 10,
+  },
+  passwordRequire: {
+    fontSize: 15,
+    fontFamily: 'Manrope_500Medium',
+    color: '#838282',
   },
   buttonText: {
     color: `#fff`,
@@ -300,18 +325,38 @@ const styles = StyleSheet.create({
   },
 });
 
+const handleButtonChange = () => {
+  const styles = StyleSheet.create({
+
+    button: {
+      height: 62,
+      alignItems: 'center',
+      backgroundColor: '#000',
+      padding: 12,
+      borderRadius: 8,
+      justifyContent: 'center',
+      width: '100%',
+      marginBottom: 10,
+    },
+    buttonText: {
+      color: `#3E3B3B`,
+      fontSize: 20,
+      fontFamily: 'Manrope_700Bold',
+    },
+  });
+
+  styles;
+}
+
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
+    
     backgroundColor: 'transparent',
     paddingTop: 12,
-    paddingBottom: 12,
-    fontFamily: 'Manrope_500Medium',
-    borderBottomWidth: 1.5,
-    borderBottomColor: 'gray',
-    fontSize: 20,
+    fontFamily: 'Manrope_700Bold',
+    fontSize: 23,
     color: `#000`,
     width: '100%',
-    marginBottom: 40,
   },
 });

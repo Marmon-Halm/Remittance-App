@@ -8,7 +8,7 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Dimensions,
+    useWindowDimensions,
 } from 'react-native';
 import color from './color';
 import AppLoading from 'expo-app-loading';
@@ -18,47 +18,62 @@ import {  Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, M
 
 
 
-const { width, height } = Dimensions.get('window');
+
 
 
 // slides
 const slides = [
     {
         id: '1',
-        image: require('../assets/ima3.png'),
-        title: 'Remer',
-        subtitle: 'Safe and Secure International Money Transfer',
+        image: require('../assets/img1.png'),
+        title: 'TRIP PLANNING',
+        description: 'Order a rides based on load type by selecting the vehicle type to transport load',
     },
     {
         id: '2',
-        image: require('../assets/ima4.png'),
-        title: 'Send money globally',
-        subtitle: 'Send money to anyone anywhere',
+        image: require('../assets/img2.png'),
+        title: 'ROUTE OPTIMIZATION',
+        description: 'Using algorithms to provide best routes for trip to provide the shortest possible time to complete trips',
     },
     {
         id: '3',
-        image: require('../assets/ima5.png'),
-        title: 'Stay worry-free',
-        subtitle: 'The safety of your money and information is assured',
+        image: require('../assets/img3.png'),
+        title: 'SAFE & SECURE TRIPS',
+        description: 'Trips are fully secure and tracked providing real-time update',
     },
     {
         id: '4',
-        image: require('../assets/ima6.png'),
-        title: 'Always be in CONTROL',
-        subtitle: "Choose your send & receive method and track your transfer at any time",
+        image: require('../assets/img4.png'),
+        title: 'HELP CENTER',
+        description: "You can reach our team through the help center. Click to get started!",
     },
 ];
 
 const Slide = ({ item }) => {
-    return <View style={{ alignItems: "center" }}>
-        <Image source={item.image} style={{ height: "75%", width, resizeMode: "contain" }} />
+
+    const { width } = useWindowDimensions();
+    return (
+
+    <View style={[styles.container, { width }]}>
+
+
+      <Image source={item.image} style={[styles.image, { width, resizeMode: 'contain'}]}/>
+        <View style={{ flex: 0.3}}>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>{item.subtitle}</Text>
+        <Text style={styles.description}>{item.description}</Text>
+        </View>
+
+
+
+        
+
     </View>
+    )
 };
 
 function OnBoarding({ navigation }) {
 
+    const { width, height } = useWindowDimensions();
 
     const [currentSlideIndex, setCurrentSlideIndex] = React.useState(0)
     const ref = React.useRef(null);
@@ -72,7 +87,7 @@ function OnBoarding({ navigation }) {
 
                 {slides.map((_, index) => (
                     <View key={index} style={[styles.indicator, currentSlideIndex == index && {
-                        backgroundColor: color.little,
+                        backgroundColor: color.killed,
                         width: 25,
                     }]} />
                 ))}
@@ -157,13 +172,13 @@ function OnBoarding({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
               <StatusBar style="dark" />
-            <FlatList data={slides} contentContainerStyle={{ height: height * 0.8 }}
+            <FlatList data={slides} 
                 ref={ref}
                 onMomentumScrollEnd={updateCurrentSlideIndex}
                 pagingEnabled
                 horizontal
-                showsHorizontalScrollIndicator={false}
-                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator
+                bounces={false}
                 renderItem={({ item }) => <Slide item={item} />} />
 
             <Footer />
@@ -175,48 +190,52 @@ function OnBoarding({ navigation }) {
 // stylesheet
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 30,
-        marginTop: -50,
-        textAlign: "center",
-        fontFamily: 'Manrope_600SemiBold',
+    image: {
+        flex: 0.7,
+        justifyContent: "center"
     },
-    subtitle: {
-        fontSize: 15,
-        marginTop: 20,
-        maxWidth: "80%",
-        textAlign: "center",
-        lineHeight: 25,
+    title: {
+        fontSize:  30,
+        marginBottom: 15,
+        color: '#2D9B94',
+        textAlign: 'center',
+        fontFamily: 'Manrope_700Bold',
+    },
+    description: {
+        fontSize: 18,
+        color: '#000',
+        textAlign: 'center',
+        paddingHorizontal: 54,
         fontFamily: 'Manrope_600SemiBold',
     },
     indicator: {
-        height: 4,
+        height: 6,
         width: 10,
         backgroundColor: color.grey,
         marginHorizontal: 3,
-        borderRadius: 2,
+        borderRadius: 4,
     },
     btnSkip: {
         flex: 1,
         backgroundColor: `#016e96`,
         padding: 12,
-        borderRadius: 8,
+        borderRadius: 10,
         justifyContent: 'center',
         alignItems: "center"
     },
     btnNext: {
         flex: 1,
-        backgroundColor: `#016e96`,
+        backgroundColor: `#000`,
         padding: 15,
-        borderRadius: 8,
+        borderRadius: 10,
         justifyContent: 'center',
         alignItems: "center"
     },
     btnGT: {
         flex: 1,
-        backgroundColor: `#016e96`,
+        backgroundColor: `#000`,
         padding: 16,
-        borderRadius: 8,
+        borderRadius: 10,
         justifyContent: 'center',
         alignItems: "center"
     },

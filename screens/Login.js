@@ -76,7 +76,6 @@ export default function Login(params) {
         textContentType={"emailAddress"}
         keyboardType={"email-address"}
         keyboardAppearance={"light"}
-        autoComplete={'true'}
         placeholderTextColor={'black'}
         placeholder={'Email Address'}
       />
@@ -87,7 +86,6 @@ export default function Login(params) {
         textContentType="password"
         secureTextEntry={true}
         disabled={!passwordInput}
-        autoComplete={'true'}
         onChange={enableFunction}
       
         placeholderTextColor={'black'}

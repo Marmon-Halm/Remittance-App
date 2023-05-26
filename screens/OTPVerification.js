@@ -48,12 +48,13 @@ export default function OTPVerification(params) {
 
     return (
         <View style={styles.container}>
-            <View style={{ paddingTop: 40, marginBottom: 38, width: '100%' }}>
+            <View style={{ paddingTop: 40, marginBottom: 15, width: '100%' }}>
 
                 <View style={styles.view3}>
-                    <Ionicons name="arrow-back-outline" size={30} color='#4F4E53' onPress={() => {
+                    <Ionicons name="arrow-back-outline" size={30} color='#000' onPress={() => {
                         navigation.navigate("SignUp")
                     }} />
+                    
                     <Text style={styles.textVerification}>
                         Verify Phone
                     </Text>
@@ -68,22 +69,32 @@ export default function OTPVerification(params) {
 
             <View style={{ alignItems: 'center' }}>
 
-                <View style={styles.optionsContainer}>
-                    <View style={{ height: '15%', width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.textSentToNumber}>
                             Code is sent to  *** *** *XXX
                         </Text>
 
                     </View>
-                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}
-                        keyboardShouldPersistTaps='handled'>
 
+                {/* <View style={styles.optionsContainer}>
+                    
+                  
 
                         <View style={{ height: '40%', width: '100%', flexDirection: 'column', justifyContent: 'flex-end', marginBottom: 10}}>
                            
-                            <View>
-                                <KeyboardAvoidingView behavior={'height'} keyboardVerticalOffset={73 + 50}>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                             
+                        </View>
+
+                        
+
+
+                       
+
+                </View> */}
+
+
+               
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', margin: 60, padding: 0 }}>
 
                                         <TextInput style={styles.textInput}
                                             ref={pin1Ref}
@@ -134,28 +145,27 @@ export default function OTPVerification(params) {
                                             ref={pin4Ref}
                                             maxLength={1}
                                             blurOnSubmit={false}
-                                            onChange={enableVerifyButton}
+                                            onChange={(pin3) => {
+                                                setPin3(pin3);
+                                                if (pin3 !== null) {
+                                                    enableVerifyButton();
+                                                }
+                                            }}
                                             keyboardType={"number-pad"}
                                             disabled={!lastPin}
                                             keyboardAppearance="light"
                                         >
                                         </TextInput>
                                     </View>
-                                </KeyboardAvoidingView>
-                            </View>
 
-                        </View>
 
-                        <Text style={styles.textCodeRequest}>
-                            Didn't receive a code? <Text style={{color: 'black', textDecorationLine: 'underline'}}> Request again </Text>
+                <Text style={styles.textCodeRequest}>
+                            Didn't receive a code? <Text style={{color: '#2D9B94'}}> Request again </Text>
                         </Text>
 
-                        <TouchableOpacity style={styles.button} disabled={!verifyEnabled} onPress={() => { navigation.navigate('Home')}}>
-                            <Text style={styles.buttonText}> Verify and Create Account </Text>
-                        </TouchableOpacity>
-                    </ScrollView>
-
-                </View>
+                <TouchableOpacity style={styles.button} disabled={!verifyEnabled} onPress={() => { navigation.navigate('Home')}}>
+                        <Text style={styles.buttonText}> Verify and Create Account </Text>
+                    </TouchableOpacity>
 
             </View>
 
@@ -182,22 +192,22 @@ const styles = StyleSheet.create({
     },
     button: {
         flexDirection: 'row',
-        backgroundColor: `#016e96`,
+        backgroundColor: `#000`,
         padding: 15,
         borderRadius: 12,
         justifyContent: 'center',
-        width: '100%',
+        width: '95%',
     },
     buttonText: {
         color: `#fff`,
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: 'Manrope_600SemiBold',
     },
     optionsContainer: {
         flexDirection: 'column',
         height: 350,
         width: '90%',
-        backgroundColor: `#F0F0F0`,
+        backgroundColor: `#000`,
         padding: 20,
         borderRadius: 15,
         flexWrap: 'wrap'
@@ -208,23 +218,23 @@ const styles = StyleSheet.create({
     },
     textSentToNumber: {
         fontSize: 23,
-        color: 'gray',
-        fontFamily: 'Manrope_500Medium',
+        color: '#585656',
+        fontFamily: 'Manrope_600SemiBold',
     },
     textCodeRequest: {
-        fontSize: 18,
-        color: 'gray',
-        fontFamily: 'Manrope_500Medium',
-        marginBottom: 50,
+        fontSize: 17,
+        color: '#585656',
+        fontFamily: 'Manrope_600SemiBold',
+        marginBottom: 15,
     },
     textInput: {
-        width: '22%',
-        backgroundColor: `#D8D8D8`,
+        width: '20%',
+        backgroundColor: `#EFEFEF`,
         borderBottomWidth: 3,
-        borderBottomColor: 'lightgray',
+        borderBottomColor: '#DAD9E2',
         borderRadius: 13,
         height: 60,
-        fontSize: 38,
+        fontSize: 35,
         textAlign: 'center'
     },
    

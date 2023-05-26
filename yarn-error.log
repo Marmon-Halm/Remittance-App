@@ -1,30 +1,30 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\EbenArkoh\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-gsture-handler
+  C:\Program Files\nodejs\node.exe C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\bin\yarn.js add expo@^48.0.0
 
 PATH: 
-  C:\Python310\Scripts\;C:\Python310\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk-15.0.2\bin;C:\Program Files\dotnet\;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin\;C:\Program Files\IVI Foundation\VISA\Win64\Bin\;C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\EbenArkoh\AppData\Local\Microsoft\WindowsApps;C:\Users\EbenArkoh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\EbenArkoh\.dotnet\tools;C:\Users\EbenArkoh\AppData\Local\GitHubDesktop\bin;C:\Users\EbenArkoh\AppData\Roaming\npm
+  C:\app\oracle\product\12.2.0\dbhome_1\bin;C:\app\micha\product\12.1.0\dbhome_2\bin;C:\app\micha\product\12.1.0\dbhome_1\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\micha\AppData\Local\Microsoft\WindowsApps;;C:\Users\micha\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\micha\AppData\Roaming\npm;C:\Users\micha\.dotnet\tools
 
 Yarn version: 
-  1.22.18
+  1.22.19
 
 Node version: 
-  14.18.0
+  16.15.1
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-gsture-handler: Not found
-      at Request.params.callback [as _callback] (C:\Users\EbenArkoh\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66138:18)
-      at Request.self.callback (C:\Users\EbenArkoh\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140883:22)
-      at Request.emit (events.js:400:28)
-      at Request.<anonymous> (C:\Users\EbenArkoh\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141855:10)
-      at Request.emit (events.js:400:28)
-      at IncomingMessage.<anonymous> (C:\Users\EbenArkoh\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141777:12)
-      at Object.onceWrapper (events.js:519:28)
-      at IncomingMessage.emit (events.js:412:35)
-      at endReadableNT (internal/streams/readable.js:1334:12)
-      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+  Invariant Violation: expected hoisted manifest for "babel-preset-expo#metro-react-native-babel-preset#@babel/core#@babel/helper-compilation-targets#browserslist"
+      at invariant (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:2318:15)
+      at _loop2 (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:91029:9)
+      at PackageHoister.init (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:91099:19)
+      at PackageLinker.getFlatHoistedTree (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:48549:20)
+      at PackageLinker.<anonymous> (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:48560:27)
+      at Generator.next (<anonymous>)
+      at step (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:310:30)
+      at C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:328:14
+      at new Promise (<anonymous>)
+      at new F (C:\Users\micha\AppData\Local\node\corepack\yarn\1.22.19\lib\cli.js:5305:28)
 
 npm manifest: 
   {
@@ -72,7 +72,7 @@ npm manifest:
       "react-native-animatable": "^1.3.3",
       "react-native-check-box": "^2.1.7",
       "react-native-elements": "^3.4.2",
-      "react-native-gesture-handler": "^2.4.2",
+      "react-native-gesture-handler": "~2.1.0",
       "react-native-google-fonts": "^0.0.0",
       "react-native-modal": "^13.0.1",
       "react-native-modest-checkbox": "^3.3.0",
@@ -6682,10 +6682,10 @@ Lockfile:
       react-native-ratings "8.0.4"
       react-native-size-matters "^0.3.1"
   
-  react-native-gesture-handler@^2.4.2:
-    version "2.4.2"
-    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.4.2.tgz#de93760b0bc251d94e8ae692f9850ec3ed2e4f27"
-    integrity sha512-K3oMiQV7NOVB5RvNlxkyJxU1Gn6m1cYu53MoFA542FVDSTR491d1eQkWDdqy4lW52rfF7IK7eE1LCi+kTJx7jw==
+  react-native-gesture-handler@~2.1.0:
+    version "2.1.3"
+    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.1.3.tgz#b96f1e61932d5062cb1023259e1649d65f78338b"
+    integrity sha512-y5W2MVB+J6vjIT/mUidDv0BqVRbWXn0cP7R2o6fsSYsHh9M0btT979+bCI7nPuhmRHjkhg5xCm4HNMIH0IQO4w==
     dependencies:
       "@egjs/hammerjs" "^2.0.17"
       hoist-non-react-statics "^3.3.0"

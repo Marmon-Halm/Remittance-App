@@ -3,7 +3,7 @@ export default{
     secondary:"#4ecdc4",
     killed:"#000000",
     white:"#fff",
-    grey:"#808080",
+    grey:"#C2C2C2",
     sea:"#90b8f8",
     little:"#016e96"
 }
