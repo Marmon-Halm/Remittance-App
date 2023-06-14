@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
     indicator: {
         height: 6,
         width: 10,
-        backgroundColor: color.grey,
         marginHorizontal: 3,
         borderRadius: 4,
     },

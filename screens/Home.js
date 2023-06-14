@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import Modal from "react-native-modal";
+import {getAuth, signOut } from 'firebase/auth';
 
 
 
@@ -197,7 +198,7 @@ export default function Home(params) {
 
 
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <AntDesign name="bars" size={28} color="black" onPress={() => { navigation.navigate("Transaction") }} />
+            <AntDesign name="bars" size={28} color="black" onPress={() => { navigation.navigate("Trips") }} />
             <Text style={styles.iconViewText}>Transactions</Text>
           </View>
 

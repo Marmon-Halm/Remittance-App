@@ -1,16 +1,35 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, KeyboardAvoidingView, Image, ActivityIndicator, Platform } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import 'react-native-gesture-handler';
-import color from './color';
 import ghana from '../assets/ghana.png'
 import { TextInput } from 'react-native-gesture-handler';
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
 import RNPickerSelect from 'react-native-picker-select';
+import { firebase, firebaseConfig } from '../firebase-Config';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import MainContainer from '../componets/Containers/MainContainer';
+import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
+import RegularTexts from '../componets/Texts/RegularTexts';
+import StyledTextInput from '../componets/Inputs/StyledTextInput';
+import MsgText from '../componets/Texts/MsgText';
+import RegularButton from '../componets/Buttons/RegularButton';
+import { Formik } from 'formik';
+import { color } from '../screens/color';
+import BigTexts from '../componets/Texts/BigTexts';
+import TitleText from '../componets/Texts/TitleText';
+import SmallTexts from '../componets/Texts/SmallTexts';
+import RowContainer from '../componets/Containers/RowContainer';
+import { styled } from 'styled-components/native';
+import { Feather } from '@expo/vector-icons';
+const { primary, sea, white, little, killed, grey } = color;
+
+
 
 
 
@@ -18,9 +37,17 @@ import RNPickerSelect from 'react-native-picker-select';
 
 export default function SignUp(params) {
 
-  const [password, setPassword] = useState('');
 
   const [checked, toggleChecked] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
 
 
   const [textInputEnabled, setTextInputEnabled] = useState(true);
@@ -28,21 +55,43 @@ export default function SignUp(params) {
   const [signUpEnabled, setSignUpEnabled] = useState(false);
   const [active, SetActive] = useState();
 
-  
+
+
+  const RightIcon = styled.TouchableOpacity`
+    position: absolute;
+    right: 16px;
+    z-index: 1;
+`;
 
   const enableCheckBox = () => {
-    setTextInputEnabled(true);
     setCheckboxEnabled(true);
-  }
+  };
+
 
   const checkButtonAndEnableSignUp = () => {
-    setSignUpEnabled(true);
     toggleChecked(true);
-  }
+
+  };
+
+  const [message, setMessage] = useState('');
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
 
+  const handleLogin = async (credentials, setSubmitting) => {
+    try {
+      setMessage(null);
 
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
+      // call backend
+
+      //move to next page
+
+      setSubmitting(false);
+
+    } catch (error) {
+      setMessage('Login failed: ' + error.message);
+      setSubmitting(false)
+    }
+  };
 
 
   const navigation = params.navigation;
@@ -60,167 +109,149 @@ export default function SignUp(params) {
   }
 
 
-  return (
+
+  return <MainContainer>
+    <AntDesign name="arrowleft" size={30} color="black" onPress={() => {
+      navigation.navigate("Login")
+    }} />
 
 
+    <KeyboardAvoiding>
+      <BigTexts style={{ marginBottom: 25, marginTop: 10 }}>Sign up. It's free!</BigTexts>
+      <TitleText >Country</TitleText>
 
+      <View style={styles.pickerView}>
 
-    <View style={styles.container}>
-
-
-      <View style={{ paddingTop: 40, marginBottom: 10 }}>
-        <View style={styles.view3}>
-          <Ionicons name="arrow-back-outline" size={30} color='#000' onPress={() => {
-            navigation.navigate("Login")
-          }} />
-          
-
-          
-
+        <View style={{ width: 27, height: 22, }}>
+          <Image source={ghana} style={{ width: '80%', height: '100%' }} />
         </View>
+
+        <View style={{ width: '80%' }} >
+          <RNPickerSelect
+
+            style={{
+              ...pickerSelectStyles,
+              placeholder: {
+                color: 'black'
+              },
+            }}
+            placeholder={{
+              label: "Ghana",
+              value: 'Ghana',
+              color: 'black',
+
+            }}
+            placeholderTextColor={'black'}
+            onValueChange={(value) => console.log(value)}
+            items={[
+              { label: 'Nigeria', value: 'Nigeria' },
+            ]}
+
+          />
+        </View>
+
+        <RightIcon>
+          <Feather name={'chevron-down'} size={18} color="#7A7A7A" />
+        </RightIcon>
+
       </View>
 
-
-      <View style={{ height: '87%' }}>
-
-
-      <ScrollView>
-          <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
-            <View>
-              <Text style={styles.textItsfree}>Sign Up. It's free!</Text>
-              <Text style={styles.textCountry}>Country</Text>
-            </View>
+      <TitleText style={{ marginTop: 40 }}>Your login details</TitleText>
 
 
 
-            <View style={{flexDirection: 'row', width: '100%', height: '12%', marginBottom: 40, borderBottomWidth: 2, borderBottomColor: '#5F5D5D' }}>
-
-                <View style={{ width: '15%', height: 40, margin: 5, }}>
-                   <Image source={ghana} style={{ width: '80%', height: '100%'}}/>
-                </View>
-
-                <View style={{width: '80%'}} >      
-                    <RNPickerSelect
-
-                      style={{
-                        ...pickerSelectStyles,
-                        placeholder: {
-                          label: 'Ghana',
-                          color: 'black'
-                        },
-                      }}
-                      placeholder={{
-                        label: "Country",
-                        value: null,
-                        color: 'black',
-
-                      }}
-                      placeholderTextColor={'black'}
-                      onValueChange={(value) => console.log(value)}
-                      items={[
-                        { label: 'Ghana', value: 'Ghana' },
-                        { label: 'Nigeria', value: 'Nigeria' },
-                      ]}
-                     
-                    />
-            </View>
-            </View>
-            
-
-
-            <View>
-              <Text style={styles.textlogin}>Your login details </Text>
-            </View>
-
-            <View
-              behavior='padding'
-              keyboardVerticalOffset={-64}
-            >
-
-              <TextInput style={styles.textInput}
-                textContentType={"name"}
-                placeholder={'Username'}
-                autoComplete={'true'}
-                minLength={1}
-                label="FirstName"
-                placeholderTextColor={'black'}
-                keyboardAppearance={"light"}
-              />
-
-              
-
-              <TextInput style={styles.textInput}
-                textContentType="telephoneNumber"
-                keyboardType="phone-pad"
-                autoComplete={'true'}
-                minLength={1}
-                label="PhoneNumber"
-                maxLength={10}
-                keyboardAppearance="light"
-                placeholder={'Phone Number'}
-                placeholderTextColor={'black'}
-              />
-
-              
-
-              <TextInput style={styles.textInput1}
-                textContentType="password"
-                secureTextEntry={true}
-                autoComplete={'true'}
-                label="Password"
-                minLength={8}
-                disabled={!textInputEnabled}
-                onChange={enableCheckBox}
-                placeholder={"Password"}
-                placeholderTextColor={'black'}
-                keyboardAppearance="light" />
-                <Text style={styles.passwordRequire}>
-                  Your password should be at least 8 characters, and include 1 upper case letter and 1 number
-                </Text>
-            </View>
-
-          </KeyboardAvoidingView>
-        </ScrollView>
-
-
-        <View style={{ flexDirection: 'row', position: 'absolute', bottom: 90, width: '100%', alignItems: 'center' }}>
-          <View style={styles.checkboxContainer}>
-            <Checkbox
-              value={checked}
-              onValueChange={checkButtonAndEnableSignUp}
-              disabled={!checkboxEnabled}
-              onPress={checkButtonAndEnableSignUp}
-              color={checked ? '#2D9B94' : undefined}
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={(values, { setSubmitting }) => {
+          if (values.email == "" || values.phoneNumber == "" || values.password) {
+            setMessage('Please enter your details');
+            setSubmitting(false);
+          } else {
+            handleLogin(values, setSubmitting);
+          }
+        }}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+          <>
+            <StyledTextInput
+              icon="mail"
+              placeholder="Email Address"
+              keyboardType="email-address"
+              autoCapitalize='none'
+              autoCorrect={false}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              enablesReturnKeyAutomatically={true}
+              keyboardAppearance="light"
+              value={values.email}
             />
-          </View>
-          <Text style={{ fontSize: 15, width: '90%', fontFamily: 'Manrope_400Regular', paddingLeft: 5 }}>
-            By submitting this form, you accept NAME's <Text style={{ color: '#2D9B94' }}>Terms and Conditions</Text> and <Text style={{ color: '#2D9B94' }}>Privacy Policy. </Text>
-          </Text>
-        </View>
 
-        <View style={{ position: 'absolute', bottom: 5, width: '100%' }}>
-          <TouchableOpacity 
-          style={styles.button} 
-          disabled={!signUpEnabled}
-          onPress={() => { navigation.navigate('OTPVerification') }}
-          >
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        </View>
+            <StyledTextInput
+              icon="phone"
+              placeholder="Phone Number"
+              keyboardType="phone-pad"
+              keyboardAppearance="light"
+              inputMode='numeric'
+              minLength={1}
+              maxLength={12}
+            />
+
+            <StyledTextInput
+              icon="key"
+              placeholder="Password"
+              onChangeText={handleChange('password')}
+              onChange={enableCheckBox}
+              onBlur={handleBlur('password')}
+              autoCapitalize='none'
+              autoCorrect={false}
+              isPassword={true}
+              minLength={8}
+              keyboardAppearance="light"
+              value={values.password}
+            />
+
+            <SmallTexts style={{ marginTop: 10 }}>Your password should be at least 8 characters, and include 1 upper case letter and 1 number</SmallTexts>
 
 
-      </View>
+            <MsgText
+              style={{ marginVertical: 20 }}
+              success={isSuccessMessage}>
+              {message || ""}
+            </MsgText>
+
+            <RowContainer>
+              <View style={{ marginRight: 8 }}>
+                <Checkbox
+                  value={checked}
+                  onValueChange={checkButtonAndEnableSignUp}
+                  disabled={!checkboxEnabled}
+                  onPress={checkButtonAndEnableSignUp}
+                  color={checked ? '#000' : undefined}
+                />
+              </View>
+              <RegularTexts style={{ fontSize: 15 }}>By submitting this form, you accept NAME's <RegularTexts style={{ color: primary, fontSize: 15 }}>Terms and Conditions</RegularTexts> and <RegularTexts style={{ color: primary, fontSize: 15 }}>Privacy Policy</RegularTexts></RegularTexts>
+
+            </RowContainer>
+
+            {!isSubmitting && <RegularButton onPress={handleSubmit}>Register</RegularButton>}
+            {isSubmitting && (
+              <RegularButton>
+                <ActivityIndicator size="small" color={white} />
+              </RegularButton>
+            )}
 
 
-          
-
-
-
+          </>
+        )}
+      </Formik>
 
       <StatusBar style="dark" />
-    </View>
-  );
+
+    </KeyboardAvoiding>
+  </MainContainer>
 }
+
+
 
 
 
@@ -228,12 +259,12 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#fff',
     padding: 22,
     height: '100%',
     width: "100%",
   },
-  
+
   view3: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -241,121 +272,35 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     alignItems: 'center'
   },
-  textVerification: {
-    fontSize: 23,
-    fontFamily: 'Manrope_600SemiBold',
-  },
-  textlogin: {
-    fontSize: 25,
-    fontFamily: 'Manrope_700Bold',
-    color: `#2D9B94`,
-    marginBottom: 10,
-  },
-  textCountry: {
-    fontSize: 25,
-    fontFamily: 'Manrope_700Bold',
-    color: `#2D9B94`,
-    marginBottom: 10,
-  },
-  textItsfree: {
-    fontSize: 30,
-    fontFamily: 'Manrope_700Bold',
-    color: '#000',
-    marginBottom: 20,
-  },
-  text2: {
-    fontSize: 32,
-    fontWeight: "500",
-    marginTop: 25,
-    marginBottom: 35,
-  },
-  text3: {
-    fontSize: 32,
-    fontWeight: "100",
-    marginTop: 25,
-  },
-  button: {
-    height: 62,
-    alignItems: 'center',
-    backgroundColor: '#000',
-    padding: 12,
-    borderRadius: 10,
-    justifyContent: 'center',
-    width: '100%',
-    marginBottom: 10,
-  },
-  textInput: {
-    backgroundColor: 'transparent',
-    paddingTop: 12,
-    paddingBottom: 9,
-    fontFamily: 'Manrope_600SemiBold',
-    borderBottomWidth: 1,
-    borderBottomColor: '#838282',
-    fontSize: 20,
-    color: `#000`,
-    width: '100%',
-    marginBottom: 20,
-  },
-  textInput1: {
-    backgroundColor: 'transparent',
-    paddingTop: 12,
-    paddingBottom: 9,
-    fontFamily: 'Manrope_600SemiBold',
-    borderBottomWidth: 1,
-    borderBottomColor: '#838282',
-    fontSize: 20,
-    color: `#000`,
-    width: '100%',
-    marginBottom: 10,
-  },
-  passwordRequire: {
-    fontSize: 15,
+  pickerView: {
+    fontSize: 18,
+    flexDirection: 'row',
     fontFamily: 'Manrope_500Medium',
-    color: '#838282',
-  },
-  buttonText: {
-    color: `#fff`,
-    fontSize: 20,
-    fontFamily: 'Manrope_700Bold',
+    height: 55,
+    alignItems: 'center',
+    marginTop: 15,
+    color: '#0000',
+    paddingLeft: 16,
+    paddingRight: 55,
+    borderRadius: 10,
+    backgroundColor: color.grey,
   },
   checkboxContainer: {
-    flexDirection: 'row',
     justifyContent: 'center',
-    width: '10%',
+    alignContent: 'center',
+    width: '7%',
   },
 });
 
-const handleButtonChange = () => {
-  const styles = StyleSheet.create({
-
-    button: {
-      height: 62,
-      alignItems: 'center',
-      backgroundColor: '#000',
-      padding: 12,
-      borderRadius: 8,
-      justifyContent: 'center',
-      width: '100%',
-      marginBottom: 10,
-    },
-    buttonText: {
-      color: `#3E3B3B`,
-      fontSize: 20,
-      fontFamily: 'Manrope_700Bold',
-    },
-  });
-
-  styles;
-}
 
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    
+
     backgroundColor: 'transparent',
-    paddingTop: 12,
-    fontFamily: 'Manrope_700Bold',
-    fontSize: 23,
+    fontFamily: 'Manrope_500Medium',
+    paddingLeft: 7,
+    fontSize: 18,
     color: `#000`,
     width: '100%',
   },

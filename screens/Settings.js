@@ -14,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import AppLoading from 'expo-app-loading';
+import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -23,7 +25,7 @@ export default function Profile(params) {
 
     const [isModalVisible2, setIsModalVisible2] = useState(false);
     const [isModalVisible3, setIsModalVisible3] = useState(false);
-    const [isModalVisible4, setIsModalVisible4] = useState(false); 
+    const [isModalVisible4, setIsModalVisible4] = useState(false);
 
     const handleModal1 = () => setIsModalVisible2(() => !isModalVisible2);
     const handleModal2 = () => setIsModalVisible3(() => !isModalVisible3);
@@ -54,137 +56,95 @@ export default function Profile(params) {
 
     return (
 
-        <ImageBackground source={require("../assets/background.png")} resizeMode="cover" style={styles.image}>
 
-            <View style={styles.container}>
 
-                <View style={{ padding: 22 }}>
-                    <View style={{ marginTop: 90 }}>
-                        <Text style={{ marginBottom: 20, fontSize: 29, fontFamily: 'Manrope_700Bold', color: `#383838` }}>
-                            Profile
-                        </Text>
+        <View style={styles.container}>
+
+
+            <View style={{ paddingTop: 50, paddingBottom: 10, paddingHorizontal: 22, marginBottom: 0, width: '100%', borderBottomWidth: 0.5, borderBottomColor: "#C2C2C2" }}>
+                <View style={styles.view3}>
+                    <AntDesign name="arrowleft" size={24} color="black" onPress={() => {
+                        navigation.navigate("Home")
+                    }} />
+
+                    <Text style={styles.textSettings}>
+                        Settings
+                    </Text>
+
+                    <Text style={{ color: '#F8F8F8' }}>
+                        sasas
+                    </Text>
+                </View>
+            </View>
+
+            <View style={{ padding: 22, }}>
+
+
+
+
+
+                <View style={{ width: '100%', alignItems: 'center', marginBottom: 35 }}>
+                    <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
+                        <AntDesign name="adduser" size={40} color="#787878" />
                     </View>
 
-                    <TouchableOpacity style={styles.categoryContainer} onPress={handleModal1}>
+                    <Text style={styles.profileText}>James Obeng</Text>
+                    <Text style={styles.profileText2}>+233 50 578 0528</Text>
+
+                </View>
+
+                <View style={{ marginBottom: 50 }}>
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("EditProfile") }}>
                         <View style={{ width: '11%' }}>
                             <Ionicons
                                 name="create-outline"
-                                size={30}
-                                color="#383838"
+                                size={28}
+                                color="#2D9B94"
                             />
                         </View>
 
-                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <View style={{ width: '70%', paddingLeft: 7 }}>
                             <Text style={styles.categoryText}>
-                                Edit profile
+                                Edit Profile
                             </Text>
                         </View>
 
                         <View style={{ width: '19%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="arrow-forward-outline"
-                                size={28}
-                                color="#383838"
-                            />
+                            <Feather name="chevron-right" size={24} color="black" />
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.categoryContainer} >
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Trips") }}>
                         <View style={{ width: '12%' }}>
-                            <Ionicons
-                                name="help-circle-outline"
-                                size={30}
-                                color="#383838"
-                            />
+                            <MaterialIcons name="history" size={28} color="#2D9B94" />
                         </View>
 
-                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                        <View style={{ width: '70%', paddingLeft: 7 }}>
                             <Text style={styles.categoryText}>
-                                Help & Support
-                            </Text>
-                        </View>
-
-                       { <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="arrow-forward-outline"
-                                size={28}
-                                color="#383838"
-                            />
-                        </View>}
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.categoryContainer} onPress={handleModal2}>
-                        <View style={{ width: '12%' }}>
-                            <Ionicons
-                                name="receipt-outline"
-                                size={28}
-                                color="#383838"
-                            />
-                        </View>
-
-                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={styles.categoryText}>
-                                My Reciepients
+                                History
                             </Text>
                         </View>
 
                         <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="arrow-forward-outline"
-                                size={28}
-                                color="#383838"
-                            />
+                            <Feather name="chevron-right" size={24} color="black" />
+
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.categoryContainer} onPress={handleModal3} >
-                        <View style={{ width: '12%' }}>
-                            <Ionicons
-                                name="settings-outline"
-                                size={30}
-                                color="#383838"
-                            />
-                        </View>
 
-                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={styles.categoryText}>
-                                Settings
-                            </Text>
-                        </View>
+                </View>
 
-                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="arrow-forward-outline"
-                                size={28}
-                                color="#383838"
-                            />
-                        </View>
+
+
+                <View style={{ alignItems: 'center', width: '100%' }}>
+                    <TouchableOpacity>
+                        <Text style={styles.logout}>Logout</Text>
                     </TouchableOpacity>
+                </View>
 
-                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Login") }}>
-                        <View style={{ width: '12%' }}>
-                            <Ionicons
-                                name="log-out-outline"
-                                size={30}
-                                color="#383838"
-                            />
-                        </View>
 
-                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <Text style={styles.categoryText}>
-                                Log out
-                            </Text>
-                        </View>
-                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Ionicons
-                                name="arrow-forward-outline"
-                                size={28}
-                                color="#383838"
-                            />
-                        </View>
-                    </TouchableOpacity>
 
-                    <View>
+                {/* <View>
                         <Modal isVisible={isModalVisible2} style={styles.modal}>
                             <View style={styles.view3}>
                                 <View style={{ width: '20%', }}>
@@ -333,35 +293,35 @@ export default function Profile(params) {
 
                             </View>
 
-                            <View style={{  top: 225, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                            <View style={{ top: 225, justifyContent: 'flex-end', flexDirection: 'row' }}>
                                 <TouchableOpacity style={styles.buttonAdd}>
                                     <Ionicons name="add" size={35} color='#FFF' />
                                 </TouchableOpacity>
                             </View>
 
                         </Modal>
-                    </View>
+                    </View> */}
 
-                    <View>
-                        <Modal isVisible={isModalVisible4} style={styles.modal}>
-                            <View style={styles.view3}>
-                                <View style={{ width: '20%', }}>
-                                    <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal3} />
-                                </View>
-                                <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
-                                    <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}>Settings</Text>
-                                </View>
-                               
-
-
+                <View>
+                    <Modal isVisible={isModalVisible4} style={styles.modal}>
+                        <View style={styles.view3}>
+                            <View style={{ width: '20%', }}>
+                                <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal3} />
+                            </View>
+                            <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
+                                <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}>Settings</Text>
                             </View>
 
 
-                            <View>
-                                <Text style={styles.textInputLabel}>About</Text>
-                                <Text style={styles.textInputLabel}>Group 24</Text>
-                            </View>
-                            {/*
+
+                        </View>
+
+
+                        <View>
+                            <Text style={styles.textInputLabel}>About</Text>
+                            <Text style={styles.textInputLabel}>Group 24</Text>
+                        </View>
+                        {/*
                             <View>
                                 <Text style={styles.textInputLabel}>Last Name</Text>
                                 <TextInput style={styles.profileContainer}
@@ -402,18 +362,18 @@ export default function Profile(params) {
                                 />
                             </View> */}
 
-                            <View style={{ top: 200, width: '100%' }}>
+                        {/* <View style={{ top: 200, width: '100%' }}>
                                 <TouchableOpacity style={styles.button} onPress={closeModalandAlertMessage1}>
                                     <Text style={styles.buttonText}>Save Changes</Text>
                                 </TouchableOpacity>
-                        </View> 
+                            </View> */}
 
 
 
 
-                        </Modal>
+                    </Modal>
 
-                        <Modal isVisible={isModalVisible3} style={styles.modal}>
+                    {/* <Modal isVisible={isModalVisible3} style={styles.modal}>
                             <View style={styles.view3}>
                                 <View style={{ width: '20%', }}>
                                     <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal2} />
@@ -487,59 +447,23 @@ export default function Profile(params) {
 
                             </View>
 
-                            <View style={{  top: 225, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                            <View style={{ top: 225, justifyContent: 'flex-end', flexDirection: 'row' }}>
                                 <TouchableOpacity style={styles.buttonAdd}>
                                     <Ionicons name="add" size={35} color='#FFF' />
                                 </TouchableOpacity>
                             </View>
 
-                        </Modal>
-                    </View>
-
-
-                </View>
-
-                <View style={styles.iconView}>
-
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-                        <Ionicons
-                            name="home-outline"
-                            size={28}
-                            color="black"
-                            onPress={() => {
-                                navigation.navigate("Home");
-                            }}
-                        />
-                        <Text style={styles.iconViewText}>
-                            Home
-                        </Text>
-                    </View>
-
-
-
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <AntDesign name="bars" size={28} color="black" onPress={() => { navigation.navigate("Transaction") }} />
-                        <Text style={styles.iconViewText}>Transaction</Text>
-                    </View>
-
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Ionicons
-                            name="person-outline"
-                            size={28}
-                            color="#016e96"
-                            onPress={() => {
-                                navigation.navigate("Profile");
-                            }}
-                        />
-                        <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 14, color: "#016e96" }}>Profile</Text>
-                    </View>
+                        </Modal> */}
                 </View>
 
 
-                <StatusBar style="dark" />
             </View>
-        </ImageBackground>
+
+
+
+
+            <StatusBar style="dark" />
+        </View>
 
     );
 }
@@ -548,6 +472,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: '100%',
+        padding: 0,
     },
     image: {
         flex: 1,
@@ -555,40 +480,28 @@ const styles = StyleSheet.create({
     },
     view3: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         width: '100%',
-        alignItems: 'center',
-        marginBottom: 40,
+        alignItems: 'center'
     },
-    iconView: {
-        flexDirection: "row",
-        paddingTop: 10,
-        paddingBottom: 24,
-        backgroundColor: "#fff",
-        justifyContent: "space-evenly",
-        position: 'absolute',
-        bottom: 0,
-        borderTopEndRadius: 17,
-        borderTopLeftRadius: 17,
-    },
-    iconViewText: {
-        fontFamily: 'Manrope_700Bold',
-        fontSize: 14,
-        color: 'black',
+    textSettings: {
+        fontSize: 22,
+        fontFamily: 'Manrope_600SemiBold',
     },
     categoryContainer: {
         flexDirection: 'row',
         height: 60,
         width: '100%',
-        padding: 12,
-        backgroundColor: `#e8e8e8`,
-        borderRadius: 15,
+        padding: 10,
+        borderWidth: 1.5,
+        borderColor: '#BFBFBF',
+        borderRadius: 10,
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 12,
     },
     categoryText: {
         fontFamily: 'Manrope_600SemiBold',
-        fontSize: 23,
+        fontSize: 22,
         color: '#383838',
     },
     modal: {
@@ -605,55 +518,26 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         flexDirection: 'column',
     },
-    profileContainer: {
-        backgroundColor: "#E8E8E8",
-        paddingTop: 15,
-        paddingBottom: 12,
-        paddingLeft: 12,
-        fontFamily: 'Manrope_500Medium',
-        borderWidth: 0.5,
-        borderColor: 'lightgray',
-        borderRadius: 10,
-        fontSize: 18,
-        color: `#000`,
-        width: '100%',
-        marginBottom: 10,
-    },
     textInputLabel: {
         fontSize: 16,
         fontFamily: "Manrope_600SemiBold",
         marginBottom: 4,
         marginLeft: 6,
     },
-    button: {
-        flexDirection: 'row',
-        backgroundColor: '#016e96',
-        padding: 5,
-        borderRadius: 8,
-        justifyContent: 'center',
-        width: '100%',
-        
-    },
-    buttonAdd: {
-        flexDirection: 'row',
-        backgroundColor: '#016e96',
-        padding: 10,
-        borderRadius: 50,
-        justifyContent: 'center',
-    },
-    buttonText: {
-        color: `#fff`,
-        fontSize: 20,
+    profileText: {
+        fontSize: 22,
         fontFamily: 'Manrope_700Bold',
+        marginBottom: 5,
     },
-    categoryContainer2: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: 12,
-        backgroundColor: `#F9F9F9`,
-        borderRadius: 15,
-        alignItems: 'center',
-        marginBottom: 22,
+    profileText2: {
+        fontSize: 14,
+        color: '#717171',
+        fontFamily: 'Manrope_600SemiBold'
+    },
+    logout: {
+        fontSize: 22,
+        color: '#BA2F2F',
+        fontFamily: 'Manrope_600SemiBold'
     },
     unnecessary: {
         color: "black",

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'react-native-gesture-handler';
@@ -8,40 +7,48 @@ import Home from './screens/Home';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import ResetP from './screens/ResetP';
+import MainContainer from './componets/Containers/MainContainer';
 import UserPin from './screens/UserPin';
 import OTPVerification from './screens/OTPVerification';
-import Profile from './screens/Profile';
-import Transaction from './screens/Transaction';
-import Send from './screens/Send';
-import ExchangeRate from './screens/ExchangeRate';
+import Settings from './screens/Settings';
+import Trips from './screens/Trips';
+import EditProfile from './screens/EditProfile';
+import { useState, useEffect } from 'react';
+import { firebase } from './firebase-Config';
+
+
+
+const Stack = createNativeStackNavigator();
+
+
+
+
 
 export default function App() {
 
-  const Stack = createNativeStackNavigator();
+  
+      return (
 
-  return (
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='OTPVerification'>
+            <Stack.Screen name="OnBoarding" component={OnBoarding} />            
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="ResetP" component={ResetP} />
+            <Stack.Screen name="UserPin" component={UserPin} />
+            <Stack.Screen name="OTPVerification" component={OTPVerification} />
+            <Stack.Screen name="Trips" component={Trips} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="EditProfile" component={EditProfile}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+  
+    );
+    
+     
 
-    <View
-      style={{ flex: 1 }} 
-    >
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="ResetP" component={ResetP} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="UserPin" component={UserPin} />
-          <Stack.Screen name="OTPVerification" component={OTPVerification} />
-          <Stack.Screen name="Transaction" component={Transaction} />
-          <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="Send" component={Send}/>
-          <Stack.Screen name="ExchangeRate" component={ExchangeRate} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
-
-  );
+ 
 }
 
 

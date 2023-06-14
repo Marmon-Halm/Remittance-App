@@ -11,7 +11,25 @@ import {
 } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from 'expo-app-loading';
+import { AntDesign } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
+import StyledCodeInput from '../componets/Inputs/StyledCodeInput';
+import RegularButton from '../componets/Buttons/RegularButton';
+import MainContainer from '../componets/Containers/MainContainer';
+import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
+import RegularTexts from '../componets/Texts/RegularTexts';
+import StyledTextInput from '../componets/Inputs/StyledTextInput';
+import MsgText from '../componets/Texts/MsgText';
+import { Formik } from 'formik';
+import { color } from '../screens/color';
+import BigTexts from '../componets/Texts/BigTexts';
+import TitleText from '../componets/Texts/TitleText';
+import SmallTexts from '../componets/Texts/SmallTexts';
+import RowContainer from '../componets/Containers/RowContainer';
+import { styled } from 'styled-components/native';
+import { Feather } from '@expo/vector-icons';
+import ResendTimer from '../componets/Timers/ResendTimer';
+const { primary, sea, white, little, killed, newGrey, grey } = color;
 
 
 export default function OTPVerification(params) {
@@ -23,166 +41,86 @@ export default function OTPVerification(params) {
         Manrope_700Bold
     });
 
-    const pin1Ref = useRef(null);
-    const pin2Ref = useRef(null);
-    const pin3Ref = useRef(null);
-    const pin4Ref = useRef(null);
+    const MAX_CODE_LENGTH = 4;
+    const [code, setCode] = useState('');
+    const [pinReady, setpinReady] = useState(false);
 
-    const [pin1, setPin1] = useState("");
-    const [pin2, setPin2] = useState("");
-    const [pin3, setPin3] = useState("");
-    const [pin4, setPin4] = useState("");
+    const [verifying, setVerifying] = useState(false);
 
-    const [lastPin, setLastPin] = useState(true);
-    const [verifyEnabled, setVerifyEnabled] = useState(false);
-
-   const enableVerifyButton = () => {
-       setVerifyEnabled(true);
-   }
-
+    // resending email
+    const [activeResend, setActiveResend] = useState(false);
+    
 
     if (!fontsLoaded) {
         return <AppLoading />;
     };
 
-
-    return (
-        <View style={styles.container}>
-            <View style={{ paddingTop: 40, marginBottom: 15, width: '100%' }}>
-
-                <View style={styles.view3}>
-                    <Ionicons name="arrow-back-outline" size={30} color='#000' onPress={() => {
-                        navigation.navigate("SignUp")
-                    }} />
-                    
-                    <Text style={styles.textVerification}>
-                        Verify Phone
-                    </Text>
-
-                    <Text style={{ color: '#F8F8F8' }}>
-                        sasas
-                    </Text>
-
-                </View>
-
-            </View>
-
-            <View style={{ alignItems: 'center' }}>
-
-            <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.textSentToNumber}>
-                            Code is sent to  *** *** *XXX
-                        </Text>
-
-                    </View>
-
-                {/* <View style={styles.optionsContainer}>
-                    
-                  
-
-                        <View style={{ height: '40%', width: '100%', flexDirection: 'column', justifyContent: 'flex-end', marginBottom: 10}}>
-                           
-                             
-                        </View>
-
-                        
+    
+    const handleEmailVerification = async (credentials, setSubmitting) => {
+        try {
+          setMessage(null);
+    
+          // call backend
+    
+          //move to next page
+    
+          setSubmitting(false);
+    
+        } catch (error) {
+          setMessage('Login failed: ' + error.message);
+          setSubmitting(false)
+        }
+      };
+    
 
 
-                       
-
-                </View> */}
-
-
-               
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', margin: 60, padding: 0 }}>
-
-                                        <TextInput style={styles.textInput}
-                                            ref={pin1Ref}
-                                            keyboardType={"number-pad"}
-                                            maxLength={1}
-                                            onChange={(pin1) => {
-                                                setPin1(pin1);
-                                                if (pin1 !== null) {
-                                                    pin2Ref.current.focus();
-                                                }
-                                            }}
-                                            keyboardAppearance={"light"}
-                                            blurOnSubmit={false}
-                                        >
-                                        </TextInput>
-
-                                        <TextInput style={styles.textInput}
-                                            ref={pin2Ref}
-                                            blurOnSubmit={false}
-                                            maxLength={1}
-                                            onChange={(pin2) => {
-                                                setPin2(pin2);
-                                                if (pin2 !== null) {
-                                                    pin3Ref.current.focus();
-                                                }
-                                            }}
-                                            keyboardType={"number-pad"}
-                                            keyboardAppearance={"light"}
-                                        >
-                                        </TextInput>
-
-                                        <TextInput style={styles.textInput}
-                                            ref={pin3Ref}
-                                            blurOnSubmit={false}
-                                            maxLength={1}
-                                            onChange={(pin3) => {
-                                                setPin3(pin3);
-                                                if (pin3 !== null) {
-                                                    pin4Ref.current.focus();
-                                                }
-                                            }}
-                                            keyboardType={"number-pad"}
-                                            keyboardAppearance="light"
-                                        >
-                                        </TextInput>
-
-                                        <TextInput style={styles.textInput}
-                                            ref={pin4Ref}
-                                            maxLength={1}
-                                            blurOnSubmit={false}
-                                            onChange={(pin3) => {
-                                                setPin3(pin3);
-                                                if (pin3 !== null) {
-                                                    enableVerifyButton();
-                                                }
-                                            }}
-                                            keyboardType={"number-pad"}
-                                            disabled={!lastPin}
-                                            keyboardAppearance="light"
-                                        >
-                                        </TextInput>
-                                    </View>
+    return <MainContainer>
+        <AntDesign name="arrowleft" size={30} color="black" onPress={() => {
+            navigation.navigate("Login")
+        }} />
 
 
-                <Text style={styles.textCodeRequest}>
-                            Didn't receive a code? <Text style={{color: '#2D9B94'}}> Request again </Text>
-                        </Text>
+        <KeyboardAvoiding>
 
-                <TouchableOpacity style={styles.button} disabled={!verifyEnabled} onPress={() => { navigation.navigate('Home')}}>
-                        <Text style={styles.buttonText}> Verify and Create Account </Text>
-                    </TouchableOpacity>
+            <RegularTexts style={{ textAlign: 'center', color: '#585656', marginTop: 20 }}>Type 4-digit code sent to your email</RegularTexts>
 
-            </View>
+
+            <StyledCodeInput
+                maxLength={MAX_CODE_LENGTH}
+                setCode={setCode}
+                code={code}
+                setpinReady={setpinReady}
+            />
+
+            <ResendTimer activeResend={activeResend} setActiveResend={setActiveResend}></ResendTimer>
+
+
+
+            {!verifying && pinReady && <RegularButton onPress={handleEmailVerification} style={{marginTop: 20}}>Verify</RegularButton>}
+            {!verifying && !pinReady && <RegularButton disabled={true} style={{marginTop: 20, backgroundColor: '#DCDCDC'}} textStyle={{color: '#B6B6B4'}}>Verify</RegularButton>}
+            
+            {verifying && (
+              <RegularButton disabled={true}>
+                <ActivityIndicator size="small" color={white} />
+              </RegularButton>
+            )}
+
+
+
+
 
 
             <StatusBar style="dark" />
-        </View>
-    );
+
+        </KeyboardAvoiding>
+    </MainContainer>
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 18,
-        paddingRight: 18,
-        paddingLeft: 18,
         paddingBottom: 0,
-        backgroundColor: "#F8F8F8",
+        backgroundColor: "#fff",
     },
     view3: {
         flexDirection: 'row',
@@ -193,8 +131,8 @@ const styles = StyleSheet.create({
     button: {
         flexDirection: 'row',
         backgroundColor: `#000`,
-        padding: 15,
-        borderRadius: 12,
+        padding: 16,
+        borderRadius: 10,
         justifyContent: 'center',
         width: '95%',
     },
@@ -213,7 +151,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     textVerification: {
-        fontSize: 23,
+        fontSize: 22,
         fontFamily: 'Manrope_600SemiBold',
     },
     textSentToNumber: {
@@ -237,5 +175,5 @@ const styles = StyleSheet.create({
         fontSize: 35,
         textAlign: 'center'
     },
-   
+
 });
