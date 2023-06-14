@@ -77,7 +77,7 @@ export default function SignUp(params) {
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
 
-  const handleLogin = async (credentials, setSubmitting) => {
+  const handleSubmit = async (credentials, setSubmitting) => {
     try {
       setMessage(null);
 
@@ -111,13 +111,11 @@ export default function SignUp(params) {
 
 
   return <MainContainer>
-    <AntDesign name="arrowleft" size={30} color="black" onPress={() => {
-      navigation.navigate("Login")
-    }} />
-
-
+    <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
     <KeyboardAvoiding>
+
       <BigTexts style={{ marginBottom: 25, marginTop: 10 }}>Sign up. It's free!</BigTexts>
+      
       <TitleText >Country</TitleText>
 
       <View style={styles.pickerView}>
@@ -156,7 +154,7 @@ export default function SignUp(params) {
 
       </View>
 
-      <TitleText style={{ marginTop: 40 }}>Your login details</TitleText>
+      <TitleText style={{ marginTop: 30 }}>Your login details</TitleText>
 
 
 
@@ -189,9 +187,10 @@ export default function SignUp(params) {
             <StyledTextInput
               icon="phone"
               placeholder="Phone Number"
-              keyboardType="phone-pad"
+              keyboardType="numeric"
               keyboardAppearance="light"
               inputMode='numeric'
+              returnKeyType='done'
               minLength={1}
               maxLength={12}
             />
@@ -210,11 +209,11 @@ export default function SignUp(params) {
               value={values.password}
             />
 
-            <SmallTexts style={{ marginTop: 10 }}>Your password should be at least 8 characters, and include 1 upper case letter and 1 number</SmallTexts>
+            <SmallTexts>Your password should be at least 8 characters, and include 1 upper case letter and 1 number</SmallTexts>
 
 
             <MsgText
-              style={{ marginVertical: 20 }}
+              style={{ marginVertical: 15 }}
               success={isSuccessMessage}>
               {message || ""}
             </MsgText>

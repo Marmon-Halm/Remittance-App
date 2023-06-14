@@ -46,9 +46,7 @@ export default function Profile(params) {
 
             <View style={{ paddingTop: 50, paddingBottom: 10, paddingHorizontal: 22, marginBottom: 0, width: '100%', borderBottomWidth: 0.5, borderBottomColor: "#C2C2C2" }}>
                 <View style={styles.view3}>
-                    <AntDesign name="arrowleft" size={24} color="black" onPress={() => {
-                        navigation.navigate("Home")
-                    }} />
+                    <AntDesign name="arrowleft" size={24} color="black" onPress={() => { navigation.goBack() }} />
 
                     <Text style={styles.texteditProfile}>
                         Edit Profile

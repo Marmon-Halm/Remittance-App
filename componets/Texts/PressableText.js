@@ -9,6 +9,7 @@ const { primary } = color;
 
 const StyledPressable = styled.Pressable`
     padding-vertical: 0px;
+    color: ${primary};
 `;
 
 

@@ -13,7 +13,6 @@ const ButtonView = styled.TouchableOpacity`
     background-color: ${killed};
     width: 100%;
     justify-content: center;
-    align-items: center;
     border-radius: 10px;
     height: 62px;
 `;
@@ -24,8 +23,7 @@ const RegularButton = (props, isButton) => {
     return (
 
         <View>
-            <ButtonView onPress={props.onPress}{...props}><ButtonTexts style={[{ ...props?.textStyle }]}>{props.children}</ButtonTexts></ButtonView>
-           
+            <ButtonView style={{width: '100%'}} onPress={props.onPress}{...props}><ButtonTexts style={[{ ...props?.textStyle }]}>{props.children}</ButtonTexts></ButtonView>
         </View>
     )
 };

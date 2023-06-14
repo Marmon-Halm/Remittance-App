@@ -10,7 +10,6 @@ import {
     TouchableOpacity,
     useWindowDimensions,
 } from 'react-native';
-import color from './color';
 import AppLoading from 'expo-app-loading';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, } from '@expo-google-fonts/manrope';
 import {  Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, } from '@expo-google-fonts/montserrat';
@@ -83,11 +82,11 @@ function OnBoarding({ navigation }) {
         
         return <View style={{ height: height * 0.15, justifyContent: "space-between", paddingHorizontal: 20, }}>
             {/* indicator start */}
-            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            <View style={{ flexDirection: "row", justifyContent: "center",  }}>
 
                 {slides.map((_, index) => (
                     <View key={index} style={[styles.indicator, currentSlideIndex == index && {
-                        backgroundColor: color.killed,
+                        backgroundColor: '#000',
                         width: 25,
                     }]} />
                 ))}
@@ -99,16 +98,16 @@ function OnBoarding({ navigation }) {
 
 
                 {
-                    currentSlideIndex == slides.length - 1 ? (<View style={{ height: 55, }}>
+                    currentSlideIndex == slides.length - 1 ? (<View style={{ height: 62, }}>
                         <TouchableOpacity style={[styles.btnGT]} onPress={() => { navigation.navigate('Login') }}>
-                            <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 20, color: color.white }}>Get Started</Text>
+                            <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 20, color: '#fff' }}>GET STARTED</Text>
                         </TouchableOpacity>
                     </View>) : (
                         <View style={{ flexDirection: "row" }}>
                             {/* skip btn */}
                             <TouchableOpacity style={[styles.btnSkip, { backgroundColor: "transparent", borderWidth: 1, }]}
                                 onPress={skip}>
-                                <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 17, color: color.killed }}>SKIP</Text>
+                                <Text style={{ fontFamily: 'Manrope_700Bold', fontSize: 17, color: '#000' }}>SKIP</Text>
                             </TouchableOpacity>
 
                             {/* space between */}
@@ -170,14 +169,14 @@ function OnBoarding({ navigation }) {
 
    
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: color.white }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
               <StatusBar style="dark" />
             <FlatList data={slides} 
                 ref={ref}
                 onMomentumScrollEnd={updateCurrentSlideIndex}
                 pagingEnabled
                 horizontal
-                showsHorizontalScrollIndicator
+                showsHorizontalScrollIndicator={false}
                 bounces={false}
                 renderItem={({ item }) => <Slide item={item} />} />
 
@@ -213,6 +212,7 @@ const styles = StyleSheet.create({
         width: 10,
         marginHorizontal: 3,
         borderRadius: 4,
+        backgroundColor: '#DDDDDD'
     },
     btnSkip: {
         flex: 1,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     nextText: {
         fontFamily: 'Manrope_700Bold', 
         fontSize: 17, 
-        color: 'white',
+        color: '#fff',
     },
 })
 

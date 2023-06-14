@@ -3,7 +3,7 @@ import { styled } from 'styled-components/native';
 import { color } from '../../screens/color';
 import SmallTexts from '../Texts/SmallTexts';
 import RegularTexts from '../Texts/RegularTexts';
-const { primary, red } = color;
+const { primary, red, success } = color;
 
 
 
@@ -11,16 +11,17 @@ const StyledView = styled.View`
     align-items: center;
 `;
 
-const ResendText = styled.View`
+const ResendText = styled(RegularTexts)`
     color: ${primary};
     ${(props) => {
         const { resendStatus } = props;
-        if ((resendStatus = 'Failed')) {
+        if (resendStatus == 'Failed') {
             return `color: ${red}`;
-            
+        } else if (resendStatus == 'Sent!') {
+            return `color: ${primary}`;
         }
     }}
-`
+`;
 
 
 const ResendTimer = ({ activeResend, setActiveResend, targetTimeInSeconds, resendEmail, resendStatus, ...props }) => {
@@ -55,7 +56,10 @@ const ResendTimer = ({ activeResend, setActiveResend, targetTimeInSeconds, resen
     }, []);
 
     return <StyledView {...props}>
-        <RegularTexts style={{ textAlign: 'center', color: '#585656' }}>Didn't receive code? <RegularTexts style={{ color: primary }} onPress={() => resendEmail(triggerTimer)}>Request again</RegularTexts></RegularTexts>
+        <RegularTexts style={{ textAlign: 'center', color: '#585656' }}>Didn't receive code? <RegularTexts style={{ color: primary, opacity: !activeResend ? 0.65 : 1 }} onPress={() => resendEmail(triggerTimer)} disabled={!activeResend}>
+            <ResendText resendStatus={resendStatus}>{resendStatus}</ResendText>
+        </RegularTexts>
+        </RegularTexts>
 
         {!activeResend && (
             <SmallTexts style={{ textAlign: 'center' }}>

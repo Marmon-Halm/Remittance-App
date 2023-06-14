@@ -121,7 +121,7 @@ export default function Login(params) {
               value={values.password}
             />
 
-            <PressableText style={{ textAlign: 'right', marginVertical: 10 }}>Forgot Password ?</PressableText>
+            <RegularTexts style={{ textAlign: 'right', marginVertical: 10, color: primary }} onPress={() => { navigation.navigate('ResetP') }}>Forgot Password ?</RegularTexts>
 
             <MsgText
               style={{ marginBottom: 20 }}
@@ -137,7 +137,7 @@ export default function Login(params) {
             )}
 
 
-            <RegularTexts style={{ textAlign: 'center', marginTop: 20 }}>Don't have an account? <RegularTexts style={{ color: primary }}>Sign Up</RegularTexts></RegularTexts>
+            <RegularTexts style={{ textAlign: 'center', marginTop: 20 }}>Don't have an account? <RegularTexts style={{ color: primary }} onPress={() => { navigation.navigate("SignUp") }} >Sign Up</RegularTexts></RegularTexts>
           </>
         )}
       </Formik>

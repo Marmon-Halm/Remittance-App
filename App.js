@@ -7,14 +7,11 @@ import Home from './screens/Home';
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import ResetP from './screens/ResetP';
-import MainContainer from './componets/Containers/MainContainer';
 import UserPin from './screens/UserPin';
 import OTPVerification from './screens/OTPVerification';
 import Settings from './screens/Settings';
 import Trips from './screens/Trips';
 import EditProfile from './screens/EditProfile';
-import { useState, useEffect } from 'react';
-import { firebase } from './firebase-Config';
 
 
 
@@ -30,7 +27,7 @@ export default function App() {
       return (
 
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='OTPVerification'>
+          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='ResetP'>
             <Stack.Screen name="OnBoarding" component={OnBoarding} />            
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Home" component={Home} />
