@@ -9,6 +9,7 @@ const { primary, red, success } = color;
 
 const StyledView = styled.View`
     align-items: center;
+    margin-bottom: 10px;
 `;
 
 const ResendText = styled(RegularTexts)`

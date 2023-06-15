@@ -77,14 +77,10 @@ export default function OTPVerification(params) {
 
             setVerifying(false);
             return showModal('success', 'All Good!', 'Email Verified.', 'Proceed')
-            
-
 
         } catch (error) {
             setVerifying(false);
             return showModal('failed', 'Failed!', error.message, 'Close')
-            
-          
         }
     };
 

@@ -8,6 +8,7 @@ import Login from './screens/Login';
 import SignUp from './screens/SignUp';
 import ResetP from './screens/ResetP';
 import UserPin from './screens/UserPin';
+import NewPassword from './screens/NewPassword';
 import OTPVerification from './screens/OTPVerification';
 import Settings from './screens/Settings';
 import Trips from './screens/Trips';
@@ -36,6 +37,7 @@ export default function App() {
             <Stack.Screen name="UserPin" component={UserPin} />
             <Stack.Screen name="OTPVerification" component={OTPVerification} />
             <Stack.Screen name="Trips" component={Trips} />
+            <Stack.Screen name="NewPassword" component={NewPassword} />
             <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="EditProfile" component={EditProfile}/>
           </Stack.Navigator>

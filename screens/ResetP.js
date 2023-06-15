@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
@@ -27,12 +27,13 @@ const { primary, sea, white, little, killed, backgrey } = color;
 
 export default function ResetP(params) {
     const [checked, toggleChecked] = useState(false);
-
     const [isEnabled, setIsEnabled] = useState(false);
+    const [message, setMessage] = useState('');
+    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     const doYourTask = () => {
         setIsEnabled(true);
-    }
+    };
 
     const navigation = params.navigation;
 
@@ -43,6 +44,22 @@ export default function ResetP(params) {
         Manrope_700Bold
     });
 
+    const handleOnSubmit = async (credentials, setSubmitting) => {
+        try {
+          setMessage(null);
+    
+          // call backend
+    
+          //move to next page
+    
+          setSubmitting(false);
+    
+        } catch (error) {
+          setMessage('Request failed: ' + error.message);
+          setSubmitting(false)
+        }
+      };
+
 
     if (!fontsLoaded) {
         return <AppLoading />;
@@ -52,26 +69,24 @@ export default function ResetP(params) {
         <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
         <KeyboardAvoiding>
 
-            <BigTexts style={{ marginBottom: 20, marginTop: 10 }}>Reset Password</BigTexts>
-            <RegularTexts style={{color: '#6A6A6A', marginBottom: 20}}>Enter your email address and new password to reset your account password</RegularTexts>
+            <BigTexts style={{ marginBottom: 20, marginTop: 10 }}>Account Email</BigTexts>
+            <RegularTexts style={{ color: '#6A6A6A', marginBottom: 20 }}>Enter your email address for verification code</RegularTexts>
 
 
 
             <Formik
                 initialValues={{ email: '', newPassword: '', confirmPassword: '' }}
                 onSubmit={(values, { setSubmitting }) => {
-                    if (values.email == "" || values.newPassword == "" || values.confirmPassword) {
+                    if (values.email == "") {
                         setMessage('Please enter your details');
                         setSubmitting(false);
                     } else {
-                        handleLogin(values, setSubmitting);
+                        handleOnSubmit(values, setSubmitting);
                     }
                 }}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
                     <>
-
-
                         <StyledTextInput
                             icon="mail"
                             placeholder="Email Address"
@@ -85,7 +100,32 @@ export default function ResetP(params) {
                             value={values.email}
                         />
 
-                        <StyledTextInput
+                        <MsgText
+                            style={{ marginBottom: 20 }}
+                            success={isSuccessMessage}>
+                            {message || ""}
+                        </MsgText>
+
+                        {!isSubmitting && <RegularButton onPress={() => {navigation.navigate('NewPassword')}}>Continue</RegularButton>}
+                        {isSubmitting && (
+                            <RegularButton disabled={true}>
+                                <ActivityIndicator size="small" color={white} />
+                            </RegularButton>
+                        )}
+                    </>
+                )}
+            </Formik>
+
+            <StatusBar style="dark" />
+        </KeyboardAvoiding>
+    </MainContainer>
+}
+
+
+
+
+
+{/* <StyledTextInput
                             icon="key"
                             placeholder="New Password"
                             onChangeText={handleChange('newPassword')}
@@ -109,18 +149,4 @@ export default function ResetP(params) {
                             minLength={8}
                             keyboardAppearance="light"
                             value={values.confirmPassword}
-                        />
-
-                        <RegularButton style={{marginTop: 40}}>Continue</RegularButton>
-
-
-
-                    </>
-                )}
-            </Formik>
-
-            <StatusBar style="dark" />
-        </KeyboardAvoiding>
-    </MainContainer>
-}
-
+                        /> */}
