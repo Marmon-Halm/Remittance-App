@@ -9,18 +9,17 @@ const { white, killed, newGrey } = color;
 
 
 const ButtonView = styled.TouchableOpacity`
-    padding: 10px;
+    padding: 15px;
     background-color: ${killed};
     width: 100%;
-    justify-content: center;
     border-radius: 10px;
     text-align: center;
-    height: 50px;
+    height: 62px;
 `;
 
 
 
-const RegularButton = (props, isButton) => {
+const BottomButton = (props) => {
     return (
 
         <View>
@@ -29,4 +28,4 @@ const RegularButton = (props, isButton) => {
     )
 };
 
-export default RegularButton;
+export default BottomButton;

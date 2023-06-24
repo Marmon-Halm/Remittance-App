@@ -7,7 +7,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import Modal from "react-native-modal";
-import {getAuth, signOut } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
+
 
 
 
@@ -19,12 +20,31 @@ export default function Home(params) {
 
   const [isModalVisible, setIsModalVisible] = React.useState(false);
   const [isModalVisibleGH, setIsModalVisibleGH] = React.useState(false);
-  
+
 
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
   const handleModalGH = () => setIsModalVisibleGH(() => true)
 
-  
+  const handleProfile = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user !== null) {
+      // The user object has basic properties such as display name, email, etc.
+      const displayName = user.displayName;
+      const email = user.email;
+      const photoURL = user.photoURL;
+      const emailVerified = user.emailVerified;
+
+      // The user's ID, unique to the Firebase project. Do NOT use
+      // this value to authenticate with your backend server, if
+      // you have one. Use User.getToken() instead.
+      const uid = user.uid;
+    }
+  };
+
+  handleProfile();
+
+
 
   let [fontsLoaded] = useFonts({
 
@@ -60,8 +80,7 @@ export default function Home(params) {
                 <Image style={styles.flag} source={require('../assets/GB.png')} />
               </View>
 
-              <Text style={styles.unnecessary}> GBP    ⇄  GHS        0.91{"\n"}
-                1 GBP     9.77GHS    0.91</Text>
+              <Text style={styles.unnecessary}>{email}</Text>
 
             </View>
 
@@ -127,7 +146,7 @@ export default function Home(params) {
 
                 <Text style={styles.unnecessary2}>Ghana</Text>
               </TouchableOpacity>
-             
+
 
 
               <TouchableOpacity style={styles.countriesContainer} onPress={() => { navigation.navigate("Send") }}>
@@ -174,7 +193,7 @@ export default function Home(params) {
 
             </Modal>
           </View>
-          
+
         </View>
 
 
@@ -208,7 +227,7 @@ export default function Home(params) {
               size={28}
               color="black"
               onPress={() => {
-                navigation.navigate("Profile");
+                navigation.navigate("Settings");
               }}
             />
             <Text style={styles.iconViewText}>Profile</Text>
@@ -319,7 +338,7 @@ const styles = StyleSheet.create({
   unnecessary2: {
     color: "black",
     fontSize: 18,
-    
+
   },
   modal: {
     paddingTop: 30,

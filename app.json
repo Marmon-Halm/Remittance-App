@@ -1,4 +1,4 @@
-{
+ {
   "expo": {
     "name": "remiapp",
     "slug": "remiapp",
@@ -10,6 +10,16 @@
       "resizeMode": "cover",
       "backgroundColor": "#016e96"
     },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -29,4 +39,8 @@
       "favicon": "./assets/favicon.png"
     }
   }
+ 
 }
+
+
+// measurementId: "G-7LWL9CFE0T",

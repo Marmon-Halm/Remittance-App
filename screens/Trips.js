@@ -34,36 +34,28 @@ export default function Trips(params) {
 
     return (
         <View style={styles.container}>
-            <View style={{ paddingTop: 50, paddingBottom: 10, paddingHorizontal: 22, marginBottom: 0, width: '100%', borderBottomWidth: 0.5, borderBottomColor: "#C2C2C2" }}>
+            <View style={{ paddingTop: 50, paddingBottom: 10, paddingHorizontal: 22, marginBottom: 0, width: '100%'}}>
 
                 <View style={styles.view3}>
-
-
-                    <AntDesign name="arrowleft" size={24} color="black" onPress={() => {
-                        navigation.navigate("Settings")
+                    <Feather name="chevron-left" size={26} color="#2D9B94" onPress={() => {
+                        navigation.goBack()
                     }} />
 
-
-                    <Text style={styles.textHistory}>
-                        History
-                    </Text>
-
-                    <Text style={{ color: '#F8F8F8' }}>
-                        sasas
-                    </Text>
-
+                   {/* <Text style={styles.textHistory}>
+                     History
+                    </Text> */}
                 </View>
 
             </View>
 
-            <View style={{width: "100%", height: 250, marginTop: 100, alignItems: 'center', justifyContent: 'center'}}>
+            {/* <View style={{width: "100%", height: 250, marginTop: 100, alignItems: 'center', justifyContent: 'center'}}>
                 <Image source={require('../assets/nodata.png')} style={[styles.image ]} />
 
                 <Text style={styles.text1}> No Completed Trips</Text>
 
-            </View>
+            </View> */}
 
-            {/* <View style={{ paddingHorizontal: 18 }}>
+            <View style={{ paddingHorizontal: 18 }}>
 
                 <View>
                     <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 18, marginTop: 30, marginBottom: 15 }}> Jan 2024</Text>
@@ -156,7 +148,7 @@ export default function Trips(params) {
                     </View>
                 </View>
 
-            </View> */}
+            </View>
 
 
 
@@ -175,10 +167,13 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     view3: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        alignItems: 'center'
+        width: '12%',
+        height: 40,
+        borderWidth: 1,
+        alignItems: 'center',
+        borderRadius: 7,
+        justifyContent: 'center',
+        borderColor: '#2D9B94',
     },
     image: {
         justifyContent: "center",
@@ -203,6 +198,7 @@ const styles = StyleSheet.create({
     textHistory: {
         fontSize: 22,
         fontFamily: 'Manrope_600SemiBold',
+        marginHorizontal: 10,
     },
     text1: {
         justifyContent: "center",

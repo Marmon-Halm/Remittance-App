@@ -16,6 +16,9 @@ import Modal from "react-native-modal";
 import AppLoading from 'expo-app-loading';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { getAuth, signOut } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { config, firebaseConfig } from '../config';
 
 
 
@@ -27,19 +30,36 @@ export default function Profile(params) {
     const [isModalVisible3, setIsModalVisible3] = useState(false);
     const [isModalVisible4, setIsModalVisible4] = useState(false);
 
+    const [loggingOut, setLoggingOut] = useState(false);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const handleLogin = () => {
+
+       
+    
+      };
+
+    const onLogOut = () => {
+        setLoggingOut(true);
+        signOut(auth)
+        .then(() => {
+          navigation.navigate('Login');
+        })
+        .catch((error) => {
+          console.log(error.message)
+        });
+
+        // clear user credentials
+
+        setLoggingOut(false)
+    }
+
     const handleModal1 = () => setIsModalVisible2(() => !isModalVisible2);
     const handleModal2 = () => setIsModalVisible3(() => !isModalVisible3);
     const handleModal3 = () => setIsModalVisible4(() => !isModalVisible4);
 
-    const closeModalandAlertMessage = () => {
-        alert("Profile Updated Successfully");
-        handleModal1();
-    }
-
-    const closeModalandAlertMessage1 = () => {
-        alert("Settings changed Successfully");
-        handleModal3();
-    }
+   
 
 
     let [fontsLoaded] = useFonts({
@@ -135,7 +155,7 @@ export default function Profile(params) {
 
 
                 <View style={{ alignItems: 'center', width: '100%' }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={onLogOut}>
                         <Text style={styles.logout}>Logout</Text>
                     </TouchableOpacity>
                 </View>

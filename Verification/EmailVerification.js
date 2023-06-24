@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import { ActivityIndicator } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
-import { firebase, firebaseConfig } from '../firebase-Config';
+import { firebase, firebaseConfig } from '../config';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import MainContainer from '../componets/Containers/MainContainer';

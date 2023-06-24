@@ -1,19 +1,17 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ImageBackground, Image } from 'react-native';
-import {
-    useFonts,
-    Manrope_400Regular,
-    Manrope_500Medium,
-    Manrope_600SemiBold,
-    Manrope_700Bold,
-    Manrope_800ExtraBold
-} from '@expo-google-fonts/manrope';
+import { StyleSheet, View, ActivityIndicator, Image, Dimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import AppLoading from 'expo-app-loading';
 import profile from '../assets/profileD.png'
-
+import { Formik } from 'formik';
+import StyledTextInput from '../componets/Inputs/StyledTextInput';
+import MsgText from '../componets/Texts/MsgText';
+import MainContainer from '../componets/Containers/MainContainer';
+import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
+import BottomButton from '../componets/Buttons/BottomButton';
+import RegularTexts from '../componets/Texts/RegularTexts';
+import SmallTexts from '../componets/Texts/SmallTexts';
 
 
 
@@ -22,193 +20,117 @@ export default function Profile(params) {
     const navigation = params.navigation;
 
 
-    const closeModalandAlertMessage1 = () => {
-        alert("Settings changed Successfully");
-        ;
-    }
+    const [message, setMessage] = useState('');
+    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+    const windowWidth = Dimensions.get('window')
 
 
-    let [fontsLoaded] = useFonts({
-        Manrope_400Regular,
-        Manrope_500Medium,
-        Manrope_600SemiBold,
-        Manrope_700Bold,
-        Manrope_800ExtraBold
-    });
+    return <MainContainer>
+        <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
 
-    if (!fontsLoaded) {
-        return <AppLoading />;
-    }
+        <KeyboardAvoiding style={{position: 'absolute', height: windowWidth}}>
 
-    return (
-        <View style={styles.container}>
-
-
-            <View style={{ paddingTop: 50, paddingBottom: 10, paddingHorizontal: 22, marginBottom: 0, width: '100%', borderBottomWidth: 0.5, borderBottomColor: "#C2C2C2" }}>
-                <View style={styles.view3}>
-                    <AntDesign name="arrowleft" size={24} color="black" onPress={() => { navigation.goBack() }} />
-
-                    <Text style={styles.texteditProfile}>
-                        Edit Profile
-                    </Text>
-
-                    <Text style={{ color: '#F8F8F8' }}>
-                        sasas
-                    </Text>
+            <View style={{ width: '100%', alignItems: 'center', marginBottom: 35, marginTop: 15 }}>
+                <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                    <Image source={profile} style={{ width: '100%', height: '100%', borderRadius: 100 / 2, }} />
                 </View>
+
+                <RegularTexts style={{ textAlign: 'center' }}>James Obeng</RegularTexts>
+                <SmallTexts>+233 50 578 0528</SmallTexts>
+
             </View>
 
-            <View style={{ padding: 22, }}>
+
+            <Formik
+                initialValues={{ username: '', email: '', phoneNumber: '', password: '' }}
+                onSubmit={(values, { setSubmitting }) => {
+                    if (values.username == "" || values.email == "" || values.phoneNumber == "" || values.password) {
+                        setMessage('Please enter your details');
+                        setSubmitting(false);
+                    } else {
+                        handleLogin(values, setSubmitting);
+                    }
+                }}
+            >
+                {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+                    <>
+                        <StyledTextInput
+                            icon="mail"
+                            placeholder="Username"
+                            keyboardType="text"
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            onChangeText={handleChange('username')}
+                            onBlur={handleBlur('username')}
+                            enablesReturnKeyAutomatically={true}
+                            keyboardAppearance="light"
+                            value={values.username}
+                        />
+
+                        <StyledTextInput
+                            icon="mail"
+                            placeholder="Email Address"
+                            keyboardType="email-address"
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            enablesReturnKeyAutomatically={true}
+                            keyboardAppearance="light"
+                            value={values.email}
+                        />
+
+                        <StyledTextInput
+                            icon="phone"
+                            placeholder="Phone Number"
+                            keyboardType="numeric"
+                            keyboardAppearance="light"
+                            inputMode='numeric'
+                            returnKeyType='done'
+                            minLength={1}
+                            maxLength={12}
+                        />
+
+                        <StyledTextInput
+                            icon="key"
+                            placeholder="Password"
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            isPassword={true}
+                            minLength={8}
+                            keyboardAppearance="light"
+                            value={values.password}
+                        />
+
+                        <MsgText
+                            style={{ marginVertical: 15 }}
+                            success={isSuccessMessage}>
+                            {message || ""}
+                        </MsgText>
+
+                        {!isSubmitting && <BottomButton onPress={handleSubmit}>Save Changes</BottomButton>}
+                        {isSubmitting && (
+                            <BottomButton>
+                                <ActivityIndicator size="small" color={white} />
+                            </BottomButton>
+                        )}
 
 
-
-
-
-                <View style={{ width: '100%', alignItems: 'center', marginBottom: 35 }}>
-                    <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
-                        <Image source={profile} style={{ width: '100%', height: '100%', borderRadius: 100 / 2, }} />
-
-                    </View>
-
-                    <Text style={styles.profileText}>James Obeng</Text>
-                    <Text style={styles.profileText2}>+233 50 578 0528</Text>
-
-                </View>
-
-
-                <View>
-
-                    <TextInput style={styles.textInput}
-                        placeholder={'Username'}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        selectionColor={'#2D9B94'}
-                        minLength={1}
-                        placeholderTextColor={'#838282'}
-                        keyboardAppearance={"light"}
-                        enablesReturnKeyAutomatically={true}
-                    />
-
-
-                    <TextInput style={styles.textInput}
-                        textContentType={"emailAddress"}
-                        placeholder={'Email Address'}
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                        selectionColor={'#2D9B94'}
-                        minLength={1}
-                        placeholderTextColor={'black'}
-                        keyboardAppearance={"light"}
-                        enablesReturnKeyAutomatically={true}
-                    />
-
-
-
-                    <TextInput style={styles.textInput}
-                        textContentType="telephoneNumber"
-                        keyboardType="phone-pad"
-                        inputMode='numeric'
-                        minLength={1}
-                        label="PhoneNumber"
-                        maxLength={12}
-                        selectionColor={'#2D9B94'}
-                        keyboardAppearance="light"
-                        placeholder={'Phone Number'}
-                        placeholderTextColor={'black'}
-                    />
-
-
-
-                    <TextInput style={styles.textInput}
-                        textContentType="password"
-                        secureTextEntry={true}
-                        label="Password"
-                        minLength={8}
-                        selectionColor={'#2D9B94'}
-                        placeholder={"Password"}
-                        placeholderTextColor={'black'}
-                        keyboardAppearance="light" />
-
-                </View>
-
-
-                <TouchableOpacity
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Save Changes</Text>
-                </TouchableOpacity>
-
-                <View style={{ marginBottom: 50 }}>
-
-
-
-                </View>
-
-
-
-
-
-            </View>
+                    </>
+                )}
+            </Formik>
 
 
 
 
             <StatusBar style="dark" />
-        </View>
 
-    );
+        </KeyboardAvoiding>
+    </MainContainer>
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        height: '100%',
-    },
-    image: {
-        flex: 1,
-        justifyContent: "center"
-    },
-    view3: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        alignItems: 'center'
-    },
-    texteditProfile: {
-        fontSize: 22,
-        fontFamily: 'Manrope_600SemiBold',
-    },
-    button: {
-        height: 62,
-        alignItems: 'center',
-        backgroundColor: '#000',
-        borderRadius: 10,
-        justifyContent: 'center',
-        width: '100%',
-    },
-    buttonText: {
-        color: `#fff`,
-        fontSize: 20,
-        fontFamily: 'Manrope_700Bold',
-    },
-    profileText: {
-        fontSize: 22,
-        fontFamily: 'Manrope_700Bold',
-        marginBottom: 5,
-    },
-    textInput: {
-        backgroundColor: 'transparent',
-        paddingTop: 12,
-        paddingBottom: 9,
-        fontFamily: 'Manrope_600SemiBold',
-        borderBottomWidth: 1,
-        borderBottomColor: '#838282',
-        fontSize: 20,
-        color: `#000`,
-        width: '100%',
-        marginBottom: 20,
-    },
 
-});
 
 

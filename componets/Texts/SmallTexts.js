@@ -4,11 +4,11 @@ import { color } from '../../screens/color';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
 
-const { smallTextColor } = color;
+const { smallTextColor, newGrey } = color;
 
 
 const StyledText = styled.Text`
-    font-size: 14px;
+    font-size: 12px;
     color: ${smallTextColor};
     text-align: left;
     font-family: 'Manrope_500Medium';    

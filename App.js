@@ -18,17 +18,12 @@ import EditProfile from './screens/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
-
-
-
-
 export default function App() {
 
   
       return (
-
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='ResetP'>
+          <Stack.Navigator screenOptions={{ headerShown: false }} >
             <Stack.Screen name="OnBoarding" component={OnBoarding} />            
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Home" component={Home} />
@@ -50,4 +45,6 @@ export default function App() {
  
 }
 
+
+// 
 

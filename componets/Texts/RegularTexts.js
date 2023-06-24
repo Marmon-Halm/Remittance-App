@@ -6,7 +6,7 @@ import AppLoading from 'expo-app-loading';
 const { killed, white } = color;
 
 const StyledText = styled.Text`
-    font-size: 18px;
+    font-size: 15px;
     color: ${killed};
     font-family: 'Manrope_600SemiBold';
     width: 100%;
