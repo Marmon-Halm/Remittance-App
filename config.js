@@ -1,11 +1,21 @@
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCHi2pfEz9JhU6goNLMRcyAq7baUMiiz5I",
+  authDomain: "transporttruck-5292e.firebaseapp.com",
+  projectId: "transporttruck-5292e",
+  storageBucket: "transporttruck-5292e.appspot.com",
+  messagingSenderId: "1009485053498",
+  appId: "1:1009485053498:web:e79191b26209d10b457f03",
+  measurementId: "G-MYB4G4LX5F"
+};
 
-export const firebaseConfig = {
-    apiKey: "AIzaSyAQVIiFCumpz-jvx9LH1LmI6KNJK59kPV0",
-    authDomain: "trucktransportapp-8fb01.firebaseapp.com",
-    projectId: "trucktransportapp-8fb01",
-    storageBucket: "trucktransportapp-8fb01.appspot.com",
-    messagingSenderId: "542232427495",
-    appId: "1:542232427495:web:986aa850389a5b06a75b42",
-    measurementId: "G-7LWL9CFE0T"
-  };
+  const app = initializeApp(firebaseConfig);
+  export const auth = getAuth(app)
+  export const db = getFirestore()
+  
+  export default app;
+
+  // export const db = getFirestore() 

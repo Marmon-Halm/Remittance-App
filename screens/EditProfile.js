@@ -16,7 +16,7 @@ import SmallTexts from '../componets/Texts/SmallTexts';
 
 
 
-export default function Profile(params) {
+export default function EditProfile(params) {
     const navigation = params.navigation;
 
 

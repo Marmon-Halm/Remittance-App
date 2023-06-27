@@ -9,6 +9,7 @@ export const color = {
     success: '#5cb85c',
     backgrey: '#F6F5FA',
     newGrey: '#DDDDDD',
+    disabledGrey: '#DCDCDC',
     sea:"#90b8f8",
     little:"#016e96",
     smallTextColor: '#838282',

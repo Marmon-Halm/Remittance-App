@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useRef } from "react";
-import { StyleSheet, View, Image, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Image, ActivityIndicator, Alert } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import 'react-native-gesture-handler';
 import ghana from '../assets/ghana.png'
@@ -25,14 +25,10 @@ import { styled } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-import { config, firebaseConfig } from '../config';
+import { auth, db } from '../config';
 const { primary, sea, white, little, killed, grey } = color;
-// import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
-// import { initializeApp, getApp } from 'firebase/app';
-// import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
-
-import fbConfig from '../config';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 
 
 
@@ -56,19 +52,16 @@ export default function SignUp(params) {
   const [verificationId, setVerificationId] = React.useState();
   const [verificationCode, setVerificationCode] = React.useState();
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  // const firebaseConfig = app ? app.options : undefined; 
-  const [message, showMessage] = React.useState();
-  const attemptInvisibleVerification = false;
-
-
   const [checked, toggleChecked] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  
   const [loading, setLoading] = useState('');
 
+  const [message, setMessage] = useState('');
 
 
 
@@ -92,42 +85,80 @@ export default function SignUp(params) {
 
 
   const checkButtonAndEnableSignUp = () => {
-    toggleChecked(true);
+    toggleChecked(!checked);
   };
 
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
 
-  const handleSubmit = async (credentials, setSubmitting) => {
+  const handleRegister = async () => {
+    setLoading(true)
     try {
+      console.log('registering...')
       setMessage(null);
 
       // call backend
+      const response = await createUserWithEmailAndPassword(auth, email, password)
+      const user = response.user;
+      const queryRef = query(
+        collection(db, "users"),
+        where("uid", "==", user?.uid)
+      );
 
+
+
+      console.log("response from creating user ");
+
+      const querySnapshot = await getDocs(queryRef);
+      console.log('query snap ', querySnapshot)
+
+      if (querySnapshot.size === 0) {
+        // Create a new user
+        try {
+          const userDocRef = await addDoc(collection(db, "users"), {
+            uid: user?.uid,
+            firstName: firstName,
+            email: email,
+            phoneNumber: phoneNumber            
+          }).then((res) => {
+            setLoading(false);
+            navigation.navigate('OTPVerification')
+          });
+
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+          return; // Exit early if there was an error adding the user data
+        }
+      } else {
+        Alert.alert("Email already in use");
+      }
       //move to next page
 
       setSubmitting(false);
 
     } catch (error) {
-      setMessage('Login failed: ' + error.message);
+      console.log(error)
+      setMessage('Register failed: ' + error.message);
       setSubmitting(false)
     }
   };
 
-  const handleRegister = () => {
+  // const handleRegister =  () => {
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log('Signed In')
-        navigation.navigate('OTPVerification');
-        const user = userCredential.user;
-        console.log(user)
-      })
-      .catch((error) => {
-        console.log(error.message)
-      });
+  //   createUserWithEmailAndPassword(auth, email, password)
+  //     .then((userCredential) => {
+  //       console.log('Signed In')
+  //       navigation.navigate('OTPVerification');
+  //       const user = userCredential.user;
+  //       console.log(user)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message)
+  //     });
 
-  };
+  // };
+
 
   // const phoneAuth = async () => {
   //   // The FirebaseRecaptchaVerifierModal ref implements the
@@ -214,18 +245,36 @@ export default function SignUp(params) {
 
 
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{firstName: '', email: '', phoneNumber: '', password: '' }}
         onSubmit={(values, { setSubmitting }) => {
-          if (values.email == "" || values.phoneNumber == "" || values.password) {
+          if (firstName === "" || email === "" || phoneNumber === "" || password === "") {
             setMessage('Please enter your details');
+            console.log('first name ', firstName)
+            console.log('phone ', phoneNumber)
+            console.log('email ', email)
+            console.log('pass ', password)
+
+
             setSubmitting(false);
           } else {
-            handleLogin(values, setSubmitting);
+            handleRegister()
           }
         }}
       >
         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
           <>
+            <StyledTextInput
+              icon="user"
+              placeholder="First Name"
+              autoCapitalize='none'
+              autoCorrect={false}
+              onChangeText={(text) => setFirstName(text)}
+              onBlur={handleBlur('firstName')}
+              enablesReturnKeyAutomatically={true}
+              keyboardAppearance="light"
+              value={firstName}
+            />
+
             <StyledTextInput
               icon="mail"
               placeholder="Email Address"
@@ -246,6 +295,8 @@ export default function SignUp(params) {
               keyboardAppearance="light"
               inputMode='numeric'
               returnKeyType='done'
+              onChangeText={(text) => setPhoneNumber(text)}
+              value={phoneNumber}
               minLength={1}
               maxLength={12}
             />
@@ -287,9 +338,9 @@ export default function SignUp(params) {
 
             </RowContainer>
 
-            {!isSubmitting && <RegularButton onPress={handleRegister}>Register</RegularButton>}
-            {isSubmitting && (
-              <RegularButton style={{ alignItems: 'center' }}>
+            {!loading && <RegularButton onPress={handleSubmit} disabled={!checked} style={{ opacity: checked ? 1 : 0.3 }}>Register</RegularButton>}
+            {loading && (
+              <RegularButton disabled={loading} style={{ alignItems: 'center' }}>
                 <ActivityIndicator size="small" color={white} />
               </RegularButton>
             )}

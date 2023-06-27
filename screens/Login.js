@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { View, Image, StyleSheet, Alert } from 'react-native';
@@ -13,10 +13,12 @@ import MsgText from '../componets/Texts/MsgText';
 import RegularButton from '../componets/Buttons/RegularButton';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../config';
+import { auth } from '../config';
 import { Formik } from 'formik';
 import { color } from '../screens/color';
 import ghana from '../assets/ghana.png';
+import app from '../config';
+import { UserContext } from '../contexts/UserContext';
 const { primary, sea, white, little, killed, grey } = color;
 
 
@@ -25,11 +27,12 @@ const { primary, sea, white, little, killed, grey } = color;
 export default function Login(params) {
   const navigation = params.navigation;
 
+  const { setUserLoggedIn } = useContext(UserContext)
+
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState('');
   const [password, setPassword] = useState('');
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+
   const [enableContinueBtn, setEnableContinueBtn] = useState(false);
 
   const enableFunction = () => {
@@ -72,7 +75,7 @@ export default function Login(params) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log('Signed In')
-        navigation.navigate('Home');
+        setUserLoggedIn(true);
         const user = userCredential.user;
         console.log(user)
       })
@@ -135,10 +138,10 @@ export default function Login(params) {
 
 
 
-            {!isSubmitting && <RegularButton onPress={handleLogin}>Login</RegularButton>}
-            {isSubmitting && (
+            {!submitting && <RegularButton onPress={handleLogin}>Login</RegularButton>}
+            {submitting && (
               <RegularButton disabled={true}>
-                <ActivityIndicator size="small" color={white} />
+                <ActivityIndicator color={white} />
               </RegularButton>
             )}
 

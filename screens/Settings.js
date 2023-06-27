@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
@@ -16,23 +16,23 @@ import Modal from "react-native-modal";
 import AppLoading from 'expo-app-loading';
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { getAuth, signOut } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
-import { config, firebaseConfig } from '../config';
+import { signOut } from 'firebase/auth';
+import { auth } from '../config';
+import { UserContext } from '../contexts/UserContext';
 
 
 
-export default function Profile(params) {
+export default function Settings(params) {
     const navigation = params.navigation;
 
+    const {setUserLoggedIn } = useContext(UserContext)
 
     const [isModalVisible2, setIsModalVisible2] = useState(false);
     const [isModalVisible3, setIsModalVisible3] = useState(false);
     const [isModalVisible4, setIsModalVisible4] = useState(false);
 
     const [loggingOut, setLoggingOut] = useState(false);
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+
 
     const handleLogin = () => {
 
@@ -44,7 +44,8 @@ export default function Profile(params) {
         setLoggingOut(true);
         signOut(auth)
         .then(() => {
-          navigation.navigate('Login');
+            setUserLoggedIn(false);
+            console.log('sign out')
         })
         .catch((error) => {
           console.log(error.message)
