@@ -19,6 +19,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import { UserContext } from '../contexts/UserContext';
+import FilledButton from '../componets/Buttons/FilledButton';
 
 
 
@@ -153,14 +154,11 @@ export default function Settings(params) {
 
                 </View>
 
+        
+               <FilledButton style={{borderColor: '#BA2F2F', alignSelf: 'baseline'}}>LogOut</FilledButton>
 
 
-                <View style={{ alignItems: 'center', width: '100%' }}>
-                    <TouchableOpacity onPress={onLogOut}>
-                        <Text style={styles.logout}>Logout</Text>
-                    </TouchableOpacity>
-                </View>
-
+                {/* onPress={onLogOut} */}
 
 
                 {/* <View>
