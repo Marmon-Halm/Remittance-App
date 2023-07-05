@@ -1,8 +1,9 @@
  {
   "expo": {
-    "name": "remiapp",
-    "slug": "remiapp",
+    "name": "trucktransportsystem",
+    "slug": "trucktransportsystem",
     "version": "1.0.0",
+    "scheme": "com.trucktransportsystem.com",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -27,13 +28,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.trucktransportsystem.com"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.trucktransportsystem.com"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -41,6 +44,3 @@
   }
  
 }
-
-
-// measurementId: "G-7LWL9CFE0T",

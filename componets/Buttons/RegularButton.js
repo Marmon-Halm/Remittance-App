@@ -9,7 +9,7 @@ const { white, killed, newGrey, disabledGrey } = color;
 
 
 const ButtonView = styled.TouchableOpacity`
-    padding-horizontal: 10px;
+    padding: 15px;
     background-color: ${killed};
     width: 100%;
     justify-content: center;

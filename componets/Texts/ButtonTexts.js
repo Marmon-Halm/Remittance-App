@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from 'styled-components/native';
 import { color } from '../../screens/color';
-import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
+import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
 const { killed, white } = color;
 
@@ -16,12 +16,7 @@ const StyledText = styled.Text`
 
 const ButtonTexts = (props) => {
 
-    let [fontsLoaded] = useFonts({
-        Manrope_400Regular,
-        Manrope_500Medium,
-        Manrope_600SemiBold
-      });
-    
+    let [fontsLoaded] = useFonts({ Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold });
     
       if (!fontsLoaded) {
         return <AppLoading />;

@@ -22,7 +22,9 @@ import { UserContext } from '../contexts/UserContext';
 const { primary, sea, white, little, killed, grey } = color;
 
 
-
+const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const PWD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 export default function Login(params) {
   const navigation = params.navigation;
@@ -30,45 +32,17 @@ export default function Login(params) {
   const { setUserLoggedIn } = useContext(UserContext)
 
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState('');
   const [password, setPassword] = useState('');
-
+  const [emailValid, setEmailValid] = useState(false)
+  const [pwdValid, setPwdValid] = useState(false)
+  const [loading, setLoading] = useState('');
   const [enableContinueBtn, setEnableContinueBtn] = useState(false);
-
-  const enableFunction = () => {
-    setEnableContinueBtn(true);
-  };
-
   const [message, setMessage] = useState('');
+  const [message1, setMessage1] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const handleMessage = (message, type) => {
-    setMessage(message);
-    setMessageType(type);
-  };
-
-  // const handleLogin = async (credentials, setSubmitting) => {
-  //   try {
-  //     setMessage(null);
-
-  //     // call backend
-  //     signInWithEmailAndPassword(auth, email, password)
-  //       .then[(userCredential) => {
-  //         console.log('Signed In')
-  //         const user = userCredential.user;
-  //         console.log(user)
-  //       }]
-  //     //move to next page
-
-  //     setSubmitting(true);
-  //     navigation.navigate('Home');
-
-  //   } catch (error) {
-  //     setMessage('Login failed: ' + error.message);
-  //     setSubmitting(false)
-  //   }
-  // };
 
   const handleLogin = () => {
     setSubmitting(true);
@@ -80,9 +54,15 @@ export default function Login(params) {
         console.log(user)
       })
       .catch((error) => {
-        setMessage('Login failed: ' + error.message);
+        // setMessage('Login failed: ' + error.message);
+        console.log(error.message)
+        if (error.message === "Firebase: Error (auth/invalid-email)." || error.message === "Firebase: Error (auth/user-not-found).") {
+          setErrorMessage('Incorrect Email Address or Password')
+        }
+        setLoading(false)
         setSubmitting(false)
       });
+
 
   };
 
@@ -108,51 +88,100 @@ export default function Login(params) {
       <Formik
         initialValues={{ email: '', password: '' }}
         onSubmit={(values, { setSubmitting }) => {
-          if (values.email == "" || values.password == "") {
-            setMessage('Please enter your details');
+          if (email === "" && password === "") {
+            setMessage('Enter a valid email address');
+            setMessage1('Enter a valid password');
+            setSubmitting(false);
+
+          } else if (email === "") {
+            setMessage('Enter a valid email address');
+            setSubmitting(false);
+
+          } else if (password === "") {
+            setMessage1('Enter a valid password');
             setSubmitting(false);
           } else {
             handleLogin(values, setSubmitting);
           }
+
         }}
       >
-        {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+        {({ handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <>
+            <MsgText
+              style={{ marginBottom: 12, fontSize: errorMessage ? 16 : 0 }}
+              success={isSuccessMessage}>
+              {errorMessage || ""}
+            </MsgText>
+
+
             <StyledTextInput
               icon="mail"
               placeholder="Email Address"
               keyboardType="email-address"
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => {
+                setEmail(text)
+                setEmailValid(EMAIL_REGEX.test(text))
+              }}
               value={email}
+              valid={emailValid}
             />
+            <MsgText
+              style={{ marginBottom: message ? 12 : 1 ,  marginLeft: 3, textAlign: 'left', }}
+              success={isSuccessMessage}>
+              {message || ""}
+            </MsgText>
+
+
+
 
             <StyledTextInput
               icon="key"
               placeholder="Password"
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={(text) => {
+                setPassword(text)
+                setPwdValid(PWD_REGEX.test(text))
+
+              }}
               isPassword={true}
               value={password}
+              valid={pwdValid}
             />
 
-            <RegularTexts style={{ textAlign: 'right', color: primary, marginBottom: 25 }} onPress={() => { navigation.navigate('ResetP') }}>Forgot Password ?</RegularTexts>
+            {/* <StyledTextInput
+              icon="key"
+              placeholder="Password"
+              onChangeText={(text) => {
+                setPassword(text)
+                setPwdValid(PWD_REGEX.test(text))
+
+              }}
+              isPassword={true}
+              value={password}
+              valid={pwdValid}
+            /> */}
+
+            <MsgText
+              style={{ marginBottom: message1 ? 12 : 0, marginLeft: 3, textAlign: 'left', fontSize: message1 ? 14 : 0 }}
+              success={isSuccessMessage}>
+              {message1 || ""}
+            </MsgText>
 
 
 
-            {!submitting && <RegularButton onPress={handleLogin}>Login</RegularButton>}
+
+            {!submitting && <RegularButton style={{ marginTop: 15 }} onPress={handleSubmit}>Login</RegularButton>}
             {submitting && (
               <RegularButton disabled={true}>
-                <ActivityIndicator color={white} />
+                <ActivityIndicator color={'#fff'} /> Login
               </RegularButton>
             )}
 
 
             <RegularTexts style={{ textAlign: 'center', marginTop: 20 }}>Don't have an account? <RegularTexts style={{ color: primary }} onPress={() => { navigation.navigate("SignUp") }} >Register</RegularTexts></RegularTexts>
+            <RegularTexts style={{ textAlign: 'center', color: primary, marginTop: 5 }} onPress={() => { navigation.navigate('ResetP') }}>Forgot Password ?</RegularTexts>
 
-            <MsgText
-              style={{ marginVertical: 10 }}
-              success={isSuccessMessage}>
-              {message || ""}
-            </MsgText>
+
           </>
         )}
       </Formik>

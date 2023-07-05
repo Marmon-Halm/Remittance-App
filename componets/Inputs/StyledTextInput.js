@@ -4,7 +4,7 @@ import { styled } from 'styled-components/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import SmallTexts from '../Texts/SmallTexts';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { color } from '../../screens/color';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
@@ -18,17 +18,17 @@ const { primary, sea, white, little, killed, grey } = color;
 
 
 const InputField = styled.TextInput`
-    font-size: 15px;
+    font-size: 17px;
     color: ${killed};
     width: 80%;
     padding-left: 5px;
+    padding-right: 25px;
     font-family: 'Manrope_500Medium';
 `;
 
 const InputContainer = styled.View`
-    height: 50px;
+    height: 55px;
     width: 100%;
-    margin-vertical: 8px;
     flex-direction: row;
     padding-horizontal: 10px;
     border-radius: 10px;
@@ -62,7 +62,7 @@ const RightIcon = styled.TouchableOpacity`
 
 
 
-const StyledTextInput = ({ icon, label, isPhone, isPassword, ...props }) => {
+const StyledTextInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...props }) => {
 
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
@@ -72,6 +72,7 @@ const StyledTextInput = ({ icon, label, isPhone, isPassword, ...props }) => {
 
     const [inputBackgroundColor, setInputBackgroundColor] = useState(primary);
     const [hidePassword, setHidePassword] = useState(true);
+    const [textChanged, setTextChanged] = useState(false)
 
     const customOnBlur = () => {
         props?.onBlur;
@@ -88,13 +89,12 @@ const StyledTextInput = ({ icon, label, isPhone, isPassword, ...props }) => {
     }
 
     return (
-        <InputContainer >
+        <InputContainer style={{borderWidth: 1.5, borderColor: valid ? "#198754" : 'transparent'}}>
             <LeftIconContainer>
                 <LeftIcon>
                     <Feather name={icon} size={18} color="#7A7A7A" />
                 </LeftIcon>
             </LeftIconContainer>
-            <SmallTexts>{label}</SmallTexts>
             <InputField
                 {...props}
                 placeholderTextColor={killed}
@@ -102,14 +102,21 @@ const StyledTextInput = ({ icon, label, isPhone, isPassword, ...props }) => {
                 onBlur={customOnBlur}
                 onFocus={customOnFocus}
                 secureTextEntry={isPassword && hidePassword}
+                onChange={(text) => {
+                    setTextChanged(true)
+                }}
             />
             {isPassword && <RightIconContainer >
+
                 <RightIcon onPress={() => { setHidePassword(!hidePassword) }}>
-                    <Feather name={hidePassword ? 'eye-off' : 'eye'} size={15} color="#7A7A7A" />
+                    <Feather name={hidePassword ? 'eye-off' : 'eye'} size={20} color="#7A7A7A" />
                 </RightIcon>
+               
             </RightIconContainer>
 
             }
+           
+
 
             {isPhone && <RightIcon>
                 <Feather name={'chevron-down'} size={18} color="#7A7A7A" />

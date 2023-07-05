@@ -23,7 +23,7 @@ import SmallTexts from '../componets/Texts/SmallTexts';
 import RowContainer from '../componets/Containers/RowContainer';
 import { styled } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { auth, db } from '../config';
 const { primary, sea, white, little, killed, grey } = color;
@@ -47,6 +47,10 @@ export default function SignUp(params) {
   //   )
   // };
 
+  const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const PWD_REGEX =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const recaptchaVerifier = React.useRef(null);
   const [phoneNumber, setPhoneNumber] = React.useState();
   const [verificationId, setVerificationId] = React.useState();
@@ -58,7 +62,8 @@ export default function SignUp(params) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
-  
+  const [emailValid, setEmailValid] = useState(false)
+  const [pwdValid, setPwdValid] = useState(false)
   const [loading, setLoading] = useState('');
 
   const [message, setMessage] = useState('');
@@ -91,8 +96,22 @@ export default function SignUp(params) {
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
 
+  const actionCodeSettings = {
+    url: 'https://transporttruck-5292e.firebaseapp.com',
+    iOS: {
+      bundleId: 'com.trucktransportsystem.com'
+    },
+    android: {
+      packageName: 'com.trucktransportsystem.com',
+      installApp: true,
+      minimumVersion: '12'
+    },
+    handleCodeInApp: true
+  };
+
   const handleRegister = async () => {
     setLoading(true)
+
     try {
       console.log('registering...')
       setMessage(null);
@@ -100,6 +119,7 @@ export default function SignUp(params) {
       // call backend
       const response = await createUserWithEmailAndPassword(auth, email, password)
       const user = response.user;
+      console.log('user ', user)
       const queryRef = query(
         collection(db, "users"),
         where("uid", "==", user?.uid)
@@ -115,14 +135,23 @@ export default function SignUp(params) {
       if (querySnapshot.size === 0) {
         // Create a new user
         try {
-          const userDocRef = await addDoc(collection(db, "users"), {
+
+
+          await addDoc(collection(db, "users"), {
             uid: user?.uid,
             firstName: firstName,
             email: email,
-            phoneNumber: phoneNumber            
+            phoneNumber: phoneNumber,
+            verified: false
           }).then((res) => {
+            sendEmailVerification(user, actionCodeSettings).then((res) => {
+              console.log(res)
+            }).catch((err) => {
+              console.log(err)
+              setLoading(false)
+            })
             setLoading(false);
-            navigation.navigate('OTPVerification')
+            // navigation.navigate('OTPVerification')
           });
 
         } catch (error) {
@@ -240,12 +269,12 @@ export default function SignUp(params) {
 
       </View>
 
-      <RegularTexts style={{ marginTop: 30, marginBottom: 8, color: primary }}>Your login details</RegularTexts>
+      <RegularTexts style={{ marginTop: 30, color: primary }}>Your login details</RegularTexts>
 
 
 
       <Formik
-        initialValues={{firstName: '', email: '', phoneNumber: '', password: '' }}
+        initialValues={{ firstName: '', email: '', phoneNumber: '', password: '' }}
         onSubmit={(values, { setSubmitting }) => {
           if (firstName === "" || email === "" || phoneNumber === "" || password === "") {
             setMessage('Please enter your details');
@@ -263,6 +292,12 @@ export default function SignUp(params) {
       >
         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
           <>
+
+            <MsgText
+              style={{ marginVertical: 5 }}
+              success={isSuccessMessage}>
+              {message || ""}
+            </MsgText>
             <StyledTextInput
               icon="user"
               placeholder="First Name"
@@ -274,19 +309,11 @@ export default function SignUp(params) {
               keyboardAppearance="light"
               value={firstName}
             />
-
-            <StyledTextInput
-              icon="mail"
-              placeholder="Email Address"
-              keyboardType="email-address"
-              autoCapitalize='none'
-              autoCorrect={false}
-              onChangeText={(text) => setEmail(text)}
-              onBlur={handleBlur('email')}
-              enablesReturnKeyAutomatically={true}
-              keyboardAppearance="light"
-              value={email}
-            />
+            <MsgText
+              style={{}}
+              success={isSuccessMessage}>
+              {""}
+            </MsgText>
 
             <StyledTextInput
               icon="phone"
@@ -298,33 +325,52 @@ export default function SignUp(params) {
               onChangeText={(text) => setPhoneNumber(text)}
               value={phoneNumber}
               minLength={1}
-              maxLength={12}
+              maxLength={10}
             />
+            <MsgText success={isSuccessMessage}> {""} </MsgText>
+
+            <StyledTextInput
+              icon="mail"
+              placeholder="Email Address"
+              keyboardType="email-address"
+              autoCapitalize='none'
+              autoCorrect={false}
+              onChangeText={(text) => {
+                setEmail(text)
+                setEmailValid(EMAIL_REGEX.test(text))
+              }}
+              value={email}
+              valid={emailValid}
+              onBlur={handleBlur('email')}
+              enablesReturnKeyAutomatically={true}
+              keyboardAppearance="light"
+            />
+            <MsgText success={isSuccessMessage}> {""} </MsgText>
 
             <StyledTextInput
               icon="key"
               placeholder="Password"
-              onChangeText={(text) => setPassword(text)}
-              onChange={enableCheckBox}
+              onChangeText={(text) => {
+                setPassword(text)
+                setPwdValid(PWD_REGEX.test(text))
+                setCheckboxEnabled(true)
+
+              }}
+              isPassword={true}
+              value={password}
+              valid={pwdValid}
               onBlur={handleBlur('password')}
               autoCapitalize='none'
               autoCorrect={false}
-              isPassword={true}
-              minLength={8}
               keyboardAppearance="light"
-              value={password}
             />
 
-            <SmallTexts>Your password should be at least 8 characters, and include 1 upper case letter and 1 number</SmallTexts>
+            <SmallTexts style={{ marginTop: 5, marginLeft: 3, marginBottom: 40 }}>Password must have a minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character</SmallTexts>
 
 
-            <MsgText
-              style={{ marginVertical: 15 }}
-              success={isSuccessMessage}>
-              {message || ""}
-            </MsgText>
 
-            <RowContainer>
+
+            <RowContainer style={{ marginBottom: 15 }}>
               <View style={{ marginRight: 8 }}>
                 <Checkbox
                   value={checked}

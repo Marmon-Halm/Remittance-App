@@ -6,8 +6,7 @@ import AppLoading from 'expo-app-loading';
 const { red, sea } = color;
 
 const StyledText = styled.Text`
-    font-size: 15px;
-    color: ${(props) => (props.success ? sea : red)};
+    color: ${red};
     text-align: center;
     font-family: 'Manrope_500Medium';
 `;

@@ -7,7 +7,6 @@ const StyledView = styled.View`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-vertical: 20px;
 `;
 
 
