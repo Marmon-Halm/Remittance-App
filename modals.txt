@@ -1,0 +1,328 @@
+<View style={styles.container}>
+
+
+
+
+
+
+                {/* <View>
+                        <Modal isVisible={isModalVisible2} style={styles.modal}>
+                            <View style={styles.view3}>
+                                <View style={{ width: '20%', }}>
+                                    <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal1} />
+                                </View>
+                                <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
+                                    <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}>Edit Profile</Text>
+                                </View>
+                            </View>
+
+
+                            <View>
+                                <Text style={styles.textInputLabel}>First Name</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"name"}
+                                    placeholder={'User First Name'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View>
+
+                            <View>
+                                <Text style={styles.textInputLabel}>Last Name</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"name"}
+                                    placeholder={'User Last Name'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View>
+
+                            <View>
+                                <Text style={styles.textInputLabel}>Phone Number</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"number"}
+                                    keyboardType="phone-pad"
+                                    placeholder={'User Phone Number'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    disable={true}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View>
+
+                            <View>
+                                <Text style={styles.textInputLabel}>Email Address</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"emailAddress"}
+                                    keyboardType="email-address"
+                                    placeholder={'User Email Address'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    disable={true}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View>
+
+                            <View style={{ top: 200, width: '100%' }}>
+                                <TouchableOpacity style={styles.button} onPress={closeModalandAlertMessage}>
+                                    <Text style={styles.buttonText}>Save Changes</Text>
+                                </TouchableOpacity>
+                            </View>
+
+
+
+
+                        </Modal>
+
+                        <Modal isVisible={isModalVisible3} style={styles.modal}>
+                            <View style={styles.view3}>
+                                <View style={{ width: '20%', }}>
+                                    <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal2} />
+                                </View>
+                                <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
+                                    <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}> My Recepients</Text>
+                                </View>
+                                <View style={{ width: '20%' }}>
+                                    <Ionicons name="close" size={40} color='#FFF' onPress={handleModal2} />
+                                </View>
+                            </View>
+
+                            <View>
+
+                                <View>
+                                    <TouchableOpacity style={[styles.categoryContainer2, styles.shadowProp]}>
+                                        <View style={{ width: '11%' }}>
+                                            <Ionicons
+                                                name="man"
+                                                size={45}
+                                                color="#383838"
+                                            />
+                                        </View>
+
+                                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.unnecessary}>
+                                                David Ayernor
+                                            </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View>
+                                    <TouchableOpacity style={[styles.categoryContainer2, styles.shadowProp]}>
+                                        <View style={{ width: '11%' }}>
+                                            <Ionicons
+                                                name="man"
+                                                size={45}
+                                                color="#383838"
+                                            />
+                                        </View>
+
+                                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.unnecessary}>
+                                                Rose Baker
+                                            </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View>
+                                    <TouchableOpacity style={[styles.categoryContainer2, styles.shadowProp]}>
+                                        <View style={{ width: '11%' }}>
+                                            <Ionicons
+                                                name="woman"
+                                                size={45}
+                                                color="#383838"
+                                            />
+                                        </View>
+
+                                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.unnecessary}>
+                                                Akosua Owusu
+                                            </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+
+                            </View>
+
+                            <View style={{ top: 225, justifyContent: 'flex-end', flexDirection: 'row' }}>
+                                <TouchableOpacity style={styles.buttonAdd}>
+                                    <Ionicons name="add" size={35} color='#FFF' />
+                                </TouchableOpacity>
+                            </View>
+
+                        </Modal>
+                    </View> */}
+
+                <View>
+                    <Modal isVisible={isModalVisible4} style={styles.modal}>
+                        <View style={styles.view3}>
+                            <View style={{ width: '20%', }}>
+                                <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal3} />
+                            </View>
+                            <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
+                                <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}>Settings</Text>
+                            </View>
+
+
+
+                        </View>
+
+
+                        <View>
+                            <Text style={styles.textInputLabel}>About</Text>
+                            <Text style={styles.textInputLabel}>Group 24</Text>
+                        </View>
+                        {/*
+                            <View>
+                                <Text style={styles.textInputLabel}>Last Name</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"name"}
+                                    placeholder={'User Last Name'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View>
+
+                            <View>
+                                <Text style={styles.textInputLabel}>Phone Number</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"number"}
+                                    keyboardType="phone-pad"
+                                    placeholder={'User Phone Number'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    disable={true}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View>
+
+                            <View>
+                                <Text style={styles.textInputLabel}>Settings</Text>
+                                <TextInput style={styles.profileContainer}
+                                    textContentType={"emailAddress"}
+                                    keyboardType="email"
+                                    placeholder={'User Email Address'}
+                                    autoComplete={'true'}
+                                    minLength={1}
+                                    disable={true}
+                                    placeholderTextColor={'gray'}
+                                    keyboardAppearance={"light"}
+                                />
+                            </View> */}
+
+                        {/* <View style={{ top: 200, width: '100%' }}>
+                                <TouchableOpacity style={styles.button} onPress={closeModalandAlertMessage1}>
+                                    <Text style={styles.buttonText}>Save Changes</Text>
+                                </TouchableOpacity>
+                            </View> */}
+
+
+
+
+                    </Modal>
+
+                    {/* <Modal isVisible={isModalVisible3} style={styles.modal}>
+                            <View style={styles.view3}>
+                                <View style={{ width: '20%', }}>
+                                    <Ionicons name="close-outline" size={40} color='#4F4E53' onPress={handleModal2} />
+                                </View>
+                                <View style={{ width: '60%', flexDirection: 'row', justifyContent: 'center', }}>
+                                    <Text style={{ fontSize: 23, fontFamily: 'Manrope_600SemiBold', margin: 0 }}> My Recepients</Text>
+                                </View>
+                                <View style={{ width: '20%' }}>
+                                    <Ionicons name="close" size={40} color='#FFF' onPress={handleModal2} />
+                                </View>
+                            </View>
+
+                            <View>
+
+                                <View>
+                                    <TouchableOpacity style={[styles.categoryContainer2, styles.shadowProp]}>
+                                        <View style={{ width: '11%' }}>
+                                            <Ionicons
+                                                name="man"
+                                                size={45}
+                                                color="#383838"
+                                            />
+                                        </View>
+
+                                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.unnecessary}>
+                                                David Ayernor
+                                            </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View>
+                                    <TouchableOpacity style={[styles.categoryContainer2, styles.shadowProp]}>
+                                        <View style={{ width: '11%' }}>
+                                            <Ionicons
+                                                name="man"
+                                                size={45}
+                                                color="#383838"
+                                            />
+                                        </View>
+
+                                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.unnecessary}>
+                                                Rose Baker
+                                            </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View>
+                                    <TouchableOpacity style={[styles.categoryContainer2, styles.shadowProp]}>
+                                        <View style={{ width: '11%' }}>
+                                            <Ionicons
+                                                name="woman"
+                                                size={45}
+                                                color="#383838"
+                                            />
+                                        </View>
+
+                                        <View style={{ width: '70%', flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.unnecessary}>
+                                                Akosua Owusu
+                                            </Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+
+                            </View>
+
+                            <View style={{ top: 225, justifyContent: 'flex-end', flexDirection: 'row' }}>
+                                <TouchableOpacity style={styles.buttonAdd}>
+                                    <Ionicons name="add" size={35} color='#FFF' />
+                                </TouchableOpacity>
+                            </View>
+
+                        </Modal> */}
+                </View>
+
+
+            </View>
+
+
+
+
+            <StatusBar style="dark" />
+        </View>
+
