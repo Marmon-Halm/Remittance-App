@@ -9,6 +9,7 @@ const { white } = color;
 
 const StyledView = styled.View`
     flex: 1;
+    padding-top: ${StatusBarHeight} px;
     paddingHorizontal: 22px;
     background-color: ${white};
 `;
