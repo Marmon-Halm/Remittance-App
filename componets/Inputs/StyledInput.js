@@ -24,7 +24,6 @@ const InputField = styled.TextInput`
     padding-left: 5px;
     padding-right: 25px;
     font-family: 'Manrope_500Medium';
- 
 `;
 
 const InputContainer = styled.View`
@@ -33,7 +32,10 @@ const InputContainer = styled.View`
     flex-direction: row;
     padding-horizontal: 10px;
     border-radius: 10px;
+    margin-top: 10px;
     background-color: "#EDEDED";
+    margin-bottom: 10px;
+
 `;
 
 const LeftIconContainer = styled.View`
@@ -45,7 +47,7 @@ const LeftIconContainer = styled.View`
 
 const LeftIcon = styled.View`
     position: absolute;
-    z-index: 1;
+    z-index: 1px;
 `;
 
 const RightIconContainer = styled.View`
@@ -57,13 +59,13 @@ const RightIconContainer = styled.View`
 
 const RightIcon = styled.TouchableOpacity`
     position: absolute;
-    z-index: 1;
+    z-index: 1px;
 `;
 
 
 
 
-const StyledTextInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...props }) => {
+const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...props }) => {
 
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
@@ -110,7 +112,7 @@ const StyledTextInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid,
             {isPassword && <RightIconContainer >
 
                 <RightIcon onPress={() => { setHidePassword(!hidePassword) }}>
-                    <Feather name={hidePassword ? 'eye-off' : 'eye'} size={20} color="#7A7A7A" />
+                    <Feather name={hidePassword ? 'eye-off' : 'eye'} size={18} color="#7A7A7A" />
                 </RightIcon>
 
             </RightIconContainer>
@@ -129,4 +131,4 @@ const StyledTextInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid,
 
 };
 
-export default StyledTextInput;
+export default StyledInput;

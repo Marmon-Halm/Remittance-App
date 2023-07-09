@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import {
     useFonts,
     Manrope_400Regular,
@@ -19,8 +19,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import { UserContext } from '../contexts/UserContext';
-import FilledButton from '../componets/Buttons/FilledButton';
-import MainContainer from '../componets/Containers/MainContainer';
+import ButtonTexts from '../componets/Texts/ButtonTexts';
+import { StatusBarHeight } from '../componets/shared';
 
 
 
@@ -35,18 +35,16 @@ export default function Settings(params) {
 
     const [loggingOut, setLoggingOut] = useState(false);
 
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
 
-    const handleLogin = () => {
-
-
-
-    };
 
     const onLogOut = () => {
         setLoggingOut(true);
         signOut(auth)
             .then(() => {
                 setUserLoggedIn(false);
+                navigation.navigate("Login")
                 console.log('sign out')
             })
             .catch((error) => {
@@ -77,62 +75,92 @@ export default function Settings(params) {
         return <AppLoading />;
     }
 
-    return <MainContainer>
-        <View style={{ width: '100%', alignItems: 'center', marginBottom: 35 }}>
-            <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
-                <AntDesign name="adduser" size={40} color="#787878" />
+    return (
+        <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "white"}}>
+
+            <View style={styles.view3}>
+
+                <View style={{ width: "10%" }}>
+                    <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} color="black" onPress={() => {
+                        navigation.goBack()
+                    }} />
+                </View>
+
+                <View style={{ width: "80%" }}>
+                    <Text style={styles.textSettings}>
+                        Settings
+                    </Text>
+                </View>
+                <View style={{ width: "10%" }}>
+
+                </View>
+
             </View>
 
-            <Text style={styles.profileText}>James Obeng</Text>
-            <Text style={styles.profileText2}>+233 50 578 0528</Text>
+            <View style={{ paddingHorizontal: 20 }}>
+                <View style={{ width: '100%', alignItems: 'center', marginBottom: 35, marginTop: 20 }}>
+                    <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
+                        <AntDesign name="adduser" size={40} color="#787878" />
+                    </View>
 
+                    <Text style={styles.profileText}>James Obeng</Text>
+                    <Text style={styles.profileText2}>+233 50 578 0528</Text>
+
+                </View>
+
+                <View >
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("EditProfile") }}>
+                        <View style={{ width: '11%', justifyContent: "center", alignItems: "center" }}>
+                            <Ionicons
+                                name="create-outline"
+                                size={24}
+                                color="#2D9B94"
+                            />
+                        </View>
+
+                        <View style={{ width: '70%', paddingLeft: 7 }}>
+                            <Text style={styles.categoryText}>
+                                Edit Profile
+                            </Text>
+                        </View>
+
+                        <View style={{ width: '19%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Feather name="chevron-right" size={24} color="grey" />
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Trips") }}>
+                        <View style={{ width: '11%', justifyContent: "center", alignItems: "center" }}>
+                            <Ionicons name="timer-outline" size={24} color="#2D9B94" />
+                        </View>
+
+                        <View style={{ width: '70%', paddingLeft: 7 }}>
+                            <Text style={styles.categoryText}>
+                                History
+                            </Text>
+                        </View>
+
+                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <Feather name="chevron-right" size={24} color="grey" />
+
+                        </View>
+                    </TouchableOpacity>
+
+
+                </View>
+
+            </View>
+            
+            <View style={{ position: "absolute", bottom: 50, left: 20, right: 20 }}>
+                <TouchableOpacity style={{ width: "100%", borderColor: '#BA2F2F', borderWidth: 1.5, borderRadius: 10, padding: 12, backgroundColor: "transparent", }} onPress={onLogOut}><ButtonTexts style={{ color: "#BA2F2F" }}>LogOut</ButtonTexts></TouchableOpacity>
+            </View>
+
+
+
+
+            <StatusBar style="dark" />
         </View>
-
-        <View >
-            <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("EditProfile") }}>
-                <View style={{ width: '11%' }}>
-                    <Ionicons
-                        name="create-outline"
-                        size={28}
-                        color="#2D9B94"
-                    />
-                </View>
-
-                <View style={{ width: '70%', paddingLeft: 7 }}>
-                    <Text style={styles.categoryText}>
-                        Edit Profile
-                    </Text>
-                </View>
-
-                <View style={{ width: '19%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <Feather name="chevron-right" size={24} color="black" />
-                </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Trips") }}>
-                <View style={{ width: '12%' }}>
-                    <MaterialIcons name="history" size={28} color="#2D9B94" />
-                </View>
-
-                <View style={{ width: '70%', paddingLeft: 7 }}>
-                    <Text style={styles.categoryText}>
-                        History
-                    </Text>
-                </View>
-
-                <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <Feather name="chevron-right" size={24} color="black" />
-
-                </View>
-            </TouchableOpacity>
-
-
-        </View>
-
-        <FilledButton style={{ borderColor: '#BA2F2F' }} onPress={onLogOut}>LogOut</FilledButton>
-
-        <StatusBar style="dark" />
-    </MainContainer>
+    )
 
 
 
@@ -145,19 +173,34 @@ const styles = StyleSheet.create({
 
     categoryContainer: {
         flexDirection: 'row',
-        height: 60,
+        height: 50,
         width: '100%',
         padding: 10,
         borderWidth: 1.5,
         borderColor: '#BFBFBF',
         borderRadius: 10,
         alignItems: 'center',
+        justifyContent: "center",
         marginBottom: 12,
     },
     categoryText: {
         fontFamily: 'Manrope_600SemiBold',
-        fontSize: 22,
+        fontSize: 18,
         color: '#383838',
+    },
+    view3: {
+        width: '100%',
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderColor: '#C2C2C2',
+        paddingHorizontal: 18,
+        paddingVertical: 10
+    },
+    textSettings: {
+        fontSize: 18,
+        fontFamily: 'Manrope_600SemiBold',
+        marginHorizontal: 10,
+        textAlign: "center"
     },
     modal: {
         paddingTop: 30,

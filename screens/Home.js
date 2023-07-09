@@ -81,13 +81,13 @@ export default function Home(params) {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log(location);
+      // console.log(location);
 
       setPin({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
-      console.log("Pin: ", pin)
+      // console.log("Pin: ", pin)
     })();
   }, []);
 
@@ -110,7 +110,7 @@ export default function Home(params) {
 
   return (
 
-    <View style={{ paddingHorizontal: 0, height: '100%', marginTop: StatusBarHeight }}>
+    <View style={{ paddingHorizontal: 0, height: '100%' }}>
       <MapView
         style={{ flex: 1 }}
         provider={PROVIDER_GOOGLE}
@@ -125,11 +125,9 @@ export default function Home(params) {
 
       </MapView>
 
-      <View style={styles.menuContainer}>
+      <TouchableOpacity style={styles.menuContainer} onPress={() => {navigation.navigate("Settings")}}>
         <Feather name="menu" size={22} color="#000" />
-
-
-      </View>
+      </TouchableOpacity>
       <View style={styles.locationContainer}>
         <TouchableOpacity>
           <MaterialIcons name="my-location" size={24} color="black" />
@@ -192,7 +190,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 40 : 0,
     backgroundColor: 'white',
     position: 'absolute',
-    top: 20,
+    top: StatusBarHeight,
     left: 20,
     borderRadius: 50 / 2,
     alignItems: "center",
@@ -205,7 +203,7 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 40 : 0,
     backgroundColor: 'white',
     position: 'absolute',
-    top: 20,
+    top: StatusBarHeight,
     right: 20,
     borderRadius: 50 / 2,
     alignItems: "center",

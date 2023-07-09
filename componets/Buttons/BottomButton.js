@@ -11,10 +11,8 @@ const { white, killed, newGrey } = color;
 const ButtonView = styled.TouchableOpacity`
     padding: 15px;
     background-color: ${killed};
-    width: 100%;
     border-radius: 10px;
     text-align: center;
-    height: 62px;
 `;
 
 
