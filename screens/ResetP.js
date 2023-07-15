@@ -19,6 +19,8 @@ import SmallTexts from '../componets/Texts/SmallTexts';
 import RowContainer from '../componets/Containers/RowContainer';
 import { styled } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
+import { StatusBarHeight } from '../componets/shared';
+import StyledInput from '../componets/Inputs/StyledInput';
 const { primary, sea, white, little, killed, backgrey } = color;
 
 
@@ -26,11 +28,15 @@ const { primary, sea, white, little, killed, backgrey } = color;
 
 
 export default function ResetP(params) {
+
+    const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const [checked, toggleChecked] = useState(false);
     const [isEnabled, setIsEnabled] = useState(false);
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-
+    const [disableBtn, setDisableBtn] = useState(false);
+    const [email,  setEmail] = useState("");
+    const [emailValid, setEmailValid] = useState(false)
     const doYourTask = () => {
         setIsEnabled(true);
     };
@@ -65,17 +71,17 @@ export default function ResetP(params) {
         return <AppLoading />;
     }
 
-    return <MainContainer>
+    return <MainContainer style={{paddingTop: StatusBarHeight}}>
         <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
         <KeyboardAvoiding>
 
-            <BigTexts style={{ marginBottom: 20, marginTop: 10 }}>Account Email</BigTexts>
+            <TitleText style={{ marginBottom: 20, marginTop: 10,  }}>Account Email</TitleText>
             <RegularTexts style={{ color: '#6A6A6A', marginBottom: 20 }}>Enter your email address for verification code</RegularTexts>
 
 
 
             <Formik
-                initialValues={{ email: '', newPassword: '', confirmPassword: '' }}
+                initialValues={{ email: '' }}
                 onSubmit={(values, { setSubmitting }) => {
                     if (values.email == "") {
                         setMessage('Please enter your details');
@@ -87,17 +93,21 @@ export default function ResetP(params) {
             >
                 {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
                     <>
-                        <StyledTextInput
+                        <StyledInput
                             icon="mail"
                             placeholder="Email Address"
                             keyboardType="email-address"
                             autoCapitalize='none'
                             autoCorrect={false}
-                            onChangeText={handleChange('email')}
+                            onChangeText={(text) => {
+                                setEmail(text)
+                                setEmailValid(EMAIL_REGEX.test(text))
+                            }}
                             onBlur={handleBlur('email')}
                             enablesReturnKeyAutomatically={true}
                             keyboardAppearance="light"
-                            value={values.email}
+                            value={email}
+                            valid={emailValid}
                         />
 
                         <MsgText
@@ -106,7 +116,7 @@ export default function ResetP(params) {
                             {message || ""}
                         </MsgText>
 
-                        {!isSubmitting && <RegularButton onPress={() => {navigation.navigate('NewPassword')}}>Continue</RegularButton>}
+                        {!isSubmitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3}} onPress={() => {navigation.navigate('NewPassword')}}>Continue</RegularButton>}
                         {isSubmitting && (
                             <RegularButton disabled={true}>
                                 <ActivityIndicator size="small" color={white} />

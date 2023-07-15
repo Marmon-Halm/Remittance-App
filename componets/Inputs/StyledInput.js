@@ -47,7 +47,7 @@ const LeftIconContainer = styled.View`
 
 const LeftIcon = styled.View`
     position: absolute;
-    z-index: 1px;
+    z-index: 1;
 `;
 
 const RightIconContainer = styled.View`
@@ -59,7 +59,7 @@ const RightIconContainer = styled.View`
 
 const RightIcon = styled.TouchableOpacity`
     position: absolute;
-    z-index: 1px;
+    z-index: 1;
 `;
 
 
@@ -92,7 +92,7 @@ const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...
     }
 
     return (
-        <InputContainer style={{ borderWidth: 1.5, borderColor: valid ? "#198754" : '#EDEDED', backgroundColor: "#FAFAFA" }}>
+        <InputContainer style={{ borderWidth: 1.5, borderColor: '#EDEDED', backgroundColor: "#FAFAFA" }}>
             <LeftIconContainer>
                 <LeftIcon>
                     <Feather name={icon} size={18} color="#7A7A7A" />

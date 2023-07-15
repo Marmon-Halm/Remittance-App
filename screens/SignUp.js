@@ -29,6 +29,7 @@ import { auth, db } from '../config';
 const { primary, sea, white, little, killed, grey } = color;
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { StatusBarHeight } from '../componets/shared';
 
 
 
@@ -225,7 +226,7 @@ export default function SignUp(params) {
 
 
 
-  return <MainContainer>
+  return <MainContainer style={{paddingTop: StatusBarHeight}}>
     <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
     <KeyboardAvoiding>
 

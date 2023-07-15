@@ -18,6 +18,9 @@ import BigTexts from '../componets/Texts/BigTexts';
 import StyledCodeInput from '../componets/Inputs/StyledCodeInput';
 import MessageModal from '../componets/Modals/MessageModal';
 import ResendTimer from '../componets/Timers/ResendTimer';
+import { StatusBarHeight } from '../componets/shared';
+import StyledInput from '../componets/Inputs/StyledInput';
+import TitleText from '../componets/Texts/TitleText';
 const { primary, sea, white, little, killed, backgrey } = color;
 
 
@@ -111,11 +114,11 @@ export default function NewPassword(params) {
 
 
 
-    return <MainContainer>
+    return <MainContainer style={{paddingTop: StatusBarHeight}}>
         <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
         <KeyboardAvoiding>
 
-            <BigTexts style={{ marginBottom: 20, marginTop: 10 }}>Reset Password</BigTexts>
+            <TitleText style={{ marginBottom: 20, marginTop: 10 }}>Reset Password</TitleText>
             <RegularTexts style={{ color: '#6A6A6A'}}>Enter verification code and reset password</RegularTexts>
 
 
@@ -150,7 +153,7 @@ export default function NewPassword(params) {
             >
                 {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
                     <FormWrapper pinReady={pinReady}>
-                        <StyledTextInput
+                        <StyledInput
                             icon="key"
                             placeholder="New Password"
                             onChangeText={handleChange('newPassword')}
@@ -164,7 +167,7 @@ export default function NewPassword(params) {
                             editable={pinReady}
                         />
 
-                        <StyledTextInput
+                        <StyledInput
                             icon="key"
                             placeholder="Confirm Password"
                             onChangeText={handleChange('confirmPassword')}

@@ -19,6 +19,7 @@ import { color } from '../screens/color';
 import ghana from '../assets/ghana.png';
 import app from '../config';
 import { UserContext } from '../contexts/UserContext';
+import { StatusBarHeight } from '../componets/shared';
 const { primary, sea, white, little, killed, grey } = color;
 
 
@@ -77,7 +78,7 @@ export default function Login(params) {
     return <AppLoading />;
   }
 
-  return <MainContainer>
+  return <MainContainer style={{paddingTop: StatusBarHeight}}>
     <KeyboardAvoiding>
 
       <View style={{ width: 100, height: 100, alignSelf: 'center', marginVertical: 30 }}>
@@ -170,7 +171,7 @@ export default function Login(params) {
 
 
 
-            {!submitting && <RegularButton style={{ marginTop: 15 }} onPress={handleSubmit}>Login</RegularButton>}
+            {!submitting && <RegularButton style={{ marginTop: 15,  shadowColor: 'grey', shadowOffset: { width: -3, height: 4 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 10 }} onPress={handleSubmit}>Login</RegularButton>}
             {submitting && (
               <RegularButton disabled={true}>
                 <ActivityIndicator color={'#fff'} /> Login

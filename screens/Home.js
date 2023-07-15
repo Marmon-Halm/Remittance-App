@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold, Manrope_800ExtraBold } from '@expo-google-fonts/manrope';
 import { Ionicons } from "@expo/vector-icons";
@@ -12,7 +12,10 @@ import Modal from "react-native-modal";
 import { StatusBarHeight } from '../componets/shared';
 import MapView, { PROVIDER_GOOGLE, Marker, getInitialState } from 'react-native-maps'
 import * as Location from 'expo-location';
-import RegularTexts from '../componets/Texts/RegularTexts';
+// import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import BottomSheet from '@gorhom/bottom-sheet';
+
+//import RegularTexts from '../componets/Texts/RegularTexts';
 import StyledTextInput from '../componets/Inputs/StyledTextInput';
 import SmallTexts from '../componets/Texts/SmallTexts';
 import BigTexts from '../componets/Texts/BigTexts';
@@ -29,31 +32,56 @@ export default function Home(params) {
   const handleModalGH = () => setIsModalVisibleGH(() => true)
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [pin, setPin] = useState({
-    latitude: 5.614818,
-    longitude: -0.205874
+  const [position, setPosition] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.004,
+    longitudeDelta: 0.0021,
   });
+  const [visible, setVisible] = useState(true);
 
-  // useEffect(() => {
-  //   (async () => {
+  function toggle() {
+    setVisible((visible) => !visible);
+  }
 
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== 'granted') {
-  //       setErrorMsg('Permission to access location was denied');
-  //       return;
-  //     }
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setPosition({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.004,
+        longitudeDelta: 0.0021,
+      });
+    })();
 
-  //     let location = await Location.getCurrentPositionAsync({});
-  //     setLocation(location);
-  //   })();
+   // handlePresentModal();
+  }, []);
+
+
+
+  // const bottomSheetModalRef = useRef();
+  // const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  // const handlePresentModal = () => {
+  //   bottomSheetModalRef?.current?.present();
+  // }
+
+  // const bottomSheetRef = useRef(null);
+
+  // // variables
+  // const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  // // callbacks
+  // const handleSheetChanges = useCallback((index) => {
+  //  console.log('handleSheetChanges', index);
   // }, []);
 
-  // let text = 'Waiting..';
-  // if (errorMsg) {
-  //   text = errorMsg;
-  // } else if (location) {
-  //   text = JSON.stringify(location);
-  // }
 
 
   const [liveLatitude, setLiveLatitude] = useState(null);
@@ -71,25 +99,6 @@ export default function Home(params) {
     );
   }
 
-  useEffect(() => {
-    (async () => {
-
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      // console.log(location);
-
-      setPin({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
-      // console.log("Pin: ", pin)
-    })();
-  }, []);
 
 
 
@@ -102,9 +111,7 @@ export default function Home(params) {
     Manrope_800ExtraBold
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+
 
   // <View style={{height: '100%', position: 'relative'}}>
 
@@ -114,60 +121,42 @@ export default function Home(params) {
       <MapView
         style={{ flex: 1 }}
         provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 5.710106756927991,
-          longitude: -0.15921827899221827,
-          latitudeDelta: 0.0059,
-          longitudeDelta: 0.0059,
-        }}
-        showsUserLocation={true}>
-
+        initialRegion={position}
+        region={position}
+        showsUserLocation={true}
+      >
+        <Marker
+          coordinate={{
+            latitude: position.latitude,
+            longitude: position.longitude
+          }}
+          tracksViewChanges={true}>
+        </Marker>
 
       </MapView>
 
-      <TouchableOpacity style={styles.menuContainer} onPress={() => {navigation.navigate("Settings")}}>
+      <TouchableOpacity style={styles.menuContainer} onPress={() => { navigation.navigate("Settings") }}>
         <Feather name="menu" size={22} color="#000" />
       </TouchableOpacity>
-      <View style={styles.locationContainer}>
-        <TouchableOpacity>
-          <MaterialIcons name="my-location" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.locationContainer}>
+        <MaterialIcons name="my-location" size={24} color="black" />
+      </TouchableOpacity>
 
-      <View style={styles.searchContainer}>
-        <View style={{ width: "18%", height: "1.2%", backgroundColor: "#C9C9C9", borderRadius: 4, alignSelf: "center" }}></View>
-        <View style={{ alignItems: "center", marginTop: 15, marginBottom: 15 }}>
-          <Text style={{ color: "#737373", fontFamily: "Manrope_500Medium", fontSize: 12 }}>Your Location</Text>
-          <RegularTexts style={{textAlign: "center"}}>User Location</RegularTexts>
+      {/* <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+      >
+        <View style={styles.contentContainer}>
+          <Text>Awesome 🎉</Text>
         </View>
-        <View >
-          <StyledTextInput
-            icon="search"
-            placeholder="Where to ?"
-
-          />
-        </View>
-
-        <View style={{ marginVertical: 25, flex: 1, flexDirection: 'row', justifyContent: "space-between", width: 420 }} >
-          <View style={styles.addressTabs}>
-            <Ionicons name="location-outline" size={42} color="#C9C9C9" />
-            <Text style={{ fontSize: 18, fontFamily: "Manrope_500Medium" }}>Home</Text>
-          </View>
-
-          <View style={styles.addressTabs}>
-            <Ionicons name="location-outline" size={42} color="#C9C9C9" />
-            <Text style={{ fontSize: 18, fontFamily: "Manrope_500Medium" }}>Work</Text>
-          </View>
-
-          <View style={styles.addressTabs}>
-            <Ionicons name="location-outline" size={42} color="#C9C9C9" />
-            <Text style={{ fontSize: 18, fontFamily: "Manrope_500Medium" }}>Address</Text>
-          </View>
-        </View>
-      </View>
+      </BottomSheet>
+      */}
 
       <StatusBar style="dark" />
     </View>
+
 
   )
 
@@ -256,3 +245,51 @@ const styles = StyleSheet.create({
   },
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// <View style={styles.searchContainer}>
+// <View style={{ width: "18%", height: "1.2%", backgroundColor: "#C9C9C9", borderRadius: 4, alignSelf: "center" }}></View>
+// <View style={{ alignItems: "center", marginTop: 15, marginBottom: 15 }}>
+//   <Text style={{ color: "#737373", fontFamily: "Manrope_500Medium", fontSize: 12 }}>Your Location</Text>
+//   <RegularTexts style={{ textAlign: "center" }}>User Location</RegularTexts>
+// </View>
+// <View >
+//   <StyledTextInput
+//     icon="search"
+//     placeholder="Where to ?"
+
+//   />
+// </View>
+
+// <View style={{ marginVertical: 25, flex: 1, flexDirection: 'row', justifyContent: "space-between", width: 420 }} >
+//   <View style={styles.addressTabs}>
+//     <Ionicons name="location-outline" size={42} color="#C9C9C9" />
+//     <Text style={{ fontSize: 18, fontFamily: "Manrope_500Medium" }}>Home</Text>
+//   </View>
+
+//   <View style={styles.addressTabs}>
+//     <Ionicons name="location-outline" size={42} color="#C9C9C9" />
+//     <Text style={{ fontSize: 18, fontFamily: "Manrope_500Medium" }}>Work</Text>
+//   </View>
+
+//   <View style={styles.addressTabs}>
+//     <Ionicons name="location-outline" size={42} color="#C9C9C9" />
+//     <Text style={{ fontSize: 18, fontFamily: "Manrope_500Medium" }}>Address</Text>
+//   </View>
+// </View>
+// </View>
