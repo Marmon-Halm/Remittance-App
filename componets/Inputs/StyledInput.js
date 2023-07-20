@@ -32,10 +32,6 @@ const InputContainer = styled.View`
     flex-direction: row;
     padding-horizontal: 10px;
     border-radius: 10px;
-    margin-top: 10px;
-    background-color: "#EDEDED";
-    margin-bottom: 10px;
-
 `;
 
 const LeftIconContainer = styled.View`

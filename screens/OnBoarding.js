@@ -32,7 +32,7 @@ const slides = [
         id: '2',
         image: require('../assets/img2.png'),
         title: 'ROUTE OPTIMIZATION',
-        description: 'Using algorithms to provide best routes for trip to provide the shortest possible time to complete trips',
+        description: 'Using algorithms to provide best routes for a trip to provide the shortest possible time to complete trips',
     },
     {
         id: '3',

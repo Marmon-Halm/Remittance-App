@@ -17,10 +17,12 @@ import BigTexts from '../componets/Texts/BigTexts';
 import TitleText from '../componets/Texts/TitleText';
 import SmallTexts from '../componets/Texts/SmallTexts';
 import RowContainer from '../componets/Containers/RowContainer';
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { styled } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
+import MessageModal from '../componets/Modals/MessageModal';
 const { primary, sea, white, little, killed, backgrey } = color;
 
 
@@ -30,13 +32,18 @@ const { primary, sea, white, little, killed, backgrey } = color;
 export default function ResetP(params) {
 
     const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const [checked, toggleChecked] = useState(false);
     const [isEnabled, setIsEnabled] = useState(false);
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-    const [disableBtn, setDisableBtn] = useState(false);
-    const [email,  setEmail] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [email, setEmail] = useState("");
     const [emailValid, setEmailValid] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessageType, setModalMessageType] = useState('');
+    const [headerText, setHeaderText] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [buttonText, setButtonText] = useState('');
     const doYourTask = () => {
         setIsEnabled(true);
     };
@@ -49,34 +56,68 @@ export default function ResetP(params) {
         Manrope_600SemiBold,
         Manrope_700Bold
     });
+    const auth = getAuth();
 
-    const handleOnSubmit = async (credentials, setSubmitting) => {
-        try {
-          setMessage(null);
-    
-          // call backend
-    
-          //move to next page
-    
-          setSubmitting(false);
-    
-        } catch (error) {
-          setMessage('Request failed: ' + error.message);
-          setSubmitting(false)
+    const buttonHandler = () => {
+        if (modalMessageType === "success") {
+            // do something
+
         }
-      };
+
+        setModalVisible(false);
+    };
+
+    const showModal = (type, headerText, message, buttonText) => {
+        setModalMessageType(type);
+        setHeaderText(headerText);
+        setModalMessage(message);
+        setButtonText(buttonText);
+        setModalVisible(true);
+    };
+
+
+    const handleOnSubmit = async () => {
+      
+
+        try {
+            setMessage(null);
+            setSubmitting(true);
+            // call backend
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    console.log('Email Sent')
+                    // Password reset email sent! 
+                    return showModal('success', 'Link Sent!', 'Check in the email address provided for a link to reset your account password', 'Proceed');
+        
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                    if (error.message === "Firebase: Error (auth/invalid-email)." || error.message === "Firebase: Error (auth/user-not-found).") {
+                        setErrorMessage('Email Address Not Found !!')
+                    } else {
+                        setErrorMessage(error.message)
+                    }
+                });
+
+
+
+        } catch (error) {
+            setMessage('Request failed: ' + error.message);
+            setSubmitting(false)
+        }
+    };
 
 
     if (!fontsLoaded) {
         return <AppLoading />;
     }
 
-    return <MainContainer style={{paddingTop: StatusBarHeight}}>
+    return <MainContainer style={{ paddingTop: StatusBarHeight }}>
         <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
         <KeyboardAvoiding>
 
-            <TitleText style={{ marginBottom: 20, marginTop: 10,  }}>Account Email</TitleText>
-            <RegularTexts style={{ color: '#6A6A6A', marginBottom: 20 }}>Enter your email address for verification code</RegularTexts>
+            <TitleText style={{ marginBottom: 20, marginTop: 10, }}>Reset Password</TitleText>
+            <RegularTexts style={{ color: '#6A6A6A', marginBottom: 20 }}>Enter a valid email address for a password-reset link</RegularTexts>
 
 
 
@@ -113,11 +154,11 @@ export default function ResetP(params) {
                         <MsgText
                             style={{ marginBottom: 20 }}
                             success={isSuccessMessage}>
-                            {message || ""}
+                            {errorMessage || ""}
                         </MsgText>
 
-                        {!isSubmitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3}} onPress={() => {navigation.navigate('NewPassword')}}>Continue</RegularButton>}
-                        {isSubmitting && (
+                        {!submitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3 }} onPress={handleOnSubmit}>Continue</RegularButton>}
+                        {submitting && (
                             <RegularButton disabled={true}>
                                 <ActivityIndicator size="small" color={white} />
                             </RegularButton>
@@ -125,6 +166,15 @@ export default function ResetP(params) {
                     </>
                 )}
             </Formik>
+
+            <MessageModal
+                modalVisible={modalVisible}
+                buttonHandler={buttonHandler}
+                type={modalMessageType}
+                headerText={headerText}
+                message={modalMessage}
+                buttonText={buttonText}
+            />
 
             <StatusBar style="dark" />
         </KeyboardAvoiding>

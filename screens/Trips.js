@@ -16,7 +16,6 @@ import AppLoading from 'expo-app-loading';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { StatusBarHeight } from '../componets/shared';
-import { BottomSheetModal, BottomSheetModalProvider, } from "@gorhom/bottom-sheet"
 
 
 
@@ -39,37 +38,37 @@ export default function Trips(params) {
 
 
     return (
-        <BottomSheetModal snapPoints={['25%', '50%']}>
-            <View style={{ paddingTop: StatusBarHeight, backgroundColor: "white" }}>
 
-                <View style={styles.view3}>
+        <View style={{ paddingTop: StatusBarHeight, backgroundColor: "white" }}>
 
-                    <View style={{ width: "40%" }}>
-                        <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} color="black" onPress={() => {
-                            navigation.goBack()
-                        }} />
-                    </View>
+            <View style={styles.view3}>
 
-                    <View style={{ width: "70%" }}>
-                        <Text style={styles.textHistory}>
-                            History
-                        </Text>
-                    </View>
+                <View style={{ width: "40%" }}>
+                    <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} color="black" onPress={() => {
+                        navigation.goBack()
+                    }} />
+                </View>
+
+                <View style={{ width: "70%" }}>
+                    <Text style={styles.textHistory}>
+                        History
+                    </Text>
+                </View>
+
+            </View>
+            <View style={styles.container}>
+                <View style={{ paddingBottom: 10, paddingHorizontal: 22, width: '100%' }}>
 
                 </View>
-                <View style={styles.container}>
-                    <View style={{ paddingBottom: 10, paddingHorizontal: 22, width: '100%' }}>
 
-                    </View>
+                <View style={{ width: "100%", height: 250, marginTop: 100, alignItems: 'center', justifyContent: 'center' }}>
+                    <Image source={require('../assets/nodata.png')} style={[styles.image]} />
 
-                    {/* <View style={{width: "100%", height: 250, marginTop: 100, alignItems: 'center', justifyContent: 'center'}}>
-    <Image source={require('../assets/nodata.png')} style={[styles.image ]} />
+                    <Text style={styles.text1}> No Completed Trips</Text>
 
-    <Text style={styles.text1}> No Completed Trips</Text>
+                </View>
 
-</View> */}
-
-                    <View style={{ paddingHorizontal: 18 }}>
+                {/* <View style={{ paddingHorizontal: 18 }}>
 
                         <View>
                             <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 18, marginTop: 30, marginBottom: 15 }}> Jan 2024</Text>
@@ -162,16 +161,15 @@ export default function Trips(params) {
                             </View>
                         </View>
 
-                    </View>
+                    </View> */}
 
 
 
 
 
-                    <StatusBar style="dark" />
-                </View>
+                <StatusBar style="dark" />
             </View>
-        </BottomSheetModal>
+        </View>
 
     );
 }

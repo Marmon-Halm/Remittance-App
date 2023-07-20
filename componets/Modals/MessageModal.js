@@ -6,6 +6,7 @@ import { color } from '../../screens/color';
 import BigTexts from '../Texts/BigTexts';
 import RegularTexts from '../Texts/RegularTexts';
 import RegularButton from '../Buttons/RegularButton';
+import TitleText from '../Texts/TitleText';
 const { white, killed, green, red } = color;
 
 
@@ -30,18 +31,19 @@ const ModalView = styled.View`
     shadow-radius: 4px;
 `;
 
-const MessageModal = ({ modalVisible, buttonHandler, type, headerText, message, buttonText }) => {
+const MessageModal = ({ modalVisible, buttonHandler, type, headerText, message, buttonText, }) => {
+
     return <Modal animationType='slide' visible={modalVisible} transparent={true}>
         <ModalPressableContainer onPress={buttonHandler}>
             <ModalView>
                 <Feather
-                    name={type === 'success' ? 'check-circle' : 'x-circle'} size={80}
+                    name={type === 'success' ? 'check-circle' : 'x-circle'} size={60}
                     color={type === 'success' ? green : red}
                     style={{ textAlign: 'center' }}
                 />
-                <BigTexts style={{ fontSize: 35, marginVertical: 10, textAlign: 'center', }}>{headerText}</BigTexts>
-                <RegularTexts style={{ textAlign: 'center', marginBottom: 20, fontSize: 20, }}>{message}</RegularTexts>
-                <RegularButton onPress={buttonHandler}>{buttonText || 'Complete'}</RegularButton>
+                <TitleText style={{ fontSize: 28, marginVertical: 10, textAlign: 'center', color: "black"}}>{headerText}</TitleText>
+                <RegularTexts style={{ textAlign: 'center', marginBottom: 20, fontSize: 16, color: "black"}}>{message}</RegularTexts>
+                <RegularButton onPress={buttonHandler}>{buttonText || ""}</RegularButton>
             </ModalView>
         </ModalPressableContainer>
     </Modal>

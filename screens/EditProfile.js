@@ -56,8 +56,8 @@ export default function EditProfile(params) {
                             <Image source={profile} style={{ width: '100%', height: '100%', borderRadius: 100 / 2, }} />
                         </View>
 
-                        <RegularTexts style={{ textAlign: 'center' }}>James Obeng</RegularTexts>
-                        <SmallTexts>+233 50 578 0528</SmallTexts>
+                        <RegularTexts style={{ textAlign: 'center' }}>User First Name</RegularTexts>
+                        <SmallTexts>User Phone Number</SmallTexts>
 
                     </View>
 
@@ -86,6 +86,7 @@ export default function EditProfile(params) {
                                     keyboardAppearance="light"
                                     value={values.username}
                                 />
+                                <MsgText success={isSuccessMessage}> {""} </MsgText>
 
                                 <StyledInput
                                     icon="mail"
@@ -99,6 +100,7 @@ export default function EditProfile(params) {
                                     keyboardAppearance="light"
                                     value={values.email}
                                 />
+                                <MsgText success={isSuccessMessage}> {""} </MsgText>
 
                                 <StyledInput
                                     icon="phone"
@@ -110,6 +112,7 @@ export default function EditProfile(params) {
                                     minLength={1}
                                     maxLength={12}
                                 />
+                                <MsgText success={isSuccessMessage}> {""} </MsgText>
 
                                 <StyledInput
                                     icon="key"

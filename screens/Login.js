@@ -20,6 +20,7 @@ import ghana from '../assets/ghana.png';
 import app from '../config';
 import { UserContext } from '../contexts/UserContext';
 import { StatusBarHeight } from '../componets/shared';
+import StyledInput from '../componets/Inputs/StyledInput';
 const { primary, sea, white, little, killed, grey } = color;
 
 
@@ -57,7 +58,7 @@ export default function Login(params) {
       .catch((error) => {
         // setMessage('Login failed: ' + error.message);
         console.log(error.message)
-        if (error.message === "Firebase: Error (auth/invalid-email)." || error.message === "Firebase: Error (auth/user-not-found).") {
+        if (error.message === "Firebase: Error (auth/invalid-email)." || error.message === "Firebase: Error (auth/user-not-found)." || error.message === "Firebase: Error (auth/wrong-password).") {
           setErrorMessage('Incorrect Email Address or Password')
         }
         setLoading(false)
@@ -116,10 +117,13 @@ export default function Login(params) {
             </MsgText>
 
 
-            <StyledTextInput
+            <StyledInput
               icon="mail"
               placeholder="Email Address"
               keyboardType="email-address"
+              autoCapitalize="none"
+              enablesReturnKeyAutomatically={true}
+              keyboardAppearance="light"
               onChangeText={(text) => {
                 setEmail(text)
                 setEmailValid(EMAIL_REGEX.test(text))
@@ -136,13 +140,13 @@ export default function Login(params) {
 
 
 
-            <StyledTextInput
+            <StyledInput
               icon="key"
               placeholder="Password"
+              keyboardAppearance="light"
               onChangeText={(text) => {
                 setPassword(text)
                 setPwdValid(PWD_REGEX.test(text))
-
               }}
               isPassword={true}
               value={password}
@@ -174,13 +178,13 @@ export default function Login(params) {
             {!submitting && <RegularButton style={{ marginTop: 15,  shadowColor: 'grey', shadowOffset: { width: -3, height: 4 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 10 }} onPress={handleSubmit}>Login</RegularButton>}
             {submitting && (
               <RegularButton disabled={true}>
-                <ActivityIndicator color={'#fff'} /> Login
+                <ActivityIndicator color={'#fff'} />
               </RegularButton>
             )}
 
 
-            <RegularTexts style={{ textAlign: 'center', marginTop: 20 }}>Don't have an account? <RegularTexts style={{ color: primary }} onPress={() => { navigation.navigate("SignUp") }} >Register</RegularTexts></RegularTexts>
-            <RegularTexts style={{ textAlign: 'center', color: primary, marginTop: 5 }} onPress={() => { navigation.navigate('ResetP') }}>Forgot Password ?</RegularTexts>
+            <RegularTexts style={{ textAlign: 'center', marginTop: 20, fontSize: 17 }}>Don't have an account? <RegularTexts style={{ color: primary, fontSize: 17 }} onPress={() => { navigation.navigate("SignUp") }} >Register</RegularTexts></RegularTexts>
+            <RegularTexts style={{ textAlign: 'center', color: primary, marginTop: 5, fontSize: 17 }} onPress={() => { navigation.navigate('ResetP') }}>Forgot Password ?</RegularTexts>
 
 
           </>

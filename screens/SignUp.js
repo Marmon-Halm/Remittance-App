@@ -30,6 +30,7 @@ const { primary, sea, white, little, killed, grey } = color;
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { StatusBarHeight } from '../componets/shared';
+import MessageModal from '../componets/Modals/MessageModal';
 
 
 
@@ -39,51 +40,45 @@ import { StatusBarHeight } from '../componets/shared';
 
 export default function SignUp(params) {
 
-  // const app = getApp();
-  // const auth = getAuth(app);
-
-  // if (!app.options || Platform.OS === "web") {
-  //   throw new Error (
-  //     'This example only works on Android and IOS'
-  //   )
-  // };
-
   const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  const PWD_REGEX =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-  const recaptchaVerifier = React.useRef(null);
+  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   const [phoneNumber, setPhoneNumber] = React.useState();
-  const [verificationId, setVerificationId] = React.useState();
-  const [verificationCode, setVerificationCode] = React.useState();
-
   const [checked, toggleChecked] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
+  const [country, setCountry] = useState('');
   const [emailValid, setEmailValid] = useState(false)
   const [pwdValid, setPwdValid] = useState(false)
   const [loading, setLoading] = useState('');
-
   const [message, setMessage] = useState('');
-
-
-
-  const [textInputEnabled, setTextInputEnabled] = useState(true);
   const [checkboxEnabled, setCheckboxEnabled] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [signUpEnabled, setSignUpEnabled] = useState(false);
-  const [active, SetActive] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessageType, setModalMessageType] = useState('');
+  const [headerText, setHeaderText] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+  const [buttonText, setButtonText] = useState('');
 
 
 
-  const RightIcon = styled.TouchableOpacity`
-    position: absolute;
-    right: 16px;
-    z-index: 1;
-`;
+
+  const buttonHandler = () => {
+    if (modalMessageType === "success") {
+      // do something
+
+    }
+
+    setModalVisible(false);
+  };
+
+  const showModal = (type, headerText, message, buttonText) => {
+    setModalMessageType(type);
+    setHeaderText(headerText);
+    setModalMessage(message);
+    setButtonText(buttonText);
+    setModalVisible(true);
+  };
 
   const enableCheckBox = () => {
     setCheckboxEnabled(true);
@@ -133,27 +128,29 @@ export default function SignUp(params) {
       const querySnapshot = await getDocs(queryRef);
       console.log('query snap ', querySnapshot)
 
+      await sendEmailVerification(user)
+
+      showModal('success', 'Great!', 'Verification Email Sent', 'Close');
+
       if (querySnapshot.size === 0) {
         // Create a new user
         try {
-
-
           await addDoc(collection(db, "users"), {
             uid: user?.uid,
+            country: country,
             firstName: firstName,
             email: email,
             phoneNumber: phoneNumber,
-            verified: false
-          }).then((res) => {
-            sendEmailVerification(user, actionCodeSettings).then((res) => {
-              console.log(res)
-            }).catch((err) => {
-              console.log(err)
-              setLoading(false)
-            })
+          })
+          
+          .then((res) => {
             setLoading(false);
-            // navigation.navigate('OTPVerification')
+            navigation.navigate('Login')
           });
+
+          
+
+
 
         } catch (error) {
           setLoading(false);
@@ -161,7 +158,11 @@ export default function SignUp(params) {
           return; // Exit early if there was an error adding the user data
         }
       } else {
-        Alert.alert("Email already in use");
+        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+          return showModal('fail', 'Registration Failed!', 'Email Address Already In Use', 'Close');
+        } else {
+          return showModal('fail', 'Registration Failed!', error.message, 'Close');
+        }
       }
       //move to next page
 
@@ -169,45 +170,16 @@ export default function SignUp(params) {
 
     } catch (error) {
       console.log(error)
-      setMessage('Register failed: ' + error.message);
+      setLoading(false)
       setSubmitting(false)
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        return showModal('fail', 'Registration Failed!', 'Email Address Already In Use', 'Close');
+      } else {
+        return showModal('fail', 'Registration Failed!', error.message, 'Close');
+        
+      }
     }
   };
-
-  // const handleRegister =  () => {
-
-  //   createUserWithEmailAndPassword(auth, email, password)
-  //     .then((userCredential) => {
-  //       console.log('Signed In')
-  //       navigation.navigate('OTPVerification');
-  //       const user = userCredential.user;
-  //       console.log(user)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.message)
-  //     });
-
-  // };
-
-
-  // const phoneAuth = async () => {
-  //   // The FirebaseRecaptchaVerifierModal ref implements the
-  //   // FirebaseAuthApplicationVerifier interface and can be
-  //   // passed directly to `verifyPhoneNumber`.
-  //   try {
-  //     const phoneProvider = new PhoneAuthProvider(auth);
-  //     const verificationId = await phoneProvider.verifyPhoneNumber(
-  //       phoneNumber,
-  //       recaptchaVerifier.current
-  //     );
-  //     setVerificationId(verificationId);
-  //     showMessage({
-  //       text: 'Verification code has been sent to your phone.',
-  //     });
-  //   } catch (err) {
-  //     showMessage({ text: `Error: ${err.message}`, color: 'red' });
-  //   }
-  // }
 
 
   const navigation = params.navigation;
@@ -226,7 +198,7 @@ export default function SignUp(params) {
 
 
 
-  return <MainContainer style={{paddingTop: StatusBarHeight}}>
+  return <MainContainer style={{ paddingTop: StatusBarHeight }}>
     <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
     <KeyboardAvoiding>
 
@@ -256,17 +228,15 @@ export default function SignUp(params) {
 
             }}
             placeholderTextColor={'black'}
-            onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => setCountry(value)}
             items={[
               { label: 'Nigeria', value: 'Nigeria' },
             ]}
+            value={"Ghana"}
 
           />
         </View>
 
-        <RightIcon>
-          <Feather name={'chevron-down'} size={18} color="#7A7A7A" />
-        </RightIcon>
 
       </View>
 
@@ -295,15 +265,13 @@ export default function SignUp(params) {
           <>
 
             <MsgText
-              style={{ marginVertical: 5 }}
+              style={{ marginBottom: 5 }}
               success={isSuccessMessage}>
               {message || ""}
             </MsgText>
             <StyledTextInput
               icon="user"
               placeholder="First Name"
-              autoCapitalize='none'
-              autoCorrect={false}
               onChangeText={(text) => setFirstName(text)}
               onBlur={handleBlur('firstName')}
               enablesReturnKeyAutomatically={true}
@@ -334,8 +302,7 @@ export default function SignUp(params) {
               icon="mail"
               placeholder="Email Address"
               keyboardType="email-address"
-              autoCapitalize='none'
-              autoCorrect={false}
+              autoCapitalize="none"
               onChangeText={(text) => {
                 setEmail(text)
                 setEmailValid(EMAIL_REGEX.test(text))
@@ -361,8 +328,6 @@ export default function SignUp(params) {
               value={password}
               valid={pwdValid}
               onBlur={handleBlur('password')}
-              autoCapitalize='none'
-              autoCorrect={false}
               keyboardAppearance="light"
             />
 
@@ -376,7 +341,7 @@ export default function SignUp(params) {
                 <Checkbox
                   value={checked}
                   onValueChange={checkButtonAndEnableSignUp}
-                  disabled={!checkboxEnabled}
+                  disabled={!pwdValid}
                   onPress={checkButtonAndEnableSignUp}
                   color={checked ? '#000' : undefined}
                 />
@@ -396,6 +361,15 @@ export default function SignUp(params) {
           </>
         )}
       </Formik>
+
+      <MessageModal
+        modalVisible={modalVisible}
+        buttonHandler={buttonHandler}
+        type={modalMessageType}
+        headerText={headerText}
+        message={modalMessage}
+        buttonText={buttonText}
+      />
 
       <StatusBar style="dark" />
 
@@ -425,7 +399,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   pickerView: {
-    fontSize: 18,
+    fontSize: 17,
     flexDirection: 'row',
     fontFamily: 'Manrope_500Medium',
     height: 55,
@@ -435,7 +409,9 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 55,
     borderRadius: 10,
-    backgroundColor: color.grey,
+    backgroundColor: "#FAFAFA",
+    borderWidth: 1.5,
+    borderColor: '#EDEDED'
   },
   checkboxContainer: {
     justifyContent: 'center',
@@ -451,8 +427,8 @@ const pickerSelectStyles = StyleSheet.create({
 
     backgroundColor: 'transparent',
     fontFamily: 'Manrope_500Medium',
-    paddingLeft: 7,
-    fontSize: 18,
+    paddingLeft: 10,
+    fontSize: 17,
     color: `#000`,
     width: '100%',
   },
