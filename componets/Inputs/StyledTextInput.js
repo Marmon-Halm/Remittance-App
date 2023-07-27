@@ -24,7 +24,6 @@ const InputField = styled.TextInput`
     padding-left: 5px;
     padding-right: 25px;
     font-family: 'Manrope_500Medium';
- 
 `;
 
 const InputContainer = styled.View`
@@ -34,6 +33,7 @@ const InputContainer = styled.View`
     padding-horizontal: 10px;
     border-radius: 10px;
     background-color: "#EDEDED";
+    margin-bottom: 15px;
 `;
 
 const LeftIconContainer = styled.View`
@@ -90,7 +90,7 @@ const StyledTextInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid,
     }
 
     return (
-        <InputContainer style={{ borderWidth: 1.5, borderColor: valid ? "#198754" : '#EDEDED', backgroundColor: "#FAFAFA" }}>
+        <InputContainer style={{ borderWidth: 2, borderColor: valid ? "#198754" : '#EDEDED', backgroundColor: "#FAFAFA" }}>
             <LeftIconContainer>
                 <LeftIcon>
                     <Feather name={icon} size={18} color="#7A7A7A" />

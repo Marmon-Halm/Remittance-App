@@ -1,20 +1,25 @@
 import React, { useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform, Dimensions } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_700Bold, Manrope_600SemiBold, Manrope_800ExtraBold } from '@expo-google-fonts/manrope';
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { StatusBarHeight } from '../componets/shared';
-import MapView, { PROVIDER_GOOGLE, Marker, getInitialState } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import * as Location from 'expo-location';
-import BottomSheet from '@gorhom/bottom-sheet';
-
-//import RegularTexts from '../componets/Texts/RegularTexts';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import Constants from 'expo-constants';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import StyledTextInput from '../componets/Inputs/StyledTextInput';
 import SmallTexts from '../componets/Texts/SmallTexts';
 import BigTexts from '../componets/Texts/BigTexts';
+import { MaterialIndicator } from 'react-native-indicators';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RegularTexts from '../componets/Texts/RegularTexts';
+import AppLoading from 'expo-app-loading';
+import TitleText from '../componets/Texts/TitleText';
+import { newGrey } from './color';
+
 
 // apiKey: AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4
 
@@ -22,12 +27,10 @@ import RegularTexts from '../componets/Texts/RegularTexts';
 export default function Home(params) {
   const navigation = params.navigation;
 
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [isModalVisibleGH, setIsModalVisibleGH] = React.useState(false);
-  const handleModal = () => setIsModalVisible(() => !isModalVisible);
-  const handleModalGH = () => setIsModalVisibleGH(() => true)
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [valid, setValid] = useState(false);
+  const { width, height } = Dimensions.get("window");
   const [position, setPosition] = useState({
     latitude: 0,
     longitude: 0,
@@ -43,39 +46,15 @@ export default function Home(params) {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
+      console.log(location)
       setPosition({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.004,
+        longitudeDelta: 0.005,
       });
     })();
   }, []);
-
-  const [visible, setVisible] = useState(true);
-
-  function toggle() {
-    setVisible((visible) => !visible);
-  }
-
-
-
-  const [liveLatitude, setLiveLatitude] = useState(null);
-  const [liveLongitude, setLiveLongitude] = useState(null);
-
-  const permissionAlert = () => {
-    Alert.alert(
-      'You did not allow location permissions',
-      'Please go to settings and allow location permissions for full functionality',
-      [
-      ],
-      {
-        cancelable: true
-      }
-    );
-  }
-
-
 
 
   let [fontsLoaded] = useFonts({
@@ -87,6 +66,14 @@ export default function Home(params) {
     Manrope_800ExtraBold
   });
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  const setIndexToOne = () => {
+    setValid(false);
+    console.log("ONE")
+  }
 
 
   // <View style={{height: '100%', position: 'relative'}}>
@@ -96,43 +83,44 @@ export default function Home(params) {
       {
         <View style={{ paddingHorizontal: 0, height: '100%' }}>
           <MapView
-            style={{ flex: 1 }}
+            style={{ width: width, height: '57.5%' }}
             provider={PROVIDER_GOOGLE}
             initialRegion={position}
             region={position}
             showsUserLocation={true}
           >
-            {/* <Marker
-             coordinate={{
-               latitude: position.latitude,
-               longitude: position.longitude
-             }}
-             tracksViewChanges={true}>
-           </Marker> */}
+            <Marker
+              coordinate={{
+                latitude: position.latitude,
+                longitude: position.longitude
+              }}
+              tracksViewChanges={true}>
+            </Marker>
 
           </MapView>
 
           <TouchableOpacity style={styles.menuContainer} onPress={() => { navigation.navigate("Settings") }}>
             <Feather name="menu" size={22} color="#000" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.locationContainer}>
-            <MaterialIcons name="my-location" size={24} color="black" />
-          </TouchableOpacity>
+
+
+
 
           <BottomSheet
             snapPoints={[350, 500]}
+            overDragResistanceFactor={0}
+            backgroundStyle={{borderRadius: 40}}
           >
             <View style={styles.searchContainer}>
-              <View style={{ alignItems: "center",  marginBottom: 15 }}>
-                <Text style={{ color: "#737373", fontFamily: "Manrope_500Medium", fontSize: 12 }}>Your Location</Text>
-                <RegularTexts style={{ textAlign: "center" }}>User Location</RegularTexts>
+              <View style={{ alignItems: "center", marginBottom: 15 }}>
+                <Text style={{ color: "#737373", fontFamily: "Manrope_500Medium", fontSize: 12 }}>{position.longitude}</Text>
+                <RegularTexts style={{ textAlign: "center" }}>{position.latitude}</RegularTexts>
               </View>
               <View >
-                <StyledTextInput
-                  icon="search"
-                  placeholder="Where to ?"
-
-                />
+                <TouchableOpacity style={styles.searchButton}>
+                  <Feather name="search" style={{ marginRight: 10 }} size={18} color="#737373" />
+                  <RegularTexts style={{ color: "#737373" }}>Where to ?</RegularTexts>
+                </TouchableOpacity>
               </View>
 
               <View style={{ marginVertical: 25, flex: 1, flexDirection: 'row', justifyContent: "space-between", width: 420 }} >
@@ -152,7 +140,16 @@ export default function Home(params) {
                 </View>
               </View>
             </View>
+
+
+
+
+
+
+
           </BottomSheet>
+
+
 
 
           <StatusBar style="dark" />
@@ -180,30 +177,62 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   menuContainer: {
-    width: Platform.OS === 'ios' ? 40 : 0,
-    height: Platform.OS === 'ios' ? 40 : 0,
+    width: 42,
+    height: 42,
     backgroundColor: 'white',
     position: 'absolute',
-    top: StatusBarHeight,
-    left: 20,
+    top: Constants.statusBarHeight,
+    left: 25,
     borderRadius: 50 / 2,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 0.5,
-    borderColor: "grey"
+    borderColor: "#737373",
+    shadowColor: 'gray',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 10,
   },
   locationContainer: {
     width: Platform.OS === 'ios' ? 40 : 0,
     height: Platform.OS === 'ios' ? 40 : 0,
     backgroundColor: 'white',
     position: 'absolute',
-    top: StatusBarHeight,
+    top: Constants.statusBarHeight,
     right: 20,
     borderRadius: 50 / 2,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 0.5,
-    borderColor: "grey"
+    borderColor: "#737373"
+  },
+  rideSearcher: {
+    height: 55,
+    width: "90%",
+    borderWidth: 1,
+    borderColor: 'grey',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 10,
+    position: 'absolute',
+    backgroundColor: '#EDEDED',
+    bottom: 70,
+    right: 18,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+
+  },
+  searchButton: {
+    height: 50,
+    width: "100%",
+    flexDirection: "row",
+    paddingHorizontal: 15,
+    marginVertical: 5,
+    borderWidth: 1.5,
+    borderColor: '#737373',
+    backgroundColor: "#FAFAFA",
+    borderRadius: 16,
+    alignItems: "center"
   },
   searchContainer: {
     width: "100%",
@@ -218,8 +247,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
     borderColor: "#EDEDED",
     borderRadius: 10,
-
-
   },
 
 });
@@ -236,8 +263,128 @@ const styles = StyleSheet.create({
 
 
 
+{/* <View style={styles.rideSearcher}>
+  <Text style={{ fontSize: 20, fontFamily: 'Manrope_600SemiBold' }}>Looking for a ride</Text>
+  <View>
+    <MaterialIndicator color='black' size={20} trackWidth={30 / 10} />
+  </View>
+</View> */}
 
 
 
 
 
+
+
+
+
+
+{/* <BottomSheetView style={styles.searchContainer}>
+<View style={styles.searchButton}>
+  <Feather name="map-pin" size={18} color="#737373" />
+  <GooglePlacesAutocomplete
+    placeholder='Pick Up Location'
+    onPress={(data, details = null) => {
+      console.log(data, details)
+    }}
+    returnKeyType={'search'}
+    minLength={2}
+    listViewDisplayed={true}
+    autoFocus={true}
+    query={{
+      key: 'AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4',
+      language: 'en',
+    }}
+    textInputProps={{
+      placeholderTextColor: "#737373",
+      returnKeyType: "search"
+    }}
+    styles={{
+
+      textInput: {
+        height: '100%',
+        color: '#737373',
+        fontSize: 16,
+        backgroundColor: '#FAFAFA',
+        fontFamily: "Manrope_500Medium",
+      },
+
+      predefinedPlacesDescription: {
+        color: '#1faadb',
+      },
+      listView: {
+        top: 45.5,
+        zIndex: 10,
+        position: 'absolute',
+        color: 'black',
+        backgroundColor: "white",
+        width: '89%',
+      },
+      separator: {
+        flex: 1,
+        backgroundColor: 'blue',
+      },
+      description: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        fontSize: 14,
+        maxWidth: '89%',
+      },
+    }}
+  />
+</View>
+
+<View style={styles.searchButton}>
+  <Feather name="map-pin" size={18} color="#737373" />
+  <GooglePlacesAutocomplete
+    placeholder='Drop Off'
+    onPress={(data, details = null) => {
+      console.log(data, details)
+    }}
+    returnKeyType={'search'}
+    minLength={2}
+    listViewDisplayed={true}
+    autoFocus={true}
+    query={{
+      key: 'AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4',
+      language: 'en',
+    }}
+    textInputProps={{
+      placeholderTextColor: "#737373",
+      returnKeyType: "search"
+    }}
+    styles={{
+
+      textInput: {
+        height: '100%',
+        color: '#737373',
+        fontSize: 16,
+        backgroundColor: '#FAFAFA',
+        fontFamily: "Manrope_500Medium",
+      },
+
+      predefinedPlacesDescription: {
+        color: '#1faadb',
+      },
+      listView: {
+        top: 45.5,
+        zIndex: 10,
+        position: 'absolute',
+        color: 'black',
+        backgroundColor: "white",
+        width: '89%',
+      },
+      separator: {
+        flex: 1,
+        backgroundColor: 'blue',
+      },
+      description: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        fontSize: 14,
+        maxWidth: '89%',
+      },
+    }}
+  />
+</View>
+</BottomSheetView> */}

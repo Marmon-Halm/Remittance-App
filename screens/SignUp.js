@@ -17,20 +17,19 @@ import MsgText from '../componets/Texts/MsgText';
 import RegularButton from '../componets/Buttons/RegularButton';
 import { Formik } from 'formik';
 import { color } from '../screens/color';
-import BigTexts from '../componets/Texts/BigTexts';
 import TitleText from '../componets/Texts/TitleText';
 import SmallTexts from '../componets/Texts/SmallTexts';
 import RowContainer from '../componets/Containers/RowContainer';
-import { styled } from 'styled-components/native';
-import { Feather } from '@expo/vector-icons';
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { sendEmailVerification } from 'firebase/auth';
 import { auth, db } from '../config';
-const { primary, sea, white, little, killed, grey } = color;
+const { primary } = color;
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { StatusBarHeight } from '../componets/shared';
 import MessageModal from '../componets/Modals/MessageModal';
+import { MaterialIndicator } from 'react-native-indicators';
+import StyledInput from '../componets/Inputs/StyledInput';
+import BottomButton from '../componets/Buttons/BottomButton';
 
 
 
@@ -61,14 +60,10 @@ export default function SignUp(params) {
   const [buttonText, setButtonText] = useState('');
 
 
-
-
   const buttonHandler = () => {
     if (modalMessageType === "success") {
       // do something
-
     }
-
     setModalVisible(false);
   };
 
@@ -80,30 +75,11 @@ export default function SignUp(params) {
     setModalVisible(true);
   };
 
-  const enableCheckBox = () => {
-    setCheckboxEnabled(true);
-  };
-
-
   const checkButtonAndEnableSignUp = () => {
     toggleChecked(!checked);
   };
 
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-
-
-  const actionCodeSettings = {
-    url: 'https://transporttruck-5292e.firebaseapp.com',
-    iOS: {
-      bundleId: 'com.trucktransportsystem.com'
-    },
-    android: {
-      packageName: 'com.trucktransportsystem.com',
-      installApp: true,
-      minimumVersion: '12'
-    },
-    handleCodeInApp: true
-  };
 
   const handleRegister = async () => {
     setLoading(true)
@@ -120,9 +96,6 @@ export default function SignUp(params) {
         collection(db, "users"),
         where("uid", "==", user?.uid)
       );
-
-
-
       console.log("response from creating user ");
 
       const querySnapshot = await getDocs(queryRef);
@@ -142,15 +115,11 @@ export default function SignUp(params) {
             email: email,
             phoneNumber: phoneNumber,
           })
-          
-          .then((res) => {
-            setLoading(false);
-            navigation.navigate('Login')
-          });
 
-          
-
-
+            .then((res) => {
+              setLoading(false);
+              navigation.navigate('Login')
+            });
 
         } catch (error) {
           setLoading(false);
@@ -164,8 +133,6 @@ export default function SignUp(params) {
           return showModal('fail', 'Registration Failed!', error.message, 'Close');
         }
       }
-      //move to next page
-
       setSubmitting(false);
 
     } catch (error) {
@@ -176,7 +143,6 @@ export default function SignUp(params) {
         return showModal('fail', 'Registration Failed!', 'Email Address Already In Use', 'Close');
       } else {
         return showModal('fail', 'Registration Failed!', error.message, 'Close');
-        
       }
     }
   };
@@ -202,9 +168,9 @@ export default function SignUp(params) {
     <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
     <KeyboardAvoiding>
 
-      <TitleText style={{ marginBottom: 25, marginTop: 15, color: '#000' }}>Register here, it's free!</TitleText>
+      <TitleText style={{ marginBottom: 15, marginTop: 7, }}>Register here, it's free!</TitleText>
 
-      <RegularTexts style={{ color: primary }} >Country</RegularTexts>
+      <RegularTexts>Country</RegularTexts>
 
       <View style={styles.pickerView}>
 
@@ -240,7 +206,7 @@ export default function SignUp(params) {
 
       </View>
 
-      <RegularTexts style={{ marginTop: 30, color: primary }}>Your login details</RegularTexts>
+
 
 
 
@@ -264,14 +230,9 @@ export default function SignUp(params) {
         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
           <>
 
-            <MsgText
-              style={{ marginBottom: 5 }}
-              success={isSuccessMessage}>
-              {message || ""}
-            </MsgText>
-            <StyledTextInput
-              icon="user"
-              placeholder="First Name"
+            <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>First Name</RegularTexts>
+            <StyledInput
+              icon="account-outline"
               onChangeText={(text) => setFirstName(text)}
               onBlur={handleBlur('firstName')}
               enablesReturnKeyAutomatically={true}
@@ -279,14 +240,14 @@ export default function SignUp(params) {
               value={firstName}
             />
             <MsgText
-              style={{}}
+              style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
               success={isSuccessMessage}>
-              {""}
+              {message || ""}
             </MsgText>
 
-            <StyledTextInput
-              icon="phone"
-              placeholder="Phone Number"
+            <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Phone Number</RegularTexts>
+            <StyledInput
+              icon="phone-outline"
               keyboardType="numeric"
               keyboardAppearance="light"
               inputMode='numeric'
@@ -296,11 +257,15 @@ export default function SignUp(params) {
               minLength={1}
               maxLength={10}
             />
-            <MsgText success={isSuccessMessage}> {""} </MsgText>
+            <MsgText
+              style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
+              success={isSuccessMessage}>
+              {message || ""}
+            </MsgText>
 
-            <StyledTextInput
-              icon="mail"
-              placeholder="Email Address"
+            <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Email Address</RegularTexts>
+            <StyledInput
+              icon="email-outline"
               keyboardType="email-address"
               autoCapitalize="none"
               onChangeText={(text) => {
@@ -313,11 +278,16 @@ export default function SignUp(params) {
               enablesReturnKeyAutomatically={true}
               keyboardAppearance="light"
             />
-            <MsgText success={isSuccessMessage}> {""} </MsgText>
+            <MsgText
+              style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
+              success={isSuccessMessage}>
+              {message || ""}
+            </MsgText>
 
-            <StyledTextInput
-              icon="key"
-              placeholder="Password"
+            <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
+            <StyledInput
+
+              icon="key-outline"
               onChangeText={(text) => {
                 setPassword(text)
                 setPwdValid(PWD_REGEX.test(text))
@@ -333,31 +303,6 @@ export default function SignUp(params) {
 
             <SmallTexts style={{ marginTop: 5, marginLeft: 3, marginBottom: 40 }}>Password must have a minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character</SmallTexts>
 
-
-
-
-            <RowContainer style={{ marginBottom: 15 }}>
-              <View style={{ marginRight: 8 }}>
-                <Checkbox
-                  value={checked}
-                  onValueChange={checkButtonAndEnableSignUp}
-                  disabled={!pwdValid}
-                  onPress={checkButtonAndEnableSignUp}
-                  color={checked ? '#000' : undefined}
-                />
-              </View>
-              <RegularTexts style={{ fontSize: 13 }}>By submitting this form, you accept NAME's <RegularTexts style={{ color: primary, fontSize: 13 }}>Terms and Conditions</RegularTexts> and <RegularTexts style={{ color: primary, fontSize: 13 }}>Privacy Policy</RegularTexts></RegularTexts>
-
-            </RowContainer>
-
-            {!loading && <RegularButton onPress={handleSubmit} disabled={!checked} style={{ opacity: checked ? 1 : 0.3 }}>Register</RegularButton>}
-            {loading && (
-              <RegularButton disabled={loading} style={{ alignItems: 'center' }}>
-                <ActivityIndicator size="small" color={white} />
-              </RegularButton>
-            )}
-
-
           </>
         )}
       </Formik>
@@ -371,9 +316,32 @@ export default function SignUp(params) {
         buttonText={buttonText}
       />
 
+
+
       <StatusBar style="dark" />
 
     </KeyboardAvoiding>
+
+    <RowContainer style={{ position: 'absolute', bottom: 100, left: 20, right: 20 }}>
+      <View style={{ marginRight: 8 }}>
+        <Checkbox
+          value={checked}
+          onValueChange={checkButtonAndEnableSignUp}
+          disabled={!pwdValid}
+          onPress={checkButtonAndEnableSignUp}
+          color={checked ? '#000' : undefined}
+        />
+      </View>
+      <RegularTexts style={{ fontSize: 13 }}>By submitting this form, you accept NAME's <RegularTexts style={{ color: primary, fontSize: 13 }}>Terms and Conditions</RegularTexts> and <RegularTexts style={{ color: primary, fontSize: 13 }}>Privacy Policy</RegularTexts></RegularTexts>
+
+    </RowContainer>
+
+    {!loading && <BottomButton onPress={handleRegister} disabled={!checked} style={{ opacity: checked ? 1 : 0.3, width: '100%' }}>Register</BottomButton>}
+    {loading && (
+      <RegularButton disabled={loading} style={{ alignItems: 'center' }}>
+        <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
+      </RegularButton>
+    )}
   </MainContainer>
 }
 
@@ -402,15 +370,16 @@ const styles = StyleSheet.create({
     fontSize: 17,
     flexDirection: 'row',
     fontFamily: 'Manrope_500Medium',
-    height: 55,
+    height: 50,
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: 8,
+    marginBottom: 15,
     color: '#0000',
     paddingLeft: 15,
     paddingRight: 55,
     borderRadius: 10,
     backgroundColor: "#FAFAFA",
-    borderWidth: 1.5,
+    borderWidth: 2,
     borderColor: '#EDEDED'
   },
   checkboxContainer: {
@@ -428,8 +397,118 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontFamily: 'Manrope_500Medium',
     paddingLeft: 10,
-    fontSize: 17,
+    fontSize: 15,
     color: `#000`,
     width: '100%',
   },
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <>
+
+<MsgText
+  style={{ marginBottom: 5 }}
+  success={isSuccessMessage}>
+  {message || ""}
+</MsgText>
+<StyledTextInput
+  icon="user"
+  placeholder="First Name"
+  onChangeText={(text) => setFirstName(text)}
+  onBlur={handleBlur('firstName')}
+  enablesReturnKeyAutomatically={true}
+  keyboardAppearance="light"
+  value={firstName}
+/>
+<MsgText
+  style={{}}
+  success={isSuccessMessage}>
+  {""}
+</MsgText>
+
+<StyledTextInput
+  icon="phone"
+  placeholder="Phone Number"
+  keyboardType="numeric"
+  keyboardAppearance="light"
+  inputMode='numeric'
+  returnKeyType='done'
+  onChangeText={(text) => setPhoneNumber(text)}
+  value={phoneNumber}
+  minLength={1}
+  maxLength={10}
+/>
+<MsgText success={isSuccessMessage}> {""} </MsgText>
+
+<StyledTextInput
+  icon="mail"
+  placeholder="Email Address"
+  keyboardType="email-address"
+  autoCapitalize="none"
+  onChangeText={(text) => {
+    setEmail(text)
+    setEmailValid(EMAIL_REGEX.test(text))
+  }}
+  value={email}
+  valid={emailValid}
+  onBlur={handleBlur('email')}
+  enablesReturnKeyAutomatically={true}
+  keyboardAppearance="light"
+/>
+<MsgText success={isSuccessMessage}> {""} </MsgText>
+
+<StyledTextInput
+  icon="key"
+  placeholder="Password"
+  onChangeText={(text) => {
+    setPassword(text)
+    setPwdValid(PWD_REGEX.test(text))
+    setCheckboxEnabled(true)
+
+  }}
+  isPassword={true}
+  value={password}
+  valid={pwdValid}
+  onBlur={handleBlur('password')}
+  keyboardAppearance="light"
+/>
+
+<SmallTexts style={{ marginTop: 5, marginLeft: 3, marginBottom: 40 }}>Password must have a minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character</SmallTexts>
+
+
+
+
+<RowContainer style={{ marginBottom: 15 }}>
+  <View style={{ marginRight: 8 }}>
+    <Checkbox
+      value={checked}
+      onValueChange={checkButtonAndEnableSignUp}
+      disabled={!pwdValid}
+      onPress={checkButtonAndEnableSignUp}
+      color={checked ? '#000' : undefined}
+    />
+  </View>
+  <RegularTexts style={{ fontSize: 13 }}>By submitting this form, you accept NAME's <RegularTexts style={{ color: primary, fontSize: 13 }}>Terms and Conditions</RegularTexts> and <RegularTexts style={{ color: primary, fontSize: 13 }}>Privacy Policy</RegularTexts></RegularTexts>
+
+</RowContainer>
+
+{!loading && <RegularButton onPress={handleSubmit} disabled={!checked} style={{ opacity: checked ? 1 : 0.3 }}>Register</RegularButton>}
+{loading && (
+  <RegularButton disabled={loading} style={{ alignItems: 'center' }}>
+    <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
+  </RegularButton>
+)}
+
+
+</> */}

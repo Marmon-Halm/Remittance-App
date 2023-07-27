@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { styled } from 'styled-components/native';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import SmallTexts from '../Texts/SmallTexts';
+import master from '../../assets/master.png'
+import visa from '../../assets/visa.png'
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { color } from '../../screens/color';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
@@ -18,7 +17,7 @@ const { primary, sea, white, little, killed, grey } = color;
 
 
 const InputField = styled.TextInput`
-    font-size: 16px;
+    font-size: 15px;
     color: ${killed};
     width: 80%;
     padding-left: 5px;
@@ -27,7 +26,7 @@ const InputField = styled.TextInput`
 `;
 
 const InputContainer = styled.View`
-    height: 55px;
+    height: 50px;
     width: 100%;
     flex-direction: row;
     padding-horizontal: 10px;
@@ -61,7 +60,7 @@ const RightIcon = styled.TouchableOpacity`
 
 
 
-const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...props }) => {
+const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, isCard, isMat, valid, ...props }) => {
 
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
@@ -88,12 +87,18 @@ const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...
     }
 
     return (
-        <InputContainer style={{ borderWidth: 1.5, borderColor: '#EDEDED', backgroundColor: "#FAFAFA" }}>
+        <InputContainer style={{ borderWidth: 2, borderColor: '#EDEDED', backgroundColor: "#FAFAFA" }}>
             <LeftIconContainer>
                 <LeftIcon>
-                    <Feather name={icon} size={18} color="#7A7A7A" />
+                <MaterialCommunityIcons name={icon} size={20} color="grey" />
                 </LeftIcon>
+
+                {isMat && <LeftIcon>
+                </LeftIcon>
+                }
             </LeftIconContainer>
+
+
             <InputField
                 {...props}
                 placeholderTextColor={killed}
@@ -109,6 +114,16 @@ const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, valid, ...
 
                 <RightIcon onPress={() => { setHidePassword(!hidePassword) }}>
                     <Feather name={hidePassword ? 'eye-off' : 'eye'} size={18} color="#7A7A7A" />
+                </RightIcon>
+
+            </RightIconContainer>
+
+            }
+
+            {isCard && <RightIconContainer >
+
+                <RightIcon onPress={() => { setHidePassword(!hidePassword) }}>
+                    <Image source={master} style={{ width: 24, height: 22, borderRadius: 5 }} />
                 </RightIcon>
 
             </RightIconContainer>

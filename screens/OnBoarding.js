@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize:  30,
         marginBottom: 15,
-        color: '#2D9B94',
+        color: '#F76A03',
         textAlign: 'center',
         fontFamily: 'Manrope_700Bold',
     },

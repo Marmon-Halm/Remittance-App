@@ -6,7 +6,7 @@ import AppLoading from 'expo-app-loading';
 const { primary } = color;
 
 const StyledText = styled.Text`
-    font-size: 27px;
+    font-size: 22px;
     color: ${primary};
     text-align: left;
     font-family: 'Manrope_600SemiBold';

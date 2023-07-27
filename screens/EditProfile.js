@@ -14,6 +14,7 @@ import RegularTexts from '../componets/Texts/RegularTexts';
 import SmallTexts from '../componets/Texts/SmallTexts';
 import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
+import TitleText from '../componets/Texts/TitleText';
 
 
 
@@ -24,10 +25,14 @@ export default function EditProfile(params) {
     const windowHeight = Dimensions.get('window').height;
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
 
     return (
-        <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "white" }}>
+        <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "#F6F6F6", paddingHorizontal: 20 }}>
 
             <View style={styles.view3}>
 
@@ -39,7 +44,7 @@ export default function EditProfile(params) {
 
                 <View style={{ width: "80%" }}>
                     <Text style={styles.textProfile}>
-                        Profile
+                        Edit Profile
                     </Text>
                 </View>
                 <View style={{ width: "10%" }}>
@@ -50,8 +55,8 @@ export default function EditProfile(params) {
 
             <KeyboardAvoiding>
 
-                <View style={{ paddingHorizontal: 20 }}>
-                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 25, marginTop: 25 }}>
+                <View >
+                    <View style={{ width: '100%', alignItems: 'center', marginBottom: 15, marginTop: 25 }}>
                         <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
                             <Image source={profile} style={{ width: '100%', height: '100%', borderRadius: 100 / 2, }} />
                         </View>
@@ -63,7 +68,7 @@ export default function EditProfile(params) {
 
 
                     <Formik
-                        initialValues={{ username: '', email: '', phoneNumber: '', password: '' }}
+                        initialValues={{ firstName: '', email: '', phoneNumber: '', password: '' }}
                     // onSubmit={(values, { setSubmitting }) => {
                     //     if (values.username == "" || values.email == "" || values.phoneNumber == "" || values.password) {
                     //         setMessage('Please enter your details');
@@ -75,56 +80,69 @@ export default function EditProfile(params) {
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
                             <>
+                                <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>First Name</RegularTexts>
                                 <StyledInput
-                                    icon="user"
-                                    placeholder="Username"
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    onChangeText={handleChange('username')}
-                                    onBlur={handleBlur('username')}
+                                    icon="account-outline"
+                                    onChangeText={(text) => setFirstName(text)}
+                                    onBlur={handleBlur('firstName')}
                                     enablesReturnKeyAutomatically={true}
                                     keyboardAppearance="light"
-                                    value={values.username}
+                                    value={firstName}
                                 />
-                                <MsgText success={isSuccessMessage}> {""} </MsgText>
+                                <MsgText
+                                    style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
+                                    success={isSuccessMessage}>
+                                    {message || ""}
+                                </MsgText>
 
+                                <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Phone Number</RegularTexts>
                                 <StyledInput
-                                    icon="mail"
-                                    placeholder="Email Address"
-                                    keyboardType="email-address"
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
-                                    enablesReturnKeyAutomatically={true}
-                                    keyboardAppearance="light"
-                                    value={values.email}
-                                />
-                                <MsgText success={isSuccessMessage}> {""} </MsgText>
-
-                                <StyledInput
-                                    icon="phone"
-                                    placeholder="Phone Number"
+                                    icon="phone-outline"
                                     keyboardType="numeric"
                                     keyboardAppearance="light"
                                     inputMode='numeric'
                                     returnKeyType='done'
+                                    onChangeText={(text) => setPhoneNumber(text)}
+                                    value={phoneNumber}
                                     minLength={1}
-                                    maxLength={12}
+                                    maxLength={10}
                                 />
-                                <MsgText success={isSuccessMessage}> {""} </MsgText>
+                                <MsgText
+                                    style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
+                                    success={isSubmitting}>
+                                    {message || ""}
+                                </MsgText>
 
+                                <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Email Address</RegularTexts>
                                 <StyledInput
-                                    icon="key"
-                                    placeholder="Password"
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    isPassword={true}
-                                    minLength={8}
+                                    icon="email-outline"
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
+                                    onChangeText={(text) => {
+                                        setEmail(text)
+                                    }}
+                                    value={email}
+                                    onBlur={handleBlur('email')}
+                                    enablesReturnKeyAutomatically={true}
                                     keyboardAppearance="light"
-                                    value={values.password}
+                                />
+                                <MsgText
+                                    style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
+                                    success={isSuccessMessage}>
+                                    {message || ""}
+                                </MsgText>
+
+                                <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
+                                <StyledInput
+
+                                    icon="key-outline"
+                                    onChangeText={(text) => {
+                                        setPassword(text)
+                                    }}
+                                    isPassword={true}
+                                    value={password}
+                                    onBlur={handleBlur('password')}
+                                    keyboardAppearance="light"
                                 />
 
 
@@ -142,7 +160,7 @@ export default function EditProfile(params) {
                 <StatusBar style="dark" />
 
             </KeyboardAvoiding>
-            <BottomButton style={{ position: "absolute", bottom: 50, left: 20, right: 20 }}>Save Changes</BottomButton>
+            <BottomButton>Save Changes</BottomButton>
 
 
         </View>
@@ -155,9 +173,6 @@ const styles = StyleSheet.create({
     view3: {
         width: '100%',
         flexDirection: "row",
-        borderBottomWidth: 1,
-        borderColor: '#C2C2C2',
-        paddingHorizontal: 18,
         paddingVertical: 10
     },
     textProfile: {

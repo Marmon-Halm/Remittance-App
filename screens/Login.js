@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { View, Image, StyleSheet, Alert } from 'react-native';
 import { ActivityIndicator } from 'react-native';
-import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
+import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
 import MainContainer from '../componets/Containers/MainContainer';
 import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
@@ -22,6 +22,7 @@ import { UserContext } from '../contexts/UserContext';
 import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
 const { primary, sea, white, little, killed, grey } = color;
+import { MaterialIndicator } from 'react-native-indicators';
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -71,7 +72,8 @@ export default function Login(params) {
   let [fontsLoaded] = useFonts({
     Manrope_400Regular,
     Manrope_500Medium,
-    Manrope_600SemiBold
+    Manrope_600SemiBold,
+    Manrope_700Bold,
   });
 
 
@@ -79,7 +81,7 @@ export default function Login(params) {
     return <AppLoading />;
   }
 
-  return <MainContainer style={{paddingTop: StatusBarHeight}}>
+  return <MainContainer style={{ paddingTop: StatusBarHeight }}>
     <KeyboardAvoiding>
 
       <View style={{ width: 100, height: 100, alignSelf: 'center', marginVertical: 30 }}>
@@ -116,10 +118,9 @@ export default function Login(params) {
               {errorMessage || ""}
             </MsgText>
 
-
+            <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Email Address</RegularTexts>
             <StyledInput
-              icon="mail"
-              placeholder="Email Address"
+              icon="email-outline"
               keyboardType="email-address"
               autoCapitalize="none"
               enablesReturnKeyAutomatically={true}
@@ -132,17 +133,16 @@ export default function Login(params) {
               valid={emailValid}
             />
             <MsgText
-              style={{ marginBottom: message ? 12 : 1 ,  marginLeft: 3, textAlign: 'left', }}
+              style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
               success={isSuccessMessage}>
               {message || ""}
             </MsgText>
 
 
 
-
+            <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
             <StyledInput
-              icon="key"
-              placeholder="Password"
+              icon="key-outline"
               keyboardAppearance="light"
               onChangeText={(text) => {
                 setPassword(text)
@@ -175,12 +175,14 @@ export default function Login(params) {
 
 
 
-            {!submitting && <RegularButton style={{ marginTop: 15,  shadowColor: 'grey', shadowOffset: { width: -3, height: 4 }, shadowOpacity: 0.2, shadowRadius: 3, elevation: 10 }} onPress={handleSubmit}>Login</RegularButton>}
+            {!submitting && <RegularButton style={{ marginTop: 15, }} onPress={handleSubmit}>Login</RegularButton>}
             {submitting && (
-              <RegularButton disabled={true}>
-                <ActivityIndicator color={'#fff'} />
+              <RegularButton disabled={true} style={{ marginTop: 15, }}>
+                <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
               </RegularButton>
             )}
+
+
 
 
             <RegularTexts style={{ textAlign: 'center', marginTop: 20, fontSize: 17 }}>Don't have an account? <RegularTexts style={{ color: primary, fontSize: 17 }} onPress={() => { navigation.navigate("SignUp") }} >Register</RegularTexts></RegularTexts>

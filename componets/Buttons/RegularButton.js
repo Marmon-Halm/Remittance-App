@@ -9,6 +9,7 @@ const { white, killed, newGrey, disabledGrey } = color;
 
 
 const ButtonView = styled.TouchableOpacity`
+    height: 52px;
     padding: 15px;
     background-color: ${killed};
     width: 100%;
@@ -25,7 +26,7 @@ const RegularButton = (props, isButton) => {
     return (
 
         <View>
-            <ButtonView style={{width: '100%'}} onPress={props.onPress} disabled={props.disabled} {...props}><ButtonTexts style={[{ ...props?.textStyle }]}>{props.children}</ButtonTexts></ButtonView>
+            <ButtonView style={{ width: '100%' }} onPress={props.onPress} disabled={props.disabled} {...props}><ButtonTexts style={[{ ...props?.textStyle }]}>{props.children}</ButtonTexts></ButtonView>
         </View>
     )
 };

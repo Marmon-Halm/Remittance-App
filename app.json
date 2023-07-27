@@ -24,10 +24,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(trucktransportsystem) to use your location.",
-          "locationAlwaysPermission": "Allow $(trucktransportsystem) to use your location.",
-          "locationWhenInUsePermission": "Allow $(trucktransportsystem) to use your location.",
-          "isAndroidBackgroundLocationEnabled": false
+          "locationAlwaysAndWhenInUsePermission": "Allow $(THIS APP) to use your location.",
         }
       ]
     ],
@@ -39,7 +36,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.trucktransportsystem.com"
+      "bundleIdentifier": "com.trucktransportsystem.com",
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"]
+      }
     },
     "android": {
       "adaptiveIcon": {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Button, ImageBackground } from 'react-native';
 import {
@@ -16,6 +16,7 @@ import AppLoading from 'expo-app-loading';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { StatusBarHeight } from '../componets/shared';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 
 
@@ -31,15 +32,17 @@ export default function Trips(params) {
     });
 
 
+
     if (!fontsLoaded) {
         return <AppLoading />;
     }
 
 
 
+
     return (
 
-        <View style={{ paddingTop: StatusBarHeight, backgroundColor: "white" }}>
+        <View style={{ paddingTop: StatusBarHeight, backgroundColor: "white",  paddingHorizontal: 20 }}>
 
             <View style={styles.view3}>
 
@@ -57,7 +60,9 @@ export default function Trips(params) {
 
             </View>
             <View style={styles.container}>
-                <View style={{ paddingBottom: 10, paddingHorizontal: 22, width: '100%' }}>
+
+
+                <View style={{ width: '100%' }}>
 
                 </View>
 
@@ -183,9 +188,6 @@ const styles = StyleSheet.create({
     view3: {
         width: '100%',
         flexDirection: "row",
-        borderBottomWidth: 1,
-        borderColor: '#C2C2C2',
-        paddingHorizontal: 18,
         paddingVertical: 10
     },
     image: {

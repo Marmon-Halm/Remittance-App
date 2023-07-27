@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useMemo, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image } from 'react-native';
 import {
     useFonts,
     Manrope_400Regular,
@@ -10,17 +10,23 @@ import {
     Manrope_700Bold,
     Manrope_800ExtraBold
 } from '@expo-google-fonts/manrope';
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import Modal from "react-native-modal";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppLoading from 'expo-app-loading';
 import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 import { UserContext } from '../contexts/UserContext';
-import ButtonTexts from '../componets/Texts/ButtonTexts';
 import { StatusBarHeight } from '../componets/shared';
+import mtn from '../assets/mtn.jpg';
+import voda from '../assets/voda.png';
+import cash from '../assets/cash.png';
+import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import BottomButton from '../componets/Buttons/BottomButton';
+import { color } from './color';
 
 
 
@@ -29,14 +35,65 @@ export default function Settings(params) {
 
     const { setUserLoggedIn } = useContext(UserContext)
 
-    const [isModalVisible2, setIsModalVisible2] = useState(false);
-    const [isModalVisible3, setIsModalVisible3] = useState(false);
-    const [isModalVisible4, setIsModalVisible4] = useState(false);
-
     const [loggingOut, setLoggingOut] = useState(false);
 
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
+
+    const [active, setActive] = useState(false);
+    const [active1, setActive1] = useState(false);
+    const [active2, setActive2] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const cashActive = () => {
+
+        if (active1 == true || active2 == true) {
+            setActive1(false);
+            setActive2(false);
+            setActive(true);
+        } else {
+            setActive(true);
+        }
+    }
+
+    const mtnActive = () => {
+
+        if (active1 == true || active2 == true) {
+            setActive1(false);
+            setActive2(false);
+            setActive(true);
+        };
+    }
+
+    const vodaActive = () => {
+        if (active == true || active2 == true) {
+            setActive(false);
+            setActive2(false);
+            setActive1(true);
+        }
+    }
+
+    const cardActive = () => {
+        if (active == true || active1 == true) {
+            setActive1(false);
+            setActive(false);
+            setActive2(true);
+        };
+    }
+
+    const bottomSheetModalRef = useRef(null);
+
+    // variables
+    const snapPoints = useMemo(() => ['5%', '55%'], []);
+
+    // callbacks
+    const handlePresentModalPress = useCallback(() => {
+        bottomSheetModalRef.current?.present();
+        setModalOpen(true);
+    }, []);
+    const handleSheetChanges = useCallback((index) => {
+        console.log('handleSheetChanges', index);
+    }, []);
 
 
     const onLogOut = () => {
@@ -56,13 +113,6 @@ export default function Settings(params) {
         setLoggingOut(false)
     }
 
-    const handleModal1 = () => setIsModalVisible2(() => !isModalVisible2);
-    const handleModal2 = () => setIsModalVisible3(() => !isModalVisible3);
-    const handleModal3 = () => setIsModalVisible4(() => !isModalVisible4);
-
-
-
-
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
         Manrope_500Medium,
@@ -76,90 +126,214 @@ export default function Settings(params) {
     }
 
     return (
-        <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "white"}}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <BottomSheetModalProvider style={{ flex: 1 }}>
+                <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "#F6F6F6", paddingHorizontal: 10, opacity: modalOpen ? 0.3 : 1 }}>
 
-            <View style={styles.view3}>
+                    <View style={styles.topNav}>
 
-                <View style={{ width: "10%" }}>
-                    <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} color="black" onPress={() => {
-                        navigation.goBack()
-                    }} />
-                </View>
+                        <View style={{ width: "10%" }}>
+                            <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} color="black" onPress={() => {
+                                navigation.goBack()
+                            }} />
+                        </View>
 
-                <View style={{ width: "80%" }}>
-                    <Text style={styles.textSettings}>
-                        Settings
-                    </Text>
-                </View>
-                <View style={{ width: "10%" }}>
+                        <View style={{ width: "80%" }}>
+                            <Text style={styles.textSettings}>
+                                Settings
+                            </Text>
+                        </View>
+                        <View style={{ width: "10%" }}>
 
-                </View>
+                        </View>
 
-            </View>
-
-            <View style={{ paddingHorizontal: 20 }}>
-                <View style={{ width: '100%', alignItems: 'center', marginBottom: 35, marginTop: 20 }}>
-                    <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
-                        <AntDesign name="adduser" size={40} color="#787878" />
                     </View>
 
-                    <Text style={styles.profileText}>James Obeng</Text>
-                    <Text style={styles.profileText2}>+233 50 578 0528</Text>
+                    <View style={{ paddingHorizontal: 20 }}>
+                        <View style={{ width: '100%', alignItems: 'center', marginBottom: 35, marginTop: 20 }}>
+                            <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
+                                <AntDesign name="user" size={40} color="#787878" />
+                            </View>
 
+                            <Text style={styles.profileText}>James Obeng</Text>
+                            <Text style={styles.profileText2}>+233 50 578 0528</Text>
+
+                        </View>
+
+
+
+                    </View>
+
+                    <View style={styles.contentView}>
+                        <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("EditProfile") }}>
+                            <View style={styles.iconView}>
+                                <MaterialCommunityIcons name="account-edit" size={22} color="#F76A03" />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.categoryText}>
+                                    Edit Profile
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '19%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <Feather name="chevron-right" size={24} color="black" />
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Trips") }}>
+                            <View style={styles.iconView}>
+                                <MaterialCommunityIcons name="car-clock" size={22} color="#F76A03" />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.categoryText}>
+                                    Trips
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <Feather name="chevron-right" size={24} color="black" />
+
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.categoryContainer} onPress={handlePresentModalPress}>
+                            <View style={styles.iconView}>
+                                <MaterialCommunityIcons name="credit-card-outline" size={22} color="#F76A03" />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.categoryText}>
+                                    Billing Details
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <Feather name="chevron-right" size={24} color="black" />
+
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Language") }}>
+                            <View style={styles.iconView}>
+                                <MaterialCommunityIcons name="web" size={22} color="#F76A03" />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.categoryText}>
+                                    Language
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <Feather name="chevron-right" size={24} color="black" />
+
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.categoryContainer} onPress={onLogOut}>
+                            <View style={styles.iconView}>
+                                <MaterialCommunityIcons name="arrow-right-thick" size={22} color="#F76A03" />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.categoryText}>
+                                    Log out
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <Feather name="chevron-right" size={24} color="black" />
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+                    <StatusBar style="dark" />
                 </View>
 
-                <View >
-                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("EditProfile") }}>
-                        <View style={{ width: '11%', justifyContent: "center", alignItems: "center" }}>
-                            <Ionicons
-                                name="create-outline"
-                                size={24}
-                                color="#2D9B94"
-                            />
-                        </View>
 
-                        <View style={{ width: '70%', paddingLeft: 7 }}>
-                            <Text style={styles.categoryText}>
-                                Edit Profile
-                            </Text>
-                        </View>
+                <BottomSheetModal
+                    ref={bottomSheetModalRef}
+                    index={1}
+                    snapPoints={snapPoints}
+                    backgroundStyle={{borderRadius: 40, backgroundColor: '#E8E9EB'}}
+                    onDismiss={() => setModalOpen(false)}
+                >
+                    <View style={styles.paymentOptions}>
 
-                        <View style={{ width: '19%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Feather name="chevron-right" size={24} color="grey" />
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.option} onPress={cashActive}>
+                            <View style={styles.iconView}>
+                                <Image source={cash} style={{ width: 24, height: 22, borderRadius: 5 }} />
+                            </View>
 
-                    <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Trips") }}>
-                        <View style={{ width: '11%', justifyContent: "center", alignItems: "center" }}>
-                            <Ionicons name="timer-outline" size={24} color="#2D9B94" />
-                        </View>
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.optionText}>
+                                    Cash
+                                </Text>
+                            </View>
 
-                        <View style={{ width: '70%', paddingLeft: 7 }}>
-                            <Text style={styles.categoryText}>
-                                History
-                            </Text>
-                        </View>
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <MaterialCommunityIcons name={!active ? "radiobox-blank" : "radiobox-marked"} size={24} color={color.primary} />
+                            </View>
+                        </TouchableOpacity>
 
-                        <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Feather name="chevron-right" size={24} color="grey" />
+                        {/* <TouchableOpacity style={styles.option} onPress={mtnActive}>
+                            <View style={styles.iconView}>
+                                <Image source={mtn} style={{ width: 24, height: 22, borderRadius: 5 }} />
+                            </View>
 
-                        </View>
-                    </TouchableOpacity>
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.optionText}>
+                                    MTN Mobile Money
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <MaterialCommunityIcons name={!active ? "radiobox-blank" : "radiobox-marked"} size={24} color={"black"} />
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.option} onPress={vodaActive}>
+                            <View style={styles.iconView}>
+                                <Image source={voda} style={{ width: 24, height: 22, borderRadius: 5 }} />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.optionText}>
+                                    Vodafone Cash
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <MaterialCommunityIcons name={!active1 ? "radiobox-blank" : "radiobox-marked"} size={24} color={"black"} />
+                            </View>
+                        </TouchableOpacity> */}
+
+                        {/* <TouchableOpacity style={styles.option} onPress={cardActive}>
+                            <View style={styles.iconView}>
+                                <MaterialCommunityIcons name="credit-card" size={22} color="black" />
+                            </View>
+
+                            <View style={{ width: '70%', paddingLeft: 15 }}>
+                                <Text style={styles.optionText}>
+                                    Credit / Debit Card
+                                </Text>
+                            </View>
+
+                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <MaterialCommunityIcons name={!active2 ? "radiobox-blank" : "radiobox-marked"} size={24} color={color.primary} />
+                            </View>
+                        </TouchableOpacity> */}
 
 
-                </View>
-
-            </View>
-            
-            <View style={{ position: "absolute", bottom: 50, left: 20, right: 20 }}>
-                <TouchableOpacity style={{ width: "100%", borderColor: '#BA2F2F', borderWidth: 1.5, borderRadius: 10, padding: 12, backgroundColor: "transparent", }} onPress={onLogOut}><ButtonTexts style={{ color: "#BA2F2F" }}>LogOut</ButtonTexts></TouchableOpacity>
-            </View>
+                    </View>
+                    <BottomButton style={{right: 20,  width: '90%'}} onPress={() => {navigation.navigate('Payment')}}>Add New Payment</BottomButton>
+                </BottomSheetModal>
+            </BottomSheetModalProvider>
+        </GestureHandlerRootView>
 
 
-
-
-            <StatusBar style="dark" />
-        </View>
     )
 
 
@@ -173,27 +347,22 @@ const styles = StyleSheet.create({
 
     categoryContainer: {
         flexDirection: 'row',
-        height: 50,
+        height: 45,
         width: '100%',
-        padding: 10,
-        borderWidth: 1.5,
-        borderColor: '#BFBFBF',
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: "center",
-        marginBottom: 12,
+        marginBottom: 20,
     },
     categoryText: {
-        fontFamily: 'Manrope_600SemiBold',
-        fontSize: 18,
+        fontFamily: 'Manrope_700Bold',
+        fontSize: 17,
         color: '#383838',
     },
-    view3: {
+    topNav: {
         width: '100%',
         flexDirection: "row",
-        borderBottomWidth: 1,
-        borderColor: '#C2C2C2',
-        paddingHorizontal: 18,
+        paddingHorizontal: 10,
         paddingVertical: 10
     },
     textSettings: {
@@ -215,6 +384,14 @@ const styles = StyleSheet.create({
         justifyContent: undefined,
         borderRadius: 20,
         flexDirection: 'column',
+    },
+    iconView: {
+        width: '15%',
+        height: '100%',
+        backgroundColor: "#F6F6F6",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 15,
     },
     textInputLabel: {
         fontSize: 16,
@@ -249,6 +426,45 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
+    },
+    contentView: {
+        height: '65%',
+        width: '100%',
+        position: 'absolute',
+        bottom: 0,
+        left: 10,
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 30,
+    },
+    paymentOptions: {
+        padding: 20,
+        backgroundColor: '#E8E9EB',
+        height: '100%'
+    },
+    option: {
+        height: 60,
+        width: '100%',
+        backgroundColor: 'white',
+        marginBottom: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: "center",
+        flexDirection: 'row',
+        shadowColor: 'lightgray',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 10,
+    },
+    optionText: {
+        fontFamily: 'Manrope_700Bold',
+        fontSize: 16,
+        color: '#383838',
     },
 
 });

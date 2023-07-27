@@ -24,6 +24,7 @@ import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
 import MessageModal from '../componets/Modals/MessageModal';
 const { primary, sea, white, little, killed, backgrey } = color;
+import { MaterialIndicator } from 'react-native-indicators';
 
 
 
@@ -77,7 +78,7 @@ export default function ResetP(params) {
 
 
     const handleOnSubmit = async () => {
-      
+
 
         try {
             setMessage(null);
@@ -88,7 +89,7 @@ export default function ResetP(params) {
                     console.log('Email Sent')
                     // Password reset email sent! 
                     return showModal('success', 'Link Sent!', 'Check in the email address provided for a link to reset your account password', 'Proceed');
-        
+
                 })
                 .catch((error) => {
                     console.log(error.message)
@@ -116,7 +117,7 @@ export default function ResetP(params) {
         <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
         <KeyboardAvoiding>
 
-            <TitleText style={{ marginBottom: 20, marginTop: 10, }}>Reset Password</TitleText>
+            <TitleText style={{ marginBottom: 15, marginTop: 7, }}>Reset Password</TitleText>
             <RegularTexts style={{ color: '#6A6A6A', marginBottom: 20 }}>Enter a valid email address for a password-reset link</RegularTexts>
 
 
@@ -134,9 +135,9 @@ export default function ResetP(params) {
             >
                 {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
                     <>
+                        <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Email Address</RegularTexts>
                         <StyledInput
-                            icon="mail"
-                            placeholder="Email Address"
+                            icon="email-outline"
                             keyboardType="email-address"
                             autoCapitalize='none'
                             autoCorrect={false}
@@ -151,18 +152,20 @@ export default function ResetP(params) {
                             valid={emailValid}
                         />
 
+
+
+                        {!submitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3 }} onPress={handleOnSubmit}>Continue</RegularButton>}
+                        {submitting && (
+                            <RegularButton disabled={true}>
+                                <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
+                            </RegularButton>
+                        )}
+
                         <MsgText
                             style={{ marginBottom: 20 }}
                             success={isSuccessMessage}>
                             {errorMessage || ""}
                         </MsgText>
-
-                        {!submitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3 }} onPress={handleOnSubmit}>Continue</RegularButton>}
-                        {submitting && (
-                            <RegularButton disabled={true}>
-                                <ActivityIndicator size="small" color={white} />
-                            </RegularButton>
-                        )}
                     </>
                 )}
             </Formik>
