@@ -9,16 +9,15 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import * as Location from 'expo-location';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import Constants from 'expo-constants';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import StyledTextInput from '../componets/Inputs/StyledTextInput';
-import SmallTexts from '../componets/Texts/SmallTexts';
-import BigTexts from '../componets/Texts/BigTexts';
-import { MaterialIndicator } from 'react-native-indicators';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RegularTexts from '../componets/Texts/RegularTexts';
 import AppLoading from 'expo-app-loading';
+import * as Permissions from 'expo-permissions';
 import TitleText from '../componets/Texts/TitleText';
 import { newGrey } from './color';
+import Geocoder from 'react-native-geocoder';
+import { GOOGLE_API_KEY } from '../environment';
+import { setDoc } from 'firebase/firestore';
 
 
 // apiKey: AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4
@@ -31,6 +30,8 @@ export default function Home(params) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [valid, setValid] = useState(false);
   const { width, height } = Dimensions.get("window");
+  const [displayCurrentAddress, SetDisplayCurrentAddress] = useState('Fetching your location')
+  const [displayAddress, SetDisplayAddress] = useState('Fetching your location')
   const [position, setPosition] = useState({
     latitude: 0,
     longitude: 0,
@@ -38,23 +39,43 @@ export default function Home(params) {
     longitudeDelta: 0.0421,
   });
 
+
   useEffect(() => {
     (async () => {
+
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        console.log('Permission to access location was denied');
+        setErrorMsg('Permission to access location was denied');
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
-      console.log(location)
+
+      let location = await Location.getCurrentPositionAsync({
+        enableHighAccuracy: true,
+        accuracy: Location.Accuracy.High,
+      });
+      setLocation(location);
+      let address = await Location.reverseGeocodeAsync(location.coords)
+      SetDisplayAddress(address[0].name)
+      SetDisplayCurrentAddress(address[0].street)
+
       setPosition({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.004,
         longitudeDelta: 0.005,
       });
+
+
+
     })();
   }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
 
 
   let [fontsLoaded] = useFonts({
@@ -83,42 +104,35 @@ export default function Home(params) {
       {
         <View style={{ paddingHorizontal: 0, height: '100%' }}>
           <MapView
-            style={{ width: width, height: '57.5%' }}
+            style={{ width: width, height: '65%' }}
             provider={PROVIDER_GOOGLE}
             initialRegion={position}
             region={position}
             showsUserLocation={true}
-          >
-            <Marker
-              coordinate={{
-                latitude: position.latitude,
-                longitude: position.longitude
-              }}
-              tracksViewChanges={true}>
-            </Marker>
-
-          </MapView>
+          />
 
           <TouchableOpacity style={styles.menuContainer} onPress={() => { navigation.navigate("Settings") }}>
             <Feather name="menu" size={22} color="#000" />
           </TouchableOpacity>
 
 
-
-
           <BottomSheet
             snapPoints={[350, 500]}
             overDragResistanceFactor={0}
-            backgroundStyle={{borderRadius: 40}}
+            backgroundStyle={{
+              borderRadius: 20, shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.2,
+              shadowRadius: 2,
+            }}
           >
             <View style={styles.searchContainer}>
               <View style={{ alignItems: "center", marginBottom: 15 }}>
-                <Text style={{ color: "#737373", fontFamily: "Manrope_500Medium", fontSize: 12 }}>{position.longitude}</Text>
-                <RegularTexts style={{ textAlign: "center" }}>{position.latitude}</RegularTexts>
+                <Text style={{ color: "#737373", fontFamily: "Manrope_500Medium", fontSize: 12 }}>{displayAddress}</Text>
+                <RegularTexts style={{ textAlign: "center" }}>{displayCurrentAddress}</RegularTexts>
               </View>
               <View >
-                <TouchableOpacity style={styles.searchButton}>
-                  <Feather name="search" style={{ marginRight: 10 }} size={18} color="#737373" />
+                <TouchableOpacity onPress={() => { navigation.navigate('TruckSelection') }} style={styles.searchButton}>
+                  <Feather name="search" style={{ marginRight: 8 }} size={18} color="#737373" />
                   <RegularTexts style={{ color: "#737373" }}>Where to ?</RegularTexts>
                 </TouchableOpacity>
               </View>
@@ -141,16 +155,7 @@ export default function Home(params) {
               </View>
             </View>
 
-
-
-
-
-
-
           </BottomSheet>
-
-
-
 
           <StatusBar style="dark" />
         </View>
@@ -229,9 +234,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginVertical: 5,
     borderWidth: 1.5,
+    borderRadius: 12,
     borderColor: '#737373',
     backgroundColor: "#FAFAFA",
-    borderRadius: 16,
     alignItems: "center"
   },
   searchContainer: {
@@ -277,114 +282,3 @@ const styles = StyleSheet.create({
 
 
 
-
-
-{/* <BottomSheetView style={styles.searchContainer}>
-<View style={styles.searchButton}>
-  <Feather name="map-pin" size={18} color="#737373" />
-  <GooglePlacesAutocomplete
-    placeholder='Pick Up Location'
-    onPress={(data, details = null) => {
-      console.log(data, details)
-    }}
-    returnKeyType={'search'}
-    minLength={2}
-    listViewDisplayed={true}
-    autoFocus={true}
-    query={{
-      key: 'AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4',
-      language: 'en',
-    }}
-    textInputProps={{
-      placeholderTextColor: "#737373",
-      returnKeyType: "search"
-    }}
-    styles={{
-
-      textInput: {
-        height: '100%',
-        color: '#737373',
-        fontSize: 16,
-        backgroundColor: '#FAFAFA',
-        fontFamily: "Manrope_500Medium",
-      },
-
-      predefinedPlacesDescription: {
-        color: '#1faadb',
-      },
-      listView: {
-        top: 45.5,
-        zIndex: 10,
-        position: 'absolute',
-        color: 'black',
-        backgroundColor: "white",
-        width: '89%',
-      },
-      separator: {
-        flex: 1,
-        backgroundColor: 'blue',
-      },
-      description: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        fontSize: 14,
-        maxWidth: '89%',
-      },
-    }}
-  />
-</View>
-
-<View style={styles.searchButton}>
-  <Feather name="map-pin" size={18} color="#737373" />
-  <GooglePlacesAutocomplete
-    placeholder='Drop Off'
-    onPress={(data, details = null) => {
-      console.log(data, details)
-    }}
-    returnKeyType={'search'}
-    minLength={2}
-    listViewDisplayed={true}
-    autoFocus={true}
-    query={{
-      key: 'AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4',
-      language: 'en',
-    }}
-    textInputProps={{
-      placeholderTextColor: "#737373",
-      returnKeyType: "search"
-    }}
-    styles={{
-
-      textInput: {
-        height: '100%',
-        color: '#737373',
-        fontSize: 16,
-        backgroundColor: '#FAFAFA',
-        fontFamily: "Manrope_500Medium",
-      },
-
-      predefinedPlacesDescription: {
-        color: '#1faadb',
-      },
-      listView: {
-        top: 45.5,
-        zIndex: 10,
-        position: 'absolute',
-        color: 'black',
-        backgroundColor: "white",
-        width: '89%',
-      },
-      separator: {
-        flex: 1,
-        backgroundColor: 'blue',
-      },
-      description: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        fontSize: 14,
-        maxWidth: '89%',
-      },
-    }}
-  />
-</View>
-</BottomSheetView> */}

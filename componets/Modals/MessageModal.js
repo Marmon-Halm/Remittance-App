@@ -38,7 +38,7 @@ const MessageModal = ({ modalVisible, buttonHandler, type, headerText, message, 
             <ModalView>
                 <Feather
                     name={type === 'success' ? 'check-circle' : 'x-circle'} size={60}
-                    color={type === 'success' ? green : red}
+                    color={type === 'success' ? green : "red"}
                     style={{ textAlign: 'center' }}
                 />
                 <TitleText style={{ fontSize: 28, marginVertical: 10, textAlign: 'center', color: "black"}}>{headerText}</TitleText>

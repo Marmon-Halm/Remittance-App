@@ -12,7 +12,7 @@ const ButtonView = styled.TouchableOpacity`
     height: 52px;
     padding: 15px;
     background-color: ${killed};
-    border-radius: 10px;
+    border-radius: 12px;
     text-align: center;
     position: absolute;
     bottom: 35px;

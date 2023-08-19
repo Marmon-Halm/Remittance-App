@@ -32,7 +32,7 @@ export default function EditProfile(params) {
 
 
     return (
-        <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "#F6F6F6", paddingHorizontal: 20 }}>
+        <View style={{ height: windowHeight, width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "#fff", paddingHorizontal: 20 }}>
 
             <View style={styles.view3}>
 
@@ -135,7 +135,7 @@ export default function EditProfile(params) {
                                 <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
                                 <StyledInput
 
-                                    icon="key-outline"
+                                    icon="lock-outline"
                                     onChangeText={(text) => {
                                         setPassword(text)
                                     }}

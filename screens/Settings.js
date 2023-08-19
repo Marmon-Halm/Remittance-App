@@ -10,7 +10,7 @@ import {
     Manrope_700Bold,
     Manrope_800ExtraBold
 } from '@expo-google-fonts/manrope';
-import { Entypo, Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from '@expo/vector-icons';
 import Modal from "react-native-modal";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -40,51 +40,55 @@ export default function Settings(params) {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState(true);
     const [active1, setActive1] = useState(false);
     const [active2, setActive2] = useState(false);
+    const [active3, setActive3] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
     const cashActive = () => {
 
-        if (active1 == true || active2 == true) {
+        if (active1 == true || active2 == true || active3 == true) {
             setActive1(false);
             setActive2(false);
+            setActive3(false);
             setActive(true);
-        } else {
-            setActive(true);
-        }
+        } 
     }
 
     const mtnActive = () => {
 
-        if (active1 == true || active2 == true) {
-            setActive1(false);
+        if (active == true || active3 == true || active2 == true) {
+            setActive3(false);
             setActive2(false);
-            setActive(true);
+            setActive(false);
+            setActive1(true);
         };
     }
 
     const vodaActive = () => {
-        if (active == true || active2 == true) {
+        if (active == true || active1 == true || active3 == true) {
             setActive(false);
-            setActive2(false);
-            setActive1(true);
+            setActive1(false);
+            setActive2(true);
+            setActive3(false);
         }
     }
 
     const cardActive = () => {
-        if (active == true || active1 == true) {
+        if (active == true || active1 == true || active2 == true) {
             setActive1(false);
             setActive(false);
-            setActive2(true);
+            setActive2(false);
+            setActive3(true);
         };
     }
+    
 
     const bottomSheetModalRef = useRef(null);
 
     // variables
-    const snapPoints = useMemo(() => ['5%', '55%'], []);
+    const snapPoints = useMemo(() => ['75%', '75%'], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
@@ -152,11 +156,11 @@ export default function Settings(params) {
                     <View style={{ paddingHorizontal: 20 }}>
                         <View style={{ width: '100%', alignItems: 'center', marginBottom: 35, marginTop: 20 }}>
                             <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
-                                <AntDesign name="user" size={40} color="#787878" />
+                                <MaterialIcons name="add-a-photo" size={40} color="#787878" />
                             </View>
 
-                            <Text style={styles.profileText}>James Obeng</Text>
-                            <Text style={styles.profileText2}>+233 50 578 0528</Text>
+                            <Text style={styles.profileText}>Text</Text>
+                            <Text style={styles.profileText2}>Text</Text>
 
                         </View>
 
@@ -200,29 +204,12 @@ export default function Settings(params) {
 
                         <TouchableOpacity style={styles.categoryContainer} onPress={handlePresentModalPress}>
                             <View style={styles.iconView}>
-                                <MaterialCommunityIcons name="credit-card-outline" size={22} color="#F76A03" />
+                                <MaterialCommunityIcons name="wallet-outline" size={22} color="#F76A03" />
                             </View>
 
                             <View style={{ width: '70%', paddingLeft: 15 }}>
                                 <Text style={styles.categoryText}>
-                                    Billing Details
-                                </Text>
-                            </View>
-
-                            <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <Feather name="chevron-right" size={24} color="black" />
-
-                            </View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.categoryContainer} onPress={() => { navigation.navigate("Language") }}>
-                            <View style={styles.iconView}>
-                                <MaterialCommunityIcons name="web" size={22} color="#F76A03" />
-                            </View>
-
-                            <View style={{ width: '70%', paddingLeft: 15 }}>
-                                <Text style={styles.categoryText}>
-                                    Language
+                                    Wallet
                                 </Text>
                             </View>
 
@@ -257,7 +244,7 @@ export default function Settings(params) {
                     ref={bottomSheetModalRef}
                     index={1}
                     snapPoints={snapPoints}
-                    backgroundStyle={{borderRadius: 40, backgroundColor: '#E8E9EB'}}
+                    backgroundStyle={{borderRadius: 20, backgroundColor: '#E8E9EB'}}
                     onDismiss={() => setModalOpen(false)}
                 >
                     <View style={styles.paymentOptions}>
@@ -278,19 +265,19 @@ export default function Settings(params) {
                             </View>
                         </TouchableOpacity>
 
-                        {/* <TouchableOpacity style={styles.option} onPress={mtnActive}>
+                        <TouchableOpacity style={styles.option} onPress={mtnActive}>
                             <View style={styles.iconView}>
                                 <Image source={mtn} style={{ width: 24, height: 22, borderRadius: 5 }} />
                             </View>
 
                             <View style={{ width: '70%', paddingLeft: 15 }}>
                                 <Text style={styles.optionText}>
-                                    MTN Mobile Money
+                                    024 119 8679
                                 </Text>
                             </View>
 
                             <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <MaterialCommunityIcons name={!active ? "radiobox-blank" : "radiobox-marked"} size={24} color={"black"} />
+                                <MaterialCommunityIcons name={!active1 ? "radiobox-blank" : "radiobox-marked"} size={24} color={color.primary} />
                             </View>
                         </TouchableOpacity>
 
@@ -301,16 +288,16 @@ export default function Settings(params) {
 
                             <View style={{ width: '70%', paddingLeft: 15 }}>
                                 <Text style={styles.optionText}>
-                                    Vodafone Cash
+                                    050 541 5309
                                 </Text>
                             </View>
 
                             <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <MaterialCommunityIcons name={!active1 ? "radiobox-blank" : "radiobox-marked"} size={24} color={"black"} />
+                                <MaterialCommunityIcons name={!active2 ? "radiobox-blank" : "radiobox-marked"} size={24} color={color.primary} />
                             </View>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
 
-                        {/* <TouchableOpacity style={styles.option} onPress={cardActive}>
+                        <TouchableOpacity style={styles.option} onPress={cardActive}>
                             <View style={styles.iconView}>
                                 <MaterialCommunityIcons name="credit-card" size={22} color="black" />
                             </View>
@@ -322,9 +309,9 @@ export default function Settings(params) {
                             </View>
 
                             <View style={{ width: '18%', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                                <MaterialCommunityIcons name={!active2 ? "radiobox-blank" : "radiobox-marked"} size={24} color={color.primary} />
+                                <MaterialCommunityIcons name={!active3 ? "radiobox-blank" : "radiobox-marked"} size={24} color={color.primary} />
                             </View>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
 
 
                     </View>

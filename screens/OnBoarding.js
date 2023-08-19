@@ -98,9 +98,9 @@ function OnBoarding({ navigation }) {
 
 
                 {
-                    currentSlideIndex == slides.length - 1 ? (<View style={{ height: 62, }}>
+                    currentSlideIndex == slides.length - 1 ? (<View style={{ height: 50, }}>
                         <TouchableOpacity style={[styles.btnGT]} onPress={() => { navigation.navigate('Login') }}>
-                            <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 20, color: '#fff' }}>GET STARTED</Text>
+                            <Text style={{ fontFamily: 'Manrope_600SemiBold', fontSize: 17, color: '#fff' }}>Get Started</Text>
                         </TouchableOpacity>
                     </View>) : (
                         <View style={{ flexDirection: "row" }}>
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     btnGT: {
         flex: 1,
         backgroundColor: `#000`,
-        padding: 16,
+        padding: 15,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: "center"

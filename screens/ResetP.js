@@ -154,9 +154,9 @@ export default function ResetP(params) {
 
 
 
-                        {!submitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3 }} onPress={handleOnSubmit}>Continue</RegularButton>}
+                        {!submitting && <RegularButton disabled={!emailValid} style={{ opacity: emailValid ? 1 : 0.3, marginTop: 30 }} onPress={handleOnSubmit}>Continue</RegularButton>}
                         {submitting && (
-                            <RegularButton disabled={true}>
+                            <RegularButton disabled={true} style={{ marginTop: 30 }}>
                                 <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
                             </RegularButton>
                         )}

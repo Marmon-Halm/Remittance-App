@@ -3,6 +3,8 @@ import { Image, View } from 'react-native';
 import { styled } from 'styled-components/native';
 import master from '../../assets/master.png'
 import visa from '../../assets/visa.png'
+import mtn from '../../assets/mtn.jpg'
+import voda from '../../assets/voda.png'
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { color } from '../../screens/color';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
@@ -60,7 +62,7 @@ const RightIcon = styled.TouchableOpacity`
 
 
 
-const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, isCard, isMat, valid, ...props }) => {
+const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, isCard, isMat, isMomo, isVoda, valid, ...props }) => {
 
     let [fontsLoaded] = useFonts({
         Manrope_400Regular,
@@ -122,8 +124,28 @@ const StyledInput = ({ icon, label, isPhone, thisIsEmail, isPassword, isCard, is
 
             {isCard && <RightIconContainer >
 
-                <RightIcon onPress={() => { setHidePassword(!hidePassword) }}>
-                    <Image source={master} style={{ width: 24, height: 22, borderRadius: 5 }} />
+                <RightIcon >
+                    <Image source={visa} style={{ width: 24, height: 22, borderRadius: 5 }} />
+                </RightIcon>
+
+            </RightIconContainer>
+
+            }
+
+            {isMomo && <RightIconContainer >
+
+                <RightIcon>
+                    <Image source={mtn} style={{ width: 24, height: 22, borderRadius: 5 }} />
+                </RightIcon>
+
+            </RightIconContainer>
+
+            }
+
+            {isVoda && <RightIconContainer >
+
+                <RightIcon >
+                    <Image source={voda} style={{ width: 24, height: 22, borderRadius: 5 }} />
                 </RightIcon>
 
             </RightIconContainer>

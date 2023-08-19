@@ -2,13 +2,11 @@ import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { View, Image, StyleSheet, Alert } from 'react-native';
-import { ActivityIndicator } from 'react-native';
 import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
 import MainContainer from '../componets/Containers/MainContainer';
 import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
 import RegularTexts from '../componets/Texts/RegularTexts';
-import StyledTextInput from '../componets/Inputs/StyledTextInput';
 import MsgText from '../componets/Texts/MsgText';
 import RegularButton from '../componets/Buttons/RegularButton';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -139,10 +137,9 @@ export default function Login(params) {
             </MsgText>
 
 
-
             <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
             <StyledInput
-              icon="key-outline"
+              icon="lock-outline"
               keyboardAppearance="light"
               onChangeText={(text) => {
                 setPassword(text)
@@ -172,9 +169,6 @@ export default function Login(params) {
               {message1 || ""}
             </MsgText>
 
-
-
-
             {!submitting && <RegularButton style={{ marginTop: 15, }} onPress={handleSubmit}>Login</RegularButton>}
             {submitting && (
               <RegularButton disabled={true} style={{ marginTop: 15, }}>
@@ -182,12 +176,8 @@ export default function Login(params) {
               </RegularButton>
             )}
 
-
-
-
             <RegularTexts style={{ textAlign: 'center', marginTop: 20, fontSize: 17 }}>Don't have an account? <RegularTexts style={{ color: primary, fontSize: 17 }} onPress={() => { navigation.navigate("SignUp") }} >Register</RegularTexts></RegularTexts>
             <RegularTexts style={{ textAlign: 'center', color: primary, marginTop: 5, fontSize: 17 }} onPress={() => { navigation.navigate('ResetP') }}>Forgot Password ?</RegularTexts>
-
 
           </>
         )}

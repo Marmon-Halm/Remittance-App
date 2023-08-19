@@ -1,4 +1,4 @@
- {
+{
   "expo": {
     "name": "trucktransportsystem",
     "slug": "trucktransportsystem",
@@ -19,14 +19,15 @@
             "useFrameworks": "static"
           }
         }
-        
       ],
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(THIS APP) to use your location.",
+          "locationAlwaysPermission": "Allow $(THIS APP) to use your location."
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -38,7 +39,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.trucktransportsystem.com",
       "infoPlist": {
-        "UIBackgroundModes": ["location", "fetch"]
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
       }
     },
     "android": {
@@ -52,8 +56,4 @@
       "favicon": "./assets/favicon.png"
     }
   }
- 
 }
-
-
-

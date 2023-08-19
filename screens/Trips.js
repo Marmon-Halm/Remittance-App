@@ -54,7 +54,7 @@ export default function Trips(params) {
 
                 <View style={{ width: "70%" }}>
                     <Text style={styles.textHistory}>
-                        History
+                        Trips
                     </Text>
                 </View>
 

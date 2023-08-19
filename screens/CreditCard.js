@@ -7,6 +7,7 @@ import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
 import mtn from '../assets/mtn.jpg';
 import voda from '../assets/voda.png';
+import creditc from '../assets/credit.jpg';
 import StyledInput from '../componets/Inputs/StyledInput';
 import RegularTexts from '../componets/Texts/RegularTexts';
 import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
@@ -53,8 +54,7 @@ const CreditCard = (params) => {
                 </View>
             </View>
             <View style={styles.cardView}>
-                <View style={styles.topView}></View>
-                <View style={styles.bottomView}></View>
+                <Image source={creditc} style={{ width: '100%', height: '100%', borderRadius: 20 }} />
             </View>
 
 
@@ -73,7 +73,7 @@ const CreditCard = (params) => {
                     </View>
 
                     <View style={styles.cardInput}>
-                        <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_700Bold' }}>Cardholder Number</RegularTexts>
+                        <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_700Bold' }}>Card Number</RegularTexts>
                         <StyledInput
                             icon="credit-card-outline"
                             keyboardType="numeric"

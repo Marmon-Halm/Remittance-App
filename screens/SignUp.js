@@ -287,7 +287,7 @@ export default function SignUp(params) {
             <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
             <StyledInput
 
-              icon="key-outline"
+              icon="lock-outline"
               onChangeText={(text) => {
                 setPassword(text)
                 setPwdValid(PWD_REGEX.test(text))
@@ -338,9 +338,9 @@ export default function SignUp(params) {
 
     {!loading && <BottomButton onPress={handleRegister} disabled={!checked} style={{ opacity: checked ? 1 : 0.3, width: '100%' }}>Register</BottomButton>}
     {loading && (
-      <RegularButton disabled={loading} style={{ alignItems: 'center' }}>
+      <BottomButton disabled={loading} style={{ opacity: 0.8, alignItems: 'center', width: '100%' }}>
         <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
-      </RegularButton>
+      </BottomButton>
     )}
   </MainContainer>
 }
