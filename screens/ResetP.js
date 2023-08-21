@@ -8,23 +8,19 @@ import AppLoading from 'expo-app-loading';
 import MainContainer from '../componets/Containers/MainContainer';
 import KeyboardAvoiding from '../componets/Containers/KeyboardAvoiding';
 import RegularTexts from '../componets/Texts/RegularTexts';
-import StyledTextInput from '../componets/Inputs/StyledTextInput';
 import MsgText from '../componets/Texts/MsgText';
 import RegularButton from '../componets/Buttons/RegularButton';
 import { Formik } from 'formik';
 import { color } from '../screens/color';
-import BigTexts from '../componets/Texts/BigTexts';
 import TitleText from '../componets/Texts/TitleText';
-import SmallTexts from '../componets/Texts/SmallTexts';
-import RowContainer from '../componets/Containers/RowContainer';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { styled } from 'styled-components/native';
-import { Feather } from '@expo/vector-icons';
 import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
 import MessageModal from '../componets/Modals/MessageModal';
 const { primary, sea, white, little, killed, backgrey } = color;
 import { MaterialIndicator } from 'react-native-indicators';
+import ToastrSuccess from '../componets/Toastr Notification/ToastrSuccess';
+import ToastrForSignUp from '../componets/Toastr Notification/ToastForSignUp';
 
 
 
@@ -58,14 +54,30 @@ export default function ResetP(params) {
         Manrope_700Bold
     });
     const auth = getAuth();
-
     const buttonHandler = () => {
         if (modalMessageType === "success") {
             // do something
-
         }
 
         setModalVisible(false);
+    };
+
+    const [toastrVisible, setToastrVisible] = useState(false);
+    const [toastrVisible1, setToastrVisible1] = useState(false);
+    const [bodyText, setBodyText] = useState('');
+    const [bodyText1, setBodyText1] = useState('');
+    const showToastr = (bodyText) => {
+        setBodyText(bodyText);
+    }
+    const showToastr2 = (bodyText1) => {
+        setBodyText1(bodyText1);
+    }
+    const successToastr = () => {
+        setTimeout(() => {
+            setToastrVisible(false);
+        }, 4000)
+        setToastrVisible(true);
+        return showToastr('Password-Reset Link Sent!');
     };
 
     const showModal = (type, headerText, message, buttonText) => {
@@ -88,15 +100,23 @@ export default function ResetP(params) {
                 .then(() => {
                     console.log('Email Sent')
                     // Password reset email sent! 
-                    return showModal('success', 'Link Sent!', 'Check in the email address provided for a link to reset your account password', 'Proceed');
-
+                    successToastr();
+                    setSubmitting(false)
                 })
                 .catch((error) => {
                     console.log(error.message)
                     if (error.message === "Firebase: Error (auth/invalid-email)." || error.message === "Firebase: Error (auth/user-not-found).") {
-                        setErrorMessage('Email Address Not Found !!')
+                        setTimeout(() => {
+                            setToastrVisible1(false);
+                          }, 5000)
+                          setToastrVisible1(true);
+                          return showToastr2('Email Address Not Found!')
                     } else {
-                        setErrorMessage(error.message)
+                        setTimeout(() => {
+                            setToastrVisible1(false);
+                          }, 5000)
+                          setToastrVisible1(true);
+                          return showToastr2(error.message)
                     }
                 });
 
@@ -181,6 +201,20 @@ export default function ResetP(params) {
 
             <StatusBar style="dark" />
         </KeyboardAvoiding>
+
+        {
+            toastrVisible ? (<ToastrSuccess
+                bodyText={bodyText}
+            />
+            ) : null
+        }
+
+        {
+            toastrVisible1 ? (<ToastrForSignUp
+                bodyText={bodyText1}
+            />
+            ) : null
+        }
     </MainContainer>
 }
 

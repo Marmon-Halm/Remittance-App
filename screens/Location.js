@@ -5,11 +5,7 @@ import { StatusBarHeight } from '../componets/shared';
 import { useFonts, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold } from '@expo-google-fonts/manrope';
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
-import TitleText from '../componets/Texts/TitleText';
-import RegularTexts from '../componets/Texts/RegularTexts';
-import StyledInput from '../componets/Inputs/StyledInput';
-import BottomButton from '../componets/Buttons/BottomButton';
-import { GOOGLE_API_KEY } from '../environment';
+import Animated, { FadeInLeft, FadeInRight, FadeInUp, FadeOutDown, FadeOutLeft, FadeOutRight, FadeOutUp } from "react-native-reanimated";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
@@ -34,7 +30,10 @@ const Location = (params) => {
 
 
     return (
-        <View>
+        <Animated.View
+            entering={FadeInUp}
+            exiting={FadeOutDown}
+        >
             <View style={{ height: '100%', width: windowWidth, paddingTop: StatusBarHeight, backgroundColor: "#F6F6F6", paddingHorizontal: 20 }}>
                 <View style={styles.topNav}>
                     <View style={{ width: "10%" }}>
@@ -46,11 +45,11 @@ const Location = (params) => {
                 </View>
 
                 <View style={styles.searchButton}>
-                    <MaterialCommunityIcons name="map-marker" size={22} color="#737373" />
+                    {/* <MaterialCommunityIcons name="map-marker" size={22} color="#737373" /> */}
                     <GooglePlacesAutocomplete
                         placeholder='Pick Up Location'
                         onPress={(data, details = null) => {
-                            console.log(data, details)
+                            console.log(data)
                         }}
                         selectProps={{
                             value,
@@ -58,10 +57,11 @@ const Location = (params) => {
                         }}
                         returnKeyType={'search'}
                         minLength={2}
+                        keyboardAppearance="light"
                         listViewDisplayed={true}
                         autoFocus="true"
                         query={{
-                            key: {GOOGLE_API_KEY},
+                            key: 'AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4',
                             language: 'en',
                         }}
                         textInputProps={{
@@ -69,11 +69,10 @@ const Location = (params) => {
                             returnKeyType: "search"
                         }}
                         styles={{
-
                             textInput: {
                                 height: '100%',
                                 color: '#737373',
-                                fontSize: 15,
+                                fontSize: 16,
                                 backgroundColor: '#FAFAFA',
                                 fontFamily: "Manrope_500Medium",
                             },
@@ -86,25 +85,28 @@ const Location = (params) => {
                                 zIndex: 10,
                                 position: 'absolute',
                                 color: 'black',
-                                backgroundColor: "white",
-                                width: '89%',
+                                backgroundColor: "red",
+                                width: '100%',
                             },
                             separator: {
                                 flex: 1,
-                                backgroundColor: 'blue',
+                                backgroundColor: '#F76A03',
                             },
                             description: {
                                 flexDirection: "row",
                                 flexWrap: "wrap",
-                                fontSize: 14,
-                                maxWidth: '89%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: 17,
+                                maxWidth: '100%',
+                                fontFamily: 'Manrope_500Medium'
                             },
                         }}
                     />
                 </View>
 
                 <View style={styles.searchButton}>
-                    <MaterialCommunityIcons name="map-marker" size={22} color="#737373" />
+                    {/* <MaterialCommunityIcons name="map-marker" size={22} color="#737373" /> */}
                     <GooglePlacesAutocomplete
                         placeholder='Drop Off'
                         onPress={(data, details = null) => {
@@ -112,6 +114,7 @@ const Location = (params) => {
                         }}
                         returnKeyType={'search'}
                         minLength={2}
+                        keyboardAppearance="light"
                         listViewDisplayed={true}
                         query={{
                             key: 'AIzaSyA25oUM8BiNy3Iuv4QaLDTU4YzbZxmZUX4',
@@ -125,8 +128,8 @@ const Location = (params) => {
 
                             textInput: {
                                 height: '100%',
-                                color: '#737373',
-                                fontSize: 15,
+                                color: '#000',
+                                fontSize: 16,
                                 backgroundColor: '#FAFAFA',
                                 fontFamily: "Manrope_500Medium",
                             },
@@ -139,18 +142,21 @@ const Location = (params) => {
                                 zIndex: 10,
                                 position: 'absolute',
                                 color: 'black',
-                                backgroundColor: "white",
-                                width: '89%',
+                                backgroundColor: "red",
+                                width: '100%',
                             },
                             separator: {
                                 flex: 1,
-                                backgroundColor: 'blue',
+                                backgroundColor: '#F76A03',
                             },
                             description: {
                                 flexDirection: "row",
                                 flexWrap: "wrap",
-                                fontSize: 14,
-                                maxWidth: '89%',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: 17,
+                                maxWidth: '100%',
+                                fontFamily: 'Manrope_500Medium'
                             },
                         }}
                     />
@@ -163,7 +169,7 @@ const Location = (params) => {
             </View>
 
 
-        </View>
+        </Animated.View>
 
 
     );
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
         height: 42,
         width: "100%",
         flexDirection: "row",
-        paddingHorizontal: 10,
+        //paddingHorizontal: 10,
         marginVertical: 5,
         borderWidth: 1.5,
         borderColor: '#737373',

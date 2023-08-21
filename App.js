@@ -7,9 +7,10 @@ import { UserProvider } from './providers/userProvide';
 export default function App() {
 
 
-  return (<UserProvider>
+  return (
+  <UserProvider>
 
-<Navigation />
+    <Navigation />
   </UserProvider>
 
   );

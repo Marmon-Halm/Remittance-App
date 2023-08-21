@@ -21,6 +21,8 @@ import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
 const { primary, sea, white, little, killed, grey } = color;
 import { MaterialIndicator } from 'react-native-indicators';
+import ToastrSuccess from '../componets/Toastr Notification/ToastrSuccess';
+import ToastrError from '../componets/Toastr Notification/ToastrError';
 
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -44,15 +46,54 @@ export default function Login(params) {
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  //TOASTR
+  const [toastrVisible, setToastrVisible] = useState(false);
+  const [toastrVisible1, setToastrVisible1] = useState(false);
+  const [bodyText, setBodyText] = useState('');
+  const [bodyText1, setBodyText1] = useState('');
+
+  const showToastr = (bodyText) => {
+    setBodyText(bodyText);
+  }
+  const showToastr2 = (bodyText1) => {
+    setBodyText1(bodyText1);
+  }
+
+  const successToastr = () => {
+    setTimeout(() => {
+      setToastrVisible(false);
+    }, 4000)
+    setToastrVisible(true);
+    return showToastr('Email Verification Link Sent!');
+  };
+
+  const errorToastr = () => {
+    setTimeout(() => {
+      setToastrVisible1(false);
+    }, 5000)
+
+    setToastrVisible1(true);
+    return showToastr2('Check your email to verify your account before proceeding.')
+  }
+
 
   const handleLogin = () => {
     setSubmitting(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log('Signed In')
-        setUserLoggedIn(true);
+        
         const user = userCredential.user;
-        console.log(user)
+        if (user.emailVerified) {
+          setUserLoggedIn(true);
+          console.log('Signed In')
+          console.log(user)
+
+        } else {
+          errorToastr();
+          setLoading(false);
+          setSubmitting(false);
+        }
+        
       })
       .catch((error) => {
         // setMessage('Login failed: ' + error.message);
@@ -63,9 +104,9 @@ export default function Login(params) {
         setLoading(false)
         setSubmitting(false)
       });
-
-
   };
+
+  
 
   let [fontsLoaded] = useFonts({
     Manrope_400Regular,
@@ -121,7 +162,6 @@ export default function Login(params) {
               icon="email-outline"
               keyboardType="email-address"
               autoCapitalize="none"
-              enablesReturnKeyAutomatically={true}
               keyboardAppearance="light"
               onChangeText={(text) => {
                 setEmail(text)
@@ -182,6 +222,26 @@ export default function Login(params) {
           </>
         )}
       </Formik>
+
+      {
+        toastrVisible ? ( <ToastrSuccess
+        bodyText={bodyText}
+      />
+      ) : null
+
+      }
+
+      {
+        toastrVisible1 ? (  <ToastrError
+          bodyText={bodyText1}
+        />
+      ) : null
+
+      }
+
+      
+
+     
 
       <StatusBar style="dark" />
 

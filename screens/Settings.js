@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image } from 'react-native';
@@ -23,29 +23,38 @@ import { StatusBarHeight } from '../componets/shared';
 import mtn from '../assets/mtn.jpg';
 import voda from '../assets/voda.png';
 import cash from '../assets/cash.png';
+import Animated, { FadeInLeft, FadeInRight, FadeInUp, FadeOutDown, FadeOutLeft, FadeOutRight, FadeOutUp } from "react-native-reanimated";
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomButton from '../componets/Buttons/BottomButton';
 import { color } from './color';
+import useUser from '../hook/useUser';
 
 
 
 export default function Settings(params) {
+
+
     const navigation = params.navigation;
 
-    const { setUserLoggedIn } = useContext(UserContext)
-
     const [loggingOut, setLoggingOut] = useState(false);
-
+    const { userData, isLoading: isUserDataLoading } = useUser();   
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
-
+    const {setUserLoggedIn, setPreviouslyLoggedIn} = useContext(UserContext);
     const [active, setActive] = useState(true);
     const [active1, setActive1] = useState(false);
     const [active2, setActive2] = useState(false);
     const [active3, setActive3] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
 
+    useEffect(()=> {
+        if(userData){
+          //  console.log('user data ', userData)
+        }
+    }, [userData, isUserDataLoading])
+
+    
     const cashActive = () => {
 
         if (active1 == true || active2 == true || active3 == true) {
@@ -53,9 +62,8 @@ export default function Settings(params) {
             setActive2(false);
             setActive3(false);
             setActive(true);
-        } 
+        }
     }
-
     const mtnActive = () => {
 
         if (active == true || active3 == true || active2 == true) {
@@ -65,7 +73,6 @@ export default function Settings(params) {
             setActive1(true);
         };
     }
-
     const vodaActive = () => {
         if (active == true || active1 == true || active3 == true) {
             setActive(false);
@@ -74,7 +81,6 @@ export default function Settings(params) {
             setActive3(false);
         }
     }
-
     const cardActive = () => {
         if (active == true || active1 == true || active2 == true) {
             setActive1(false);
@@ -83,7 +89,6 @@ export default function Settings(params) {
             setActive3(true);
         };
     }
-    
 
     const bottomSheetModalRef = useRef(null);
 
@@ -101,11 +106,11 @@ export default function Settings(params) {
 
 
     const onLogOut = () => {
+        setPreviouslyLoggedIn(true);
         setLoggingOut(true);
         signOut(auth)
             .then(() => {
                 setUserLoggedIn(false);
-                navigation.navigate("Login")
                 console.log('sign out')
             })
             .catch((error) => {
@@ -113,8 +118,6 @@ export default function Settings(params) {
             });
 
         // clear user credentials
-
-        setLoggingOut(false)
     }
 
     let [fontsLoaded] = useFonts({
@@ -137,7 +140,7 @@ export default function Settings(params) {
                     <View style={styles.topNav}>
 
                         <View style={{ width: "10%" }}>
-                            <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} color="black" onPress={() => {
+                            <AntDesign name="arrowleft" size={26} style={{ textAlign: "left" }} disabled={modalOpen} color="black" onPress={() => {
                                 navigation.goBack()
                             }} />
                         </View>
@@ -156,11 +159,11 @@ export default function Settings(params) {
                     <View style={{ paddingHorizontal: 20 }}>
                         <View style={{ width: '100%', alignItems: 'center', marginBottom: 35, marginTop: 20 }}>
                             <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 15 }}>
-                                <MaterialIcons name="add-a-photo" size={40} color="#787878" />
+                                <AntDesign name="user" size={45} color="#787878" />
                             </View>
 
-                            <Text style={styles.profileText}>Text</Text>
-                            <Text style={styles.profileText2}>Text</Text>
+                            <Text style={styles.profileText}>{userData?.firstName}</Text>
+                            <Text style={styles.profileText2}>{userData?.phoneNumber}</Text>
 
                         </View>
 
@@ -244,7 +247,7 @@ export default function Settings(params) {
                     ref={bottomSheetModalRef}
                     index={1}
                     snapPoints={snapPoints}
-                    backgroundStyle={{borderRadius: 20, backgroundColor: '#E8E9EB'}}
+                    backgroundStyle={{ borderRadius: 20, backgroundColor: '#E8E9EB' }}
                     onDismiss={() => setModalOpen(false)}
                 >
                     <View style={styles.paymentOptions}>
@@ -315,7 +318,7 @@ export default function Settings(params) {
 
 
                     </View>
-                    <BottomButton style={{right: 20,  width: '90%'}} onPress={() => {navigation.navigate('Payment')}}>Add New Payment</BottomButton>
+                    <BottomButton style={{ right: 20, width: '90%' }} onPress={() => { navigation.navigate('Payment') }}>Add New Payment</BottomButton>
                 </BottomSheetModal>
             </BottomSheetModalProvider>
         </GestureHandlerRootView>

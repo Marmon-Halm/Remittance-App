@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, View, ActivityIndicator, Image, Dimensions, Text } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { StyleSheet, View, ActivityIndicator, Image, Dimensions, Text, TouchableOpacity } from 'react-native';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import profile from '../assets/profileD.png'
 import { Formik } from 'formik';
 import StyledTextInput from '../componets/Inputs/StyledTextInput';
@@ -14,8 +14,8 @@ import RegularTexts from '../componets/Texts/RegularTexts';
 import SmallTexts from '../componets/Texts/SmallTexts';
 import { StatusBarHeight } from '../componets/shared';
 import StyledInput from '../componets/Inputs/StyledInput';
-import TitleText from '../componets/Texts/TitleText';
-
+import * as ImagePicker from 'expo-image-picker';
+import useUser from '../hook/useUser';
 
 
 
@@ -25,10 +25,37 @@ export default function EditProfile(params) {
     const windowHeight = Dimensions.get('window').height;
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+    const [upload, setUpload] = useState(false);
+    const [photoUri, setPhotoUri] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [image, setImage] = useState(null);
+    const { userData, isLoading: isUserDataLoading } = useUser();   
+
+    useEffect(()=> {
+        if(userData){
+            // console.log('user data ', userData)
+        }
+    }, [userData, isUserDataLoading])
+
+    const pickImage = async () => {
+        setUpload(true);
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        setPhotoUri(result?.uri)
+
+        console.log("&&&", photoUri);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
 
 
     return (
@@ -57,12 +84,15 @@ export default function EditProfile(params) {
 
                 <View >
                     <View style={{ width: '100%', alignItems: 'center', marginBottom: 15, marginTop: 25 }}>
-                        <View style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
-                            <Image source={profile} style={{ width: '100%', height: '100%', borderRadius: 100 / 2, }} />
-                        </View>
+                        <TouchableOpacity style={{ width: 100, height: 100, borderRadius: 100 / 2, backgroundColor: '#E8E8E8', marginBottom: 12, borderWidth: 1, borderColor: '#787878' }} onPress={pickImage}>
+                            <View style={{ width: upload ? 0 : '100%', height: upload ? 0 : '100%' , alignItems: 'center', justifyContent: 'center',}}>
+                                <MaterialIcons name="add-a-photo" size={40} color="#787878" />
+                            </View>
+                            {image && <Image source={{ uri: image }} style={{ width: '100%', height: '100%', borderRadius: 100 / 2, }} />}
+                        </TouchableOpacity>
 
-                        <RegularTexts style={{ textAlign: 'center' }}>User First Name</RegularTexts>
-                        <SmallTexts>User Phone Number</SmallTexts>
+                        <RegularTexts style={{ textAlign: 'center' }}>{userData.firstName}</RegularTexts>
+                        <SmallTexts>{userData.phoneNumber}</SmallTexts>
 
                     </View>
 
@@ -87,7 +117,7 @@ export default function EditProfile(params) {
                                     onBlur={handleBlur('firstName')}
                                     enablesReturnKeyAutomatically={true}
                                     keyboardAppearance="light"
-                                    value={firstName}
+                                    value={userData.firstName}
                                 />
                                 <MsgText
                                     style={{ marginBottom: message ? 12 : 5, marginLeft: 3, textAlign: 'left', }}
@@ -103,7 +133,7 @@ export default function EditProfile(params) {
                                     inputMode='numeric'
                                     returnKeyType='done'
                                     onChangeText={(text) => setPhoneNumber(text)}
-                                    value={phoneNumber}
+                                    value={userData.phoneNumber}
                                     minLength={1}
                                     maxLength={10}
                                 />
@@ -121,7 +151,7 @@ export default function EditProfile(params) {
                                     onChangeText={(text) => {
                                         setEmail(text)
                                     }}
-                                    value={email}
+                                    value={userData.email}
                                     onBlur={handleBlur('email')}
                                     enablesReturnKeyAutomatically={true}
                                     keyboardAppearance="light"
@@ -131,21 +161,6 @@ export default function EditProfile(params) {
                                     success={isSuccessMessage}>
                                     {message || ""}
                                 </MsgText>
-
-                                <RegularTexts style={{ marginBottom: 8, fontSize: 15, fontFamily: 'Manrope_600SemiBold' }}>Password</RegularTexts>
-                                <StyledInput
-
-                                    icon="lock-outline"
-                                    onChangeText={(text) => {
-                                        setPassword(text)
-                                    }}
-                                    isPassword={true}
-                                    value={password}
-                                    onBlur={handleBlur('password')}
-                                    keyboardAppearance="light"
-                                />
-
-
 
                             </>
                         )}

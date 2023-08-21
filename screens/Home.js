@@ -50,8 +50,6 @@ export default function Home(params) {
       }
 
       let location = await Location.getCurrentPositionAsync({
-        enableHighAccuracy: true,
-        accuracy: Location.Accuracy.High,
       });
       setLocation(location);
       let address = await Location.reverseGeocodeAsync(location.coords)
@@ -131,7 +129,7 @@ export default function Home(params) {
                 <RegularTexts style={{ textAlign: "center" }}>{displayCurrentAddress}</RegularTexts>
               </View>
               <View >
-                <TouchableOpacity onPress={() => { navigation.navigate('TruckSelection') }} style={styles.searchButton}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Location') }} style={styles.searchButton}>
                   <Feather name="search" style={{ marginRight: 8 }} size={18} color="#737373" />
                   <RegularTexts style={{ color: "#737373" }}>Where to ?</RegularTexts>
                 </TouchableOpacity>

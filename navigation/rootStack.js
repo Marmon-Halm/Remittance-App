@@ -6,12 +6,20 @@ import ResetP from "../screens/ResetP";
 import NewPassword from "../screens/NewPassword";
 import UserPin from "../screens/UserPin";
 import OTPVerification from "../screens/OTPVerification";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
+
+    const { previouslyLoggedIn } = useContext(UserContext)
+
+    useEffect(() => {
+        console.log('previouslyloggedIN', previouslyLoggedIn)
+    }, [])
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={previouslyLoggedIn ? "login" : "OnBoarding"}>
             <Stack.Screen name="OnBoarding" component={OnBoarding} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignUp" component={SignUp} />
@@ -22,3 +30,5 @@ export default function RootNavigator() {
         </Stack.Navigator>
     )
 }
+
+// initialRouteName={previouslyLoggedIn ? "login" : "OnBoarding"}

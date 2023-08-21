@@ -24,12 +24,15 @@ import { sendEmailVerification } from 'firebase/auth';
 import { auth, db } from '../config';
 const { primary } = color;
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where, setDoc, doc } from 'firebase/firestore';
 import { StatusBarHeight } from '../componets/shared';
 import MessageModal from '../componets/Modals/MessageModal';
 import { MaterialIndicator } from 'react-native-indicators';
 import StyledInput from '../componets/Inputs/StyledInput';
 import BottomButton from '../componets/Buttons/BottomButton';
+import ToastrSuccess from '../componets/Toastr Notification/ToastrSuccess';
+import ToastrForSignUp from '../componets/Toastr Notification/ToastForSignUp';
+// import { firebase } from '../config';
 
 
 
@@ -53,12 +56,34 @@ export default function SignUp(params) {
   const [loading, setLoading] = useState('');
   const [message, setMessage] = useState('');
   const [checkboxEnabled, setCheckboxEnabled] = useState(false);
+
+  //MODAL TEXT
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessageType, setModalMessageType] = useState('');
   const [headerText, setHeaderText] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [buttonText, setButtonText] = useState('');
 
+  //TOASTR
+  const [toastrVisible, setToastrVisible] = useState(false);
+  const [toastrVisible1, setToastrVisible1] = useState(false);
+  const [bodyText, setBodyText] = useState('');
+  const [bodyText1, setBodyText1] = useState('');
+
+  const showToastr = (bodyText) => {
+    setBodyText(bodyText);
+  }
+  const showToastr2 = (bodyText1) => {
+    setBodyText1(bodyText1);
+  }
+
+  const successToastr = () => {
+    setTimeout(() => {
+      setToastrVisible(false);
+    }, 4000)
+    setToastrVisible(true);
+    return showToastr('Email Verification Link Sent!');
+  };
 
   const buttonHandler = () => {
     if (modalMessageType === "success") {
@@ -91,48 +116,32 @@ export default function SignUp(params) {
       // call backend
       const response = await createUserWithEmailAndPassword(auth, email, password)
       const user = response.user;
-      console.log('user ', user)
-      const queryRef = query(
-        collection(db, "users"),
-        where("uid", "==", user?.uid)
-      );
-      console.log("response from creating user ");
 
-      const querySnapshot = await getDocs(queryRef);
-      console.log('query snap ', querySnapshot)
+      successToastr();
+      // showModal('success', 'Great!', 'Verification Email Sent', 'Close');
 
-      await sendEmailVerification(user)
+      // Create a new user
+      try {
+        await setDoc(doc(db, "users", user?.uid), {
+          uid: user?.uid,
+          country: country,
+          firstName: firstName,
+          email: email,
+          phoneNumber: phoneNumber,
+        })
 
-      showModal('success', 'Great!', 'Verification Email Sent', 'Close');
+          .then((res) => {
+            setLoading(false);
+            navigation.navigate('Login')
+          });
 
-      if (querySnapshot.size === 0) {
-        // Create a new user
-        try {
-          await addDoc(collection(db, "users"), {
-            uid: user?.uid,
-            country: country,
-            firstName: firstName,
-            email: email,
-            phoneNumber: phoneNumber,
-          })
-
-            .then((res) => {
-              setLoading(false);
-              navigation.navigate('Login')
-            });
-
-        } catch (error) {
-          setLoading(false);
-          console.log(error);
-          return; // Exit early if there was an error adding the user data
-        }
-      } else {
-        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-          return showModal('fail', 'Registration Failed!', 'Email Address Already In Use', 'Close');
-        } else {
-          return showModal('fail', 'Registration Failed!', error.message, 'Close');
-        }
+        await sendEmailVerification(user);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        return; // Exit early if there was an error adding the user data
       }
+
       setSubmitting(false);
 
     } catch (error) {
@@ -140,9 +149,21 @@ export default function SignUp(params) {
       setLoading(false)
       setSubmitting(false)
       if (error.message === "Firebase: Error (auth/email-already-in-use).") {
-        return showModal('fail', 'Registration Failed!', 'Email Address Already In Use', 'Close');
+        // return showModal('fail', 'Registration Failed!', 'Email Address Already In Use', 'Close');
+        setTimeout(() => {
+          setToastrVisible1(false);
+        }, 5000)
+
+        setToastrVisible1(true);
+        return showToastr2('Email Address Already In Use.')
       } else {
-        return showModal('fail', 'Registration Failed!', error.message, 'Close');
+        // return showModal('fail', 'Registration Failed!', error.message, 'Close');
+        setTimeout(() => {
+          setToastrVisible1(false);
+        }, 5000)
+
+        setToastrVisible1(true);
+        return showToastr2(error.message)
       }
     }
   };
@@ -167,6 +188,8 @@ export default function SignUp(params) {
   return <MainContainer style={{ paddingTop: StatusBarHeight }}>
     <AntDesign name="arrowleft" size={30} color="black" onPress={() => { navigation.goBack() }} />
     <KeyboardAvoiding>
+
+
 
       <TitleText style={{ marginBottom: 15, marginTop: 7, }}>Register here, it's free!</TitleText>
 
@@ -198,7 +221,6 @@ export default function SignUp(params) {
             items={[
               { label: 'Nigeria', value: 'Nigeria' },
             ]}
-            value={"Ghana"}
 
           />
         </View>
@@ -316,6 +338,8 @@ export default function SignUp(params) {
         buttonText={buttonText}
       />
 
+      
+
 
 
       <StatusBar style="dark" />
@@ -342,6 +366,24 @@ export default function SignUp(params) {
         <MaterialIndicator color='white' size={18} trackWidth={30 / 10} />
       </BottomButton>
     )}
+
+    {
+      toastrVisible ? (<ToastrSuccess
+        bodyText={bodyText}
+      />
+      ) : null
+
+    }
+
+    {
+      toastrVisible1 ? (<ToastrForSignUp
+        bodyText={bodyText1}
+      />
+      ) : null
+
+    }
+
+
   </MainContainer>
 }
 
@@ -512,3 +554,23 @@ const pickerSelectStyles = StyleSheet.create({
 
 
 </> */}
+
+
+// const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+// const data = {
+//   uid: user?.uid,
+//   country: country,
+//   firstName: firstName,
+//   email: email,
+//   phoneNumber: phoneNumber,
+//   createdAt: timestamp
+// };
+// todoRef
+//   .add(data)
+//   .then(() => {
+//     setAddData('');
+
+//   })
+//   .catch((error) => {
+//     alert(error)
+//   })
